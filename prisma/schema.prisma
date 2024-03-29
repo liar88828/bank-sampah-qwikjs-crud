@@ -11,7 +11,54 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id     Int     @id @default(autoincrement())
+  nama   String?
+  alamat String
+  no_hp  String
+
+  email     String              @unique
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  Transaksi Transaksi[]
+  Riwayat   Riwayat_Penukaran[]
+}
+
+model Material {
+  id        Int         @id @default(autoincrement())
+  nama      String
+  berat     Int
+  Transaksi Transaksi[]
+}
+
+model Transaksi {
+  id            Int      @id @default(autoincrement())
+  tgl_transaksi DateTime
+  berat         Int
+  harga         Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User        User?     @relation(fields: [id_user], references: [id])
+  id_user     Int?
+  Material    Material? @relation(fields: [id_material], references: [id])
+  id_material Int?
+}
+
+model Opsi_Penukaran {
+  id                Int                 @id @default(autoincrement())
+  harga             Int
+  deskripsi         String
+  Riwayat_Penukaran Riwayat_Penukaran[]
+}
+
+model Riwayat_Penukaran {
+  id Int @id @default(autoincrement())
+
+  tgl_tukar DateTime
+
+  User              User?           @relation(fields: [id_user], references: [id])
+  id_user           Int?
+  Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_Penukaran], references: [id])
+  id_opsi_Penukaran Int?
 }
