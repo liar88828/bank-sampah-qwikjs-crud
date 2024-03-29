@@ -39,10 +39,10 @@ model Transaksi {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User        User?     @relation(fields: [id_user], references: [id])
   id_user     Int?
-  Material    Material? @relation(fields: [id_material], references: [id])
   id_material Int?
+  User        User?     @relation(fields: [id_user], references: [id])
+  Material    Material? @relation(fields: [id_material], references: [id])
 }
 
 model Opsi_Penukaran {
@@ -54,11 +54,9 @@ model Opsi_Penukaran {
 
 model Riwayat_Penukaran {
   id Int @id @default(autoincrement())
-
   tgl_tukar DateTime
-
-  User              User?           @relation(fields: [id_user], references: [id])
   id_user           Int?
-  Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_Penukaran], references: [id])
   id_opsi_Penukaran Int?
+  User              User?           @relation(fields: [id_user], references: [id])
+  Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_Penukaran], references: [id])
 }

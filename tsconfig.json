@@ -21,6 +21,6 @@
       "~/*": ["./src/*"]
     }
   },
-  "files": ["./.eslintrc.cjs"],
+  "files": ["./.eslintrc.cjs", "./src/type/Riwayat_Penukaran.ts", "./src/type/Opsi_Penukaran.ts"],
   "include": ["src", "./*.d.ts", "./*.config.ts"]
 }

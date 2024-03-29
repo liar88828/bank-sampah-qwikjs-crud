@@ -14,7 +14,6 @@ import { findUserId, updateUser } from "~/db/users";
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
   const user = await findUserId(id);
-  // const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
     status(404);
   }
@@ -37,29 +36,17 @@ export const useUpdateUser = routeAction$(
     no_hp: z.string().min(1).max(30),
     nama: z.string().min(1).max(30),
   }),
-  // zod$((z) =>
-  //   z.object({
-  //     email: z.string().email(),
-  //     alamat: z.string(),
-  //     no_hp: z.string(),
-  //     nama: z.string(),
-  //   }),
-  // ),
 );
 
 export default component$(() => {
   const updateUserAction = useUpdateUser();
   const userData = useGetUser();
-  // const nav = useNavigate();
   console.log(updateUserAction.value);
   return (
     <section class="card bg-neutral text-neutral-content ">
       <Form
         class="text-cente card-body items-center"
         action={updateUserAction}
-        // onSubmitCompleted$={()=>{
-        //   updateUserAction.value?.success&& nav('/users')
-        // }}
       >
         <h1 class="card-title">Update User : {userData.value?.nama}</h1>
 

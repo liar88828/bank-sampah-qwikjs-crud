@@ -51,5 +51,9 @@
     "undici": "*",
     "vite": "^5.1.4",
     "vite-tsconfig-paths": "^4.2.1"
+  },
+  "dependencies": {
+    "@qwikest/icons": "^0.0.13",
+    "lucide-react": "^0.363.0"
   }
 }

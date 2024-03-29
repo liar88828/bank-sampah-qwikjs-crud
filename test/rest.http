@@ -1,0 +1,12 @@
+###
+GET http://localhost:5173/material/api/
+
+####
+
+POST http://localhost:5173/material/api
+Content-Type: application/json
+
+{
+    "data":"test1"
+}
+####

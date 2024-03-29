@@ -2,7 +2,7 @@ import { User } from "~/type/user";
 import { prisma } from "./prisma";
 
 
-export const findAll=async()=>{
+export const findAllUser=async()=>{
   const users = await prisma.user.findMany();
   return users
 }

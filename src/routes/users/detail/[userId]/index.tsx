@@ -7,14 +7,11 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { PrismaClient } from "@prisma/client";
-import { prisma } from "~/db/prisma";
 import { deleteUser, findUserId } from "~/db/users";
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
   const user = findUserId(id);
-  // const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
     status(404);
   }
@@ -24,9 +21,6 @@ export const useGetUser = routeLoader$(async ({ params, status }) => {
 export const useDeleteUser = routeAction$(
   async (data, { redirect }) => {
     const user = await deleteUser(Number(data.id));
-    // const user = await prisma.user.delete({ where: { id: Number(data.id) } });
-    // console.log(user);
-
     if (user) {
       throw redirect(302, "/users");
     }
@@ -64,9 +58,7 @@ export default component$(() => {
 
                 <Form action={deleteUser}>
                   <input type="hidden" value={user.id} name={"id"} />
-                  {/* <Link href={`/users/`} class="btn btn-error">
-                  Delete
-                </Link> */}
+
                   <button class="btn btn-error" type="submit">
                     Delete
                   </button>

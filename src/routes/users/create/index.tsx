@@ -3,11 +3,8 @@ import {
   routeAction$,
   zod$,
   Form,
-  useNavigate,
   z,
-  Link,
 } from "@builder.io/qwik-city";
-import { prisma } from "~/db/prisma";
 import { createUser } from "~/db/users";
 
 export const useCreateUser = routeAction$(
@@ -25,30 +22,14 @@ export const useCreateUser = routeAction$(
     no_hp: z.string().min(1).max(30),
     nama: z.string().min(1).max(30),
   }),
-  // zod$((z) =>
-  //   z.object({
-  //     email: z.string().email(),
-  //     alamat: z.string(),
-  //     no_hp: z.string(),
-  //     nama: z.string(),
-  //   }),
-  // ),
 );
 
 export default component$(() => {
   const createUserAction = useCreateUser();
-
-  // const nav = useNavigate();
-  console.log(createUserAction.value);
+  // console.log(createUserAction.value);
   return (
     <section class="card bg-neutral text-neutral-content ">
-      <Form
-        class="text-cente card-body items-center"
-        action={createUserAction}
-        // onSubmitCompleted$={()=>{
-        //   createUserAction.value?.success&& nav('/users')
-        // }}
-      >
+      <Form class="text-cente card-body items-center" action={createUserAction}>
         <h1 class="card-title">Create User</h1>
 
         <label class="form-control">
