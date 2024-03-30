@@ -4,9 +4,8 @@ import {deleteUser, findAllUser} from "~/db/users";
 
 export const useGetUsers = routeLoader$(async () => {
   // const users = await prisma.user.findMany();
-  const users = await findAllUser();
   // const user = await deleteUser(Number(data.id));
-  return users;
+  return await findAllUser();
 });
 
 export const useDeleteUserOnly = routeAction$(

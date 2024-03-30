@@ -1,5 +1,5 @@
-import { prisma } from "./prisma";
-import { Material } from "~/type/material";
+import {prisma} from "./prisma";
+import {TMaterial} from "~/type/TMaterial";
 
 
 export const findAllMaterial = async () => {
@@ -12,7 +12,7 @@ export const findIdMaterial = async (id: number) => {
   return material;
 };
 export const createMaterial = async (
-  { berat, nama }: Material,
+  { berat, nama }: TMaterial,
 ) => {
   const material = await prisma.material.create({
 	data: {
@@ -24,7 +24,7 @@ export const createMaterial = async (
 };
 export const updateMaterial = async (
   id: number,
-  { berat, nama }: Material,
+  { berat, nama }: TMaterial,
 ) => {
   const material = await prisma.material.update({
 	where: {

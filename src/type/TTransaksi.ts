@@ -1,5 +1,5 @@
 
-export type Transaksi = {
+export type TTransaksi = {
   id?: number;
   tgl_transaksi: Date;
   berat: number;

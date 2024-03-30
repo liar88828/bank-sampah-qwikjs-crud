@@ -1,5 +1,5 @@
 import {component$} from "@builder.io/qwik";
-import {LuAlignJustify, LuBoxes, LuHome, LuPersonStanding} from "@qwikest/icons/lucide";
+import {LuAlignJustify, LuBadgeDollarSign, LuBoxes, LuHome, LuPersonStanding} from "@qwikest/icons/lucide";
 import {Link} from "@builder.io/qwik-city";
 
 export const Navbar = component$(() => {
@@ -8,7 +8,6 @@ export const Navbar = component$(() => {
         <div class="navbar-start">
           
           <SideBar/>
-        
         
         </div>
         <div class="navbar-center">
@@ -42,6 +41,11 @@ const ListData = [
     text: 'Material',
     icon: <LuBoxes font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
   },
+  {
+    href: '/transaksi',
+    text: 'Transaksi',
+    icon: <LuBadgeDollarSign font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
+  },
 
 ]
 
@@ -63,15 +67,15 @@ export const ListMenu = component$(() => {
     <>
       {/*List */}
       <ul class="menu menu-horizontal px-1">
-        <li><a>Link</a></li>
+        <li><Link href='/'>Link</Link></li>
         <li>
           <details>
             <summary>
               Parent
             </summary>
             <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
+              <li><Link href={'/as'} >Link 1</Link></li>
+              <li><Link href={'/sd'}>Link 2</Link></li>
             </ul>
           </details>
         </li>
@@ -128,7 +132,9 @@ export const SideBar = component$(() => {
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <li class={'mb-10'}>Home</li>
           {ListData.map(d => (<>
-              <li key={d.text}><Link href={d.href}> {d.icon} {d.text}</Link></li>
+              <li key={d.text}>
+                <Link href={d.href}> {d.icon} {d.text}</Link>
+              </li>
             </>
           ))}
         
