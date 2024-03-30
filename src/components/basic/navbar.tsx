@@ -9,6 +9,7 @@ export const Navbar = component$(() => {
           
           <SideBar/>
         
+        
         </div>
         <div class="navbar-center">
           <Link href={'/'} class="btn btn-ghost text-xl">daisyUI</Link>
@@ -67,15 +68,15 @@ export const ListMenu = component$(() => {
     <>
       {/*List */}
       <ul class="menu menu-horizontal px-1">
-        <li><Link href='/'>Link</Link></li>
+        <li><Link href={'/'} >Link</Link></li>
         <li>
           <details>
             <summary>
               Parent
             </summary>
             <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><Link href={'/as'} >Link 1</Link></li>
-              <li><Link href={'/sd'}>Link 2</Link></li>
+              <li><Link href={'/'}>Link 1</Link></li>
+              <li><Link href={'/'}>Link 2</Link></li>
             </ul>
           </details>
         </li>
@@ -132,9 +133,7 @@ export const SideBar = component$(() => {
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <li class={'mb-10'}>Home</li>
           {ListData.map(d => (<>
-              <li key={d.text}>
-                <Link href={d.href}> {d.icon} {d.text}</Link>
-              </li>
+              <li key={d.text}><Link href={d.href}> {d.icon} {d.text}</Link></li>
             </>
           ))}
         

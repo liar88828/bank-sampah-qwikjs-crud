@@ -1,26 +1,28 @@
 import {prisma} from "./prisma";
 import {TTransaksi} from "~/type/TTransaksi";
 
-export class Transaksi {
+class Transaksi {
   
-  findAll = async (page = 0, limit = 100) => {
-    
-    let take = limit
-    let skip = limit * page//100*2=200
-    return await prisma.transaksi.findMany({
-      skip,
-      take
-    })
+  
+ 
+  findAll = async (page = 0, limit = 1000) => {
+    return prisma.transaksi.findMany(
+      {
+        take: 100,
+        skip: page * limit
+      }
+    );
   }
   
+  
   findId = async (id: number) => {
-    return await prisma.transaksi.findUnique({where: {id}});
+    return prisma.transaksi.findUnique({where: {id}});
   };
   
   createOne = async (
-    data: TTransaksi,
-  ) => {
-    return await prisma.transaksi.create({
+    data: TTransaksi
+  ) =>
+    prisma.transaksi.create({
       data: {
         tgl_transaksi: data.tgl_transaksi,
         berat: data.berat,
@@ -29,12 +31,13 @@ export class Transaksi {
         id_material: data.id_material,
       },
     });
-  };
+  
   updateOne = async (
     id: number,
-    data: TTransaksi,
+    data: TTransaksi
+    ,
   ) => {
-    return await prisma.transaksi.update({
+    return prisma.transaksi.update({
       where: {
         id: id,
       },
@@ -50,8 +53,8 @@ export class Transaksi {
   
   
   deleteOne = async (id: number) => {
-    return await prisma.transaksi.delete({where: {id}});
+    return prisma.transaksi.delete({where: {id}});
   };
 }
 
-export const transaksi = new Transaksi();
+export const transaksi = new Transaksi()
