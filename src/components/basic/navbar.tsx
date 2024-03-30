@@ -1,5 +1,5 @@
 import {component$} from "@builder.io/qwik";
-import {LuAlignJustify, LuBoxes, LuHome, LuPersonStanding} from "@qwikest/icons/lucide";
+import {LuAlignJustify, LuBadgeDollarSign, LuBoxes, LuHome, LuPersonStanding} from "@qwikest/icons/lucide";
 import {Link} from "@builder.io/qwik-city";
 
 export const Navbar = component$(() => {
@@ -42,6 +42,11 @@ const ListData = [
     text: 'Material',
     icon: <LuBoxes font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
   },
+  {
+    href: '/transaksi',
+    text: 'Transaksi',
+    icon: <LuBadgeDollarSign font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
+  },
 
 ]
 
@@ -63,15 +68,15 @@ export const ListMenu = component$(() => {
     <>
       {/*List */}
       <ul class="menu menu-horizontal px-1">
-        <li><a>Link</a></li>
+        <li><Link href={'/'} >Link</Link></li>
         <li>
           <details>
             <summary>
               Parent
             </summary>
             <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
+              <li><Link href={'/'}>Link 1</Link></li>
+              <li><Link href={'/'}>Link 2</Link></li>
             </ul>
           </details>
         </li>
