@@ -1,29 +1,14 @@
 import {component$} from "@builder.io/qwik";
-import {LuAlignJustify, LuBadgeDollarSign, LuBoxes, LuHome, LuPersonStanding} from "@qwikest/icons/lucide";
+import {
+  LuAlignJustify,
+  LuArrowLeftRight,
+  LuBadgeDollarSign,
+  LuBoxes,
+  LuHistory,
+  LuHome,
+  LuPersonStanding
+} from "@qwikest/icons/lucide";
 import {Link} from "@builder.io/qwik-city";
-
-export const Navbar = component$(() => {
-  return (<>
-      <div class="navbar bg-base-100">
-        <div class="navbar-start">
-          
-          <SideBar/>
-        
-        
-        </div>
-        <div class="navbar-center">
-          <Link href={'/'} class="btn btn-ghost text-xl">daisyUI</Link>
-        </div>
-        <div class="navbar-end">
-          
-          <ListMenu/>
-        </div>
-      </div>
-    </>
-  
-  )
-  
-})
 
 
 const ListData = [
@@ -47,8 +32,43 @@ const ListData = [
     text: 'Transaksi',
     icon: <LuBadgeDollarSign font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
   },
+  
+  {
+    href: '/opsi-penukaran',
+    text: 'Opsi Penukaran',
+    icon: <LuArrowLeftRight font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
+  },
+  {
+    href: '/riwayat-penukaran',
+    text: 'Riwayat Penukaran',
+    icon: <LuHistory font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
+  },
 
 ]
+
+
+export const Navbar = component$(() => {
+  return (<>
+      <div class="navbar bg-base-200">
+        <div class="navbar-start">
+          
+          <SideBar/>
+        
+        </div>
+        <div class="navbar-center">
+          <Link href={'/'} class="btn btn-ghost text-xl">daisyUI</Link>
+        </div>
+        <div class="navbar-end">
+          
+          <ListMenu/>
+        </div>
+      </div>
+    </>
+  
+  )
+  
+})
+
 
 export const Search = component$(() => {
   return (

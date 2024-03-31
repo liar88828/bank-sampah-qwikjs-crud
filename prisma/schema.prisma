@@ -53,10 +53,10 @@ model Opsi_Penukaran {
 }
 
 model Riwayat_Penukaran {
-  id Int @id @default(autoincrement())
-  tgl_tukar DateTime
+  id                Int             @id @default(autoincrement())
+  tgl_tukar         DateTime
   id_user           Int?
-  id_opsi_Penukaran Int?
+  id_opsi_penukaran Int?
   User              User?           @relation(fields: [id_user], references: [id])
-  Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_Penukaran], references: [id])
+  TOpsi_Penukaran   Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
 }

@@ -1,6 +1,6 @@
-import { component$ } from "@builder.io/qwik";
-import { Form, Link, routeAction$, routeLoader$, z, zod$, } from "@builder.io/qwik-city";
-import { deleteMaterial, findIdMaterial, } from "~/db/material";
+import {component$} from "@builder.io/qwik";
+import {Form, Link, routeAction$, routeLoader$, z, zod$,} from "@builder.io/qwik-city";
+import {deleteMaterial, findIdMaterial,} from "~/db/material";
 
 export const useGetId = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["id"], 10);

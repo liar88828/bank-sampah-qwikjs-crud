@@ -1,5 +1,5 @@
 import {TTransaksi} from "./TTransaksi";
-import {Riwayat_Penukaran} from "./Riwayat_Penukaran";
+import {TRiwayat_Penukaran} from "./TRiwayat_Penukaran";
 
 export type User = {
   id: number;
@@ -19,5 +19,5 @@ export type User_Relasional = {
   email: string;
 
   Transaksi: TTransaksi[];
-  Riwayat: Riwayat_Penukaran[];
+  Riwayat: TRiwayat_Penukaran[];
 };

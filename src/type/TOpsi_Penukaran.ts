@@ -1,5 +1,5 @@
 
-export type Opsi_Penukaran = {
+export type TOpsi_Penukaran = {
   id?: number;
   harga: number;
   deskripsi: string;
