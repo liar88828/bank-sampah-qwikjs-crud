@@ -58,5 +58,5 @@ model Riwayat_Penukaran {
   id_user           Int?
   id_opsi_penukaran Int?
   User              User?           @relation(fields: [id_user], references: [id])
-  TOpsi_Penukaran   Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
+  Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
 }
