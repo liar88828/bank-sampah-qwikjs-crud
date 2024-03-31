@@ -13,7 +13,7 @@ import {Link} from "@builder.io/qwik-city";
 
 const ListData = [
   {
-    href: '/',
+    href: '/home',
     text: 'Home',
     icon: <LuHome font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
   },

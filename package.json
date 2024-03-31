@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@qwikest/icons": "^0.0.13",
-    "lucide-react": "^0.363.0"
+    "lucide-react": "^0.363.0",
+    "qwik-d3": "^0.0.24"
   }
 }
