@@ -1,7 +1,7 @@
 import {TTransaksi} from "./TTransaksi";
 import {TRiwayat_Penukaran} from "./TRiwayat_Penukaran";
 
-export type User = {
+export type TUser = {
   id: number;
   nama: string | null;
   alamat: string;

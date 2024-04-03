@@ -1,24 +1,31 @@
-import {component$} from "@builder.io/qwik";
-import {Form, Link, routeAction$, routeLoader$, z, zod$,} from "@builder.io/qwik-city";
-import {deleteMaterial, findIdMaterial,} from "~/db/material";
+import { component$ } from "@builder.io/qwik";
+import {
+  Form,
+  Link,
+  routeAction$,
+  routeLoader$,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
+import { material } from "~/db/material";
 
 export const useGetId = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["id"], 10);
-  const material = findIdMaterial(id);
+  const res = material.findId(id);
 
-  if (!material) {
-	status(404);
+  if (!res) {
+    status(404);
   }
-  return material;
+  return res;
 });
 
 export const useDelete = routeAction$(
   async (data, { redirect }) => {
-	const material = await deleteMaterial(Number(data.id));
-	if (material) {
-	  throw redirect(302, "/material");
-	}
-	return material;
+    const res = await material.deleteOne(Number(data.id));
+    if (res) {
+      throw redirect(302, "/material");
+    }
+    return res;
   },
   zod$({ id: z.string() }),
 );
@@ -27,37 +34,40 @@ export default component$(() => {
   const { value: material } = useGetId();
   const deleteMaterial = useDelete();
   return (
-	<section>
-	  { material ? (
-		<>
-		  <div class="card w-96 bg-base-300 shadow-xl">
-			<div class="card-body">
-			  <h1 class="card-title">Material : { material.nama }</h1>
+    <section>
+      {material ? (
+        <>
+          <div class="card w-96 bg-base-300 shadow-xl">
+            <div class="card-body">
+              <h1 class="card-title">Material : {material.nama}</h1>
 
-			  <p>Berat : { material.berat }</p>
+              <p>Berat : {material.berat}</p>
 
-			  <div class="card-actions ">
-				<Link href={ `/material/edit/${ material.id }` } class="btn btn-info">
-				  Edit
-				</Link>
+              <div class="card-actions ">
+                <Link
+                  href={`/material/edit/${material.id}`}
+                  class="btn btn-info"
+                >
+                  Edit
+                </Link>
 
-				<Form action={ deleteMaterial }>
-				  <input type="hidden" value={ material.id } name={ "id" }/>
+                <Form action={deleteMaterial}>
+                  <input type="hidden" value={material.id} name={"id"} />
 
-				  <button class="btn btn-error" type="submit">
-					Delete
-				  </button>
-				</Form>
-				<Link href={ `/material/` } class="btn btn-primary">
-				  Back
-				</Link>
-			  </div>
-			</div>
-		  </div>
-		</>
-	  ) : (
-		<p>Material not found</p>
-	  ) }
-	</section>
+                  <button class="btn btn-error" type="submit">
+                    Delete
+                  </button>
+                </Form>
+                <Link href={`/material/`} class="btn btn-primary">
+                  Back
+                </Link>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p>Material not found</p>
+      )}
+    </section>
   );
 });

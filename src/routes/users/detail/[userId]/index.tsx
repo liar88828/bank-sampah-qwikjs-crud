@@ -7,24 +7,24 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { deleteUser, findUserId } from "~/db/users";
+import { user } from "~/db/users";
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
-  const user = findUserId(id);
-  if (!user) {
+  const res = user.findId(id);
+  if (!res) {
     status(404);
   }
-  return user;
+  return res;
 });
 
 export const useDeleteUser = routeAction$(
   async (data, { redirect }) => {
-    const user = await deleteUser(Number(data.id));
-    if (user) {
+    const res = await user.deleteOne(Number(data.id));
+    if (res) {
       throw redirect(302, "/users");
     }
-    return user;
+    return res;
   },
   zod$({ id: z.string() }),
 );

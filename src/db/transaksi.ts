@@ -1,27 +1,20 @@
-import {prisma} from "./prisma";
-import {TTransaksi} from "~/type/TTransaksi";
+import { IPrismaOperator } from "~/type/IPrismaOperator";
+import { prisma } from "./prisma";
+import { TTransaksi } from "~/type/TTransaksi";
 
-class Transaksi {
-  
-  
- 
+class Transaksi implements IPrismaOperator<TTransaksi> {
   findAll = async (page = 0, limit = 1000) => {
-    return prisma.transaksi.findMany(
-      {
-        take: 100,
-        skip: page * limit
-      }
-    );
-  }
-  
-  
-  findId = async (id: number) => {
-    return prisma.transaksi.findUnique({where: {id}});
+    return prisma.transaksi.findMany({
+      take: 100,
+      skip: page * limit,
+    });
   };
-  
-  createOne = async (
-    data: TTransaksi
-  ) =>
+
+  findId = async (id: number) => {
+    return prisma.transaksi.findUnique({ where: { id } });
+  };
+
+  createOne = async (data: TTransaksi) =>
     prisma.transaksi.create({
       data: {
         tgl_transaksi: data.tgl_transaksi,
@@ -31,12 +24,8 @@ class Transaksi {
         id_material: data.id_material,
       },
     });
-  
-  updateOne = async (
-    id: number,
-    data: TTransaksi
-    ,
-  ) => {
+
+  updateOne = async (id: number, data: TTransaksi) => {
     return prisma.transaksi.update({
       where: {
         id: id,
@@ -50,11 +39,10 @@ class Transaksi {
       },
     });
   };
-  
-  
+
   deleteOne = async (id: number) => {
-    return prisma.transaksi.delete({where: {id}});
+    return prisma.transaksi.delete({ where: { id } });
   };
 }
 
-export const transaksi = new Transaksi()
+export const transaksi = new Transaksi();

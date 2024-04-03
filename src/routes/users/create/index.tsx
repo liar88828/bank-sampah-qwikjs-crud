@@ -5,16 +5,15 @@ import {
   Form,
   z,
 } from "@builder.io/qwik-city";
-import { createUser } from "~/db/users";
+import { user } from "~/db/users";
 
 export const useCreateUser = routeAction$(
   async (data, { redirect }) => {
-    const user = await createUser(data);
-    if (user) {
+    const res = await user.createOne(data);
+    if (res) {
       throw redirect(302, "/users");
     }
-    console.log(user);
-    return user;
+    return res;
   },
   zod$({
     email: z.string().email(),

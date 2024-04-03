@@ -1,18 +1,18 @@
 import {component$} from "@builder.io/qwik";
 import {Form, routeAction$, z, zod$,} from "@builder.io/qwik-city";
-import {createMaterial} from "~/db/material";
+import { material } from "~/db/material";
 
 export const useCreate = routeAction$(
   async (data, {redirect}) => {
-    const json = await createMaterial({
+    const res= await material.createOne({
       berat: Number(data.berat),
       nama: data.nama
     });
-    if (json) {
+    if (res) {
       throw redirect(302, "/material");
     }
     
-    return json;
+    return res;
   },
   zod$({
     nama: z.string(),

@@ -1,27 +1,27 @@
 import {component$} from "@builder.io/qwik";
 import {Form, Link, routeAction$, routeLoader$, z, zod$,} from "@builder.io/qwik-city";
-import {findIdMaterial, updateMaterial,} from "~/db/material";
+import { material } from "~/db/material";
 
 export const useGet = routeLoader$(async ({params, status}) => {
   const id = parseInt(params["id"], 10);
-  const material = await findIdMaterial(id);
-  if (!material) {
+  const res = await material.findId(id);
+  if (!res) {
     status(404);
   }
-  return material;
+  return res;
 });
 
 export const useUpdate = routeAction$(
   async (data, {redirect, params}) => {
     const id = Number(params["id"]);
     
-    const material = await updateMaterial(id, {
+    const res = await material.updateOne(id, {
       berat: Number(data.berat),
       nama: data.nama
     });
-    if (material) throw redirect(302, `/material/detail/${id}`);
-    console.log(material);
-    return material;
+    if (res) throw redirect(302, `/material/detail/${id}`);
+    console.log(res);
+    return res;
   },
   zod$({
     berat: z.string(),

@@ -8,27 +8,25 @@ import {
   routeLoader$,
   Link,
 } from "@builder.io/qwik-city";
-import { prisma } from "~/db/prisma";
-import { findUserId, updateUser } from "~/db/users";
+import { user } from "~/db/users";
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
-  const user = await findUserId(id);
-  if (!user) {
+  const res= await user.findId(id);
+  if (!res) {
     status(404);
   }
-  return user;
+  return res;
 });
 
 export const useUpdateUser = routeAction$(
   async (data, { redirect, params }) => {
     const id = Number(params["userId"]);
-    const user = await updateUser(id, data);
-    if (user) {
+    const res= await user.updateOne(id, data);
+    if (res) {
       throw redirect(302, `/users/detail/${id}`);
     }
-    console.log(user);
-    return user;
+    return res;
   },
   zod$({
     email: z.string().email(),
