@@ -1,7 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import Chart from "chart.js/auto";
-import { Test } from "~/components/chart/test";
+import { Lines } from "./dashboard/components/Lines";
 export default component$(() => {
   return (
     <>
@@ -13,7 +12,8 @@ export default component$(() => {
           Happy coding.
         </p>
 
-        <Test />
+        {/* <Lines height={100}width={200}/> */}
+        <Lines  />
       </div>
     </>
   );

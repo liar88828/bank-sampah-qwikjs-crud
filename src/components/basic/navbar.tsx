@@ -6,7 +6,8 @@ import {
   LuBoxes,
   LuHistory,
   LuHome,
-  LuPersonStanding
+  LuPersonStanding,
+  LuPieChart
 } from "@qwikest/icons/lucide";
 import {Link} from "@builder.io/qwik-city";
 
@@ -16,6 +17,11 @@ const ListData = [
     href: '/home',
     text: 'Home',
     icon: <LuHome font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
+  },
+  {
+    href: '/dashboard',
+    text: 'Dashboard',
+    icon: <LuPieChart font-size={25} class="inline-block w-6 h-6 stroke-current"/>,
   },
   {
     href: '/users',

@@ -1,5 +1,5 @@
 import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import { Chart } from "chart.js/auto";
+import { Chart, ChartConfiguration } from "chart.js/auto";
 
 interface GraphProps {
   height: string;
@@ -27,22 +27,25 @@ export const Test = component$(() =>
     useVisibleTask$(
       ({ cleanup, track }) => {
         track(() => outputRef.value);
-        new Chart(outputRef.value as any, {
-          type: "bar",
-          data: {
-            labels: data.map((row) => row.year),
-            datasets: [
-              {
-                label: "Acquisitions by year",
-                data: data.map((row) => row.count),
-              },
-            ],
-          },
-        });
+        new Chart(
+          outputRef.value as any,
+          {
+            type: "bar",
+            data: {
+              labels: data.map((row) => row.year),
+              datasets: [
+                {
+                  label: "Acquisitions by year",
+                  data: data.map((row) => row.count),
+                },
+              ],
+            },
+          } as ChartConfiguration,
+        );
 
-        const update = () => (time.value = new Date().toLocaleTimeString());
-        const id = setInterval(update, 1000);
-        cleanup(() => clearInterval(id));
+        // const update = () => (time.value = new Date().toLocaleTimeString());
+        // const id = setInterval(update, 1000);
+        // cleanup(() => clearInterval(id));
       },
       { strategy: "document-ready" },
     );
