@@ -2,16 +2,16 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   daisyui: {
-    // themes: ["cupcake"],
+    themes: ["cupcake"],
   },
   theme: {
     container: {
       padding: {
-        DEFAULT: "1rem",
-        sm: "2rem",
-        lg: "4rem",
-        xl: "5rem",
-        "2xl": "6rem",
+        // DEFAULT: "0px",
+        // sm: "",
+        // lg: "4rem",
+        // xl: "5rem",
+        // "2xl": "6rem",
       },
     },
 

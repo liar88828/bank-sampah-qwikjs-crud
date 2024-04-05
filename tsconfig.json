@@ -23,7 +23,10 @@
   },
   "files": ["./.eslintrc.cjs",
     "./src/type/TRiwayat_Penukaran.ts",
-    "./src/type/TOpsi_Penukaran.ts"
+    "./src/type/TOpsi_Penukaran.ts",
+    "src/routes/dashboard/components/UserActive.tsx",
+    "src/routes/dashboard/components/MaterialWarehouse.tsx",
+    "src/routes/dashboard/components/BestSelling.tsx"
   ],
   "include": ["src", "./*.d.ts", "./*.config.ts"]
 }

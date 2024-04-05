@@ -11,69 +11,49 @@ const data = [
   { day: "Minggu", count: 28 },
 ];
 
-type PropsChart = { width: number; height: number };
-
-export const LinesConfig = component$(({ width, height }: PropsChart) => {
+export const BarStatus = component$(() => {
   const time = useSignal("paused");
   const outputRef = useSignal<Element>();
+
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(
     ({ cleanup, track }) => {
       track(() => outputRef.value);
       new Chart(outputRef.value as any, {
-        type: "line",
+        type: "bar",
         data: {
           labels: data.map((row) => row.day),
           datasets: [
             {
               label: "Acquisitions by Day",
               data: data.map((row) => row.count),
-              backgroundColor: ({ chart }) => {
-                const ctxs = chart.ctx;
-                if (!chart.chartArea) {
-                  return;
-                }
-                const {
-                  ctx,
-                  data,
-                  chartArea: { top, bottom },
-                } = chart;
-
-                const gradient = ctx.createLinearGradient(0, top, 0, bottom);
-
-                gradient.addColorStop(0, "rgb(0,235,255)");
-                gradient.addColorStop(1, "rgba(0,0,0,0)");
-                return gradient;
-                console.log(chart.chartArea);
-              },
-              fill: true,
-              tension: 0.5,
+              borderRadius: 5,
+              borderSkipped: false,
             },
           ],
         },
         options: {
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          
-          },
-          elements: {
-            point: {
-              radius: 0,
-            },
-          },
+
+          responsive: true,
+          maintainAspectRatio: false,
+
           plugins: {
             legend: {
               display: false,
             },
-            // title: { display: false },
           },
+          
           scales: {
             x: {
               grid: { display: false },
               ticks: { display: false },
+              border: { display: false },
             },
-            y: { grid: { display: false }, ticks: { display: false } },
+            y: {
+              grid: { display: false },
+              ticks: { display: false },
+              border: { display: false },
+            },
           },
         },
       });
@@ -83,7 +63,7 @@ export const LinesConfig = component$(({ width, height }: PropsChart) => {
 
   return (
     <>
-      <canvas ref={outputRef} width={width} height={height}></canvas>
+      <canvas ref={outputRef} class="h-auto w-full sm:w-20"></canvas>
     </>
   );
 });

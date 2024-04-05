@@ -1,0 +1,88 @@
+import { component$ } from "@builder.io/qwik";
+
+
+
+export const UserActive = component$(() => {
+  const datas = [
+    { name: "Barbara", city: "Turkmenistan", work: "admin" },
+    { name: "Isabelle", city: "El Salvador", work: "product" },
+    { name: "Josephine", city: "Peru", work: "developer" },
+    { name: "Ophelia", city: "Equatorial Guinea", work: "developer" },
+    { name: "Beatrice", city: "Grenada", work: "developer" },
+  ];
+  return (
+    <>
+      <div class="rounded bg-base-300 p-5 shadow shadow-gray-400 ">
+        <h1 class="text-xl font-bold">Active Users</h1>
+        <div class="overflow-x-auto">
+          <table class="table table-xs static sm:table-sm md:table-md ">
+            {/* head */}
+            <thead>
+              {/* <tr>
+              <th>User </th>
+              <th>As </th>
+              <th>Total </th>
+              <th></th>
+            </tr> */}
+            </thead>
+
+            <tbody>
+              {datas.map(({ name, city, work }, i) => (
+                <tr
+                  key={name}
+                >
+                  {/* {i + 1}.  */}
+                  <td class="flex items-center gap-2  ">
+                    <div class="avatar static  ">
+                      <div class="w-10 rounded-full  ring-2 ring-primary ">
+                        <img
+                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                          alt="Tailwind-CSS-Avatar-component" />
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-lg font-bold"> {name} </div>
+                      <div class="text-sm">{work}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <div class="">{city}</div>
+                      <input
+                        type="checkbox"
+                        checked={true}
+                        class="checkbox-success checkbox" />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn btn-info  btn-sm">Info</div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>
+                  <div class="join">
+                    <button class="btn join-item btn-sm">«</button>
+                    <button class="btn join-item btn-sm">Page 22</button>
+                    <button class="btn join-item btn-sm">»</button>
+                  </div>
+                </th>
+                <th colSpan={2}>
+                  <select class="select select-bordered select-sm w-full max-w-xs">
+                    <option disabled selected>
+                      Who shot first?
+                    </option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                  </select>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+});

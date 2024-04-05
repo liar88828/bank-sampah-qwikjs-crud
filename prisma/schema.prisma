@@ -26,14 +26,14 @@ model User {
 model Material {
   id        Int         @id @default(autoincrement())
   nama      String
-  berat     Int
+  berat     Int // total semua benda yang di simpan dalam gudang
   Transaksi Transaksi[]
 }
 
 model Transaksi {
   id            Int      @id @default(autoincrement())
   tgl_transaksi DateTime
-  berat         Int
+  berat         Int // bukan jumlah per satuan / berat yang akan di beli 
   harga         Int
 
   createdAt DateTime @default(now())
