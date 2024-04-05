@@ -23,26 +23,31 @@ model User {
   Riwayat   Riwayat_Penukaran[]
 }
 
-model Material {
-  id        Int         @id @default(autoincrement())
-  nama      String
-  berat     Int // total semua benda yang di simpan dalam gudang
-  Transaksi Transaksi[]
-}
-
 model Transaksi {
   id            Int      @id @default(autoincrement())
   tgl_transaksi DateTime
-  berat         Int // bukan jumlah per satuan / berat yang akan di beli 
-  harga         Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // status        StatusTransaksi //@default(SIMPAN)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  //
+  // Material          Material?          @relation(fields: [id_material], references: [id])
+  // many
+  // id_statusTransaksi Int?
+  // Status_Transaksi   StatusTransaksi?   @relation(fields: [id_statusTransaksi], references: [id])
+  id_user          Int?
+  User             User?             @relation(fields: [id_user], references: [id])
+  // one
+  // Riwayat_Transaksi Riwayat_Transaksi?
+  Sampah_Transaksi Sampah_Transaksi?
+  Status_Transaksi Status_Transaksi?
+}
 
-  id_user     Int?
-  id_material Int?
-  User        User?     @relation(fields: [id_user], references: [id])
-  Material    Material? @relation(fields: [id_material], references: [id])
+model Status_Transaksi {
+  id           Int       @id @default(autoincrement())
+  type         String
+  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+  id_transaksi Int       @unique
 }
 
 model Opsi_Penukaran {
@@ -55,8 +60,52 @@ model Opsi_Penukaran {
 model Riwayat_Penukaran {
   id                Int             @id @default(autoincrement())
   tgl_tukar         DateTime
-  id_user           Int?
+  id_user_penukaran Int?
   id_opsi_penukaran Int?
-  User              User?           @relation(fields: [id_user], references: [id])
+  User              User?           @relation(fields: [id_user_penukaran], references: [id])
   Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
 }
+
+// model Riwayat_Transaksi {
+//   id           Int        @id @default(autoincrement())
+//   tgl_tukar    DateTime
+//   id_transaksi Int?       @unique
+//   Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
+// }
+
+//
+model Sampah_Transaksi {
+  id           Int        @id @default(autoincrement())
+  // nama         String
+  total_berat  Int // bukan jumlah per satuan / berat yang akan di beli
+  total_harga  Int
+  // id_transaksi Int?
+  // Sampah    Sampah?    @relation(fields: [id_Sampah], references: [id])
+  // Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
+  Material     Material[]
+  Transaksi    Transaksi  @relation(fields: [id_Transaksi], references: [id])
+  id_Transaksi Int        @unique
+}
+
+model Material {
+  id                 Int               @id @default(autoincrement())
+  nama               String
+  berat              Int // total semua benda yang di simpan dalam gudang
+  jenis              String // total semua benda yang di simpan dalam gudang
+  id_sampahTransaksi Int?
+  Sampah_Transaksi   Sampah_Transaksi? @relation(fields: [id_sampahTransaksi], references: [id])
+}
+
+// model Sampah {
+//   id               Int                @id @default(autoincrement())
+//   nama             String
+//   Sampah_Transaksi Sampah_Transaksi[]
+// }
+
+//
+
+// enum StatusTransaksi {
+//   SIMPAN
+//   PROSES
+//   SELESAI
+// }

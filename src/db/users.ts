@@ -3,6 +3,12 @@ import { prisma } from "./prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 
 class User implements IPrismaOperator<TUser> {
+
+  findFirst = async () => {
+    const users = await prisma.user.findFirst();
+    return users;
+  };
+
   findAll = async () => {
     const users = await prisma.user.findMany();
     return users;
@@ -49,6 +55,9 @@ class User implements IPrismaOperator<TUser> {
     const user = await prisma.user.delete({ where: { id } });
     return user;
   };
+
+
+  
 }
 
 export const user = new User();

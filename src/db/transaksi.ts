@@ -10,6 +10,8 @@ class Transaksi implements IPrismaOperator<TTransaksi> {
     });
   };
 
+
+
   findId = async (id: number) => {
     return prisma.transaksi.findUnique({ where: { id } });
   };
@@ -18,10 +20,10 @@ class Transaksi implements IPrismaOperator<TTransaksi> {
     prisma.transaksi.create({
       data: {
         tgl_transaksi: data.tgl_transaksi,
-        berat: data.berat,
-        harga: data.harga,
+        // berat: data.berat,
+        // harga: data.harga,
         id_user: data.id_user,
-        id_material: data.id_material,
+        // id_material: data.id_material,
       },
     });
 
@@ -32,10 +34,10 @@ class Transaksi implements IPrismaOperator<TTransaksi> {
       },
       data: {
         tgl_transaksi: data.tgl_transaksi,
-        berat: data.berat,
-        harga: data.harga,
+        // berat: data.berat,
+        // harga: data.harga,
         id_user: data.id_user,
-        id_material: data.id_material,
+        // id_material: data.id_material,
       },
     });
   };

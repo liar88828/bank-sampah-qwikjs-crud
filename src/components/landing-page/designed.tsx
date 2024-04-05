@@ -6,7 +6,7 @@ export const Designed = component$(() => {
       <section class="bg-white dark:bg-gray-900">
         <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-24">
           <div class="mx-auto mb-8 max-w-screen-md text-center lg:mb-12">
-            <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            <h2 class="mb-4 text-3xl font-extrabold tracking-tight ">
               Designed for business teams like yours
             </h2>
             <p class="mb-5 font-light text-gray-500 dark:text-gray-400 sm:text-xl">

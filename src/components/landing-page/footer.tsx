@@ -144,6 +144,8 @@ export const Footer = component$(() => {
               class="mb-5 flex items-center justify-center text-2xl font-semibold text-gray-900 dark:text-white"
             >
               <img
+              height={10}
+              width={20}
                 src="https://picsum.photos/300/200?random=1234"
                 class="mr-3 h-6 sm:h-9"
                 alt="Landwind Logo"

@@ -24,6 +24,8 @@ export const Speak = () => {
             </blockquote>
             <figcaption class="mt-6 flex items-center justify-center space-x-3">
               <img
+                width={8}
+                height={9}
                 class="h-6 w-6 rounded-full"
                 src="https://picsum.photos/300/200?random=1231"
                 alt="profile picture"
