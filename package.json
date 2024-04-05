@@ -53,6 +53,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
+    "@modular-forms/qwik": "^0.23.1",
     "@qwikest/icons": "^0.0.13",
     "chart.js": "^4.4.2",
     "lucide-react": "^0.363.0"

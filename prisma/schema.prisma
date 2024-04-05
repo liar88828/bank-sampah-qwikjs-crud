@@ -33,16 +33,22 @@ model Material {
 model Transaksi {
   id            Int      @id @default(autoincrement())
   tgl_transaksi DateTime
-  berat         Int // bukan jumlah per satuan / berat yang akan di beli 
+  berat         Int // bukan jumlah per satuan / berat yang akan di beli
   harga         Int
+  // status        StatusTransaksi //@default(SIMPAN)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id_user           Int?
+  id_material       Int?
+  id_statusTransaksi Int?
 
-  id_user     Int?
-  id_material Int?
-  User        User?     @relation(fields: [id_user], references: [id])
-  Material    Material? @relation(fields: [id_material], references: [id])
+  User              User?              @relation(fields: [id_user], references: [id])
+  Material          Material?          @relation(fields: [id_material], references: [id])
+  StatusTransaksi   StatusTransaksi?   @relation(fields: [id_statusTransaksi], references: [id])
+  Riwayat_Transaksi Riwayat_Transaksi?
+
+  Sampah            Sampah_Transaksi[]
 }
 
 model Opsi_Penukaran {
@@ -60,3 +66,41 @@ model Riwayat_Penukaran {
   User              User?           @relation(fields: [id_user], references: [id])
   Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
 }
+
+model Riwayat_Transaksi {
+  id        Int      @id @default(autoincrement())
+  tgl_tukar DateTime
+
+  id_transaksi Int? @unique
+
+  Transaksi Transaksi? @relation(fields: [id_transaksi], references: [id])
+}
+
+model Sampah_Transaksi {
+  id   Int    @id @default(autoincrement())
+  nama String
+
+  id_transaksi Int?
+  id_Sampah    Int?
+
+  Sampah    Sampah?    @relation(fields: [id_Sampah], references: [id])
+  Transaksi Transaksi? @relation(fields: [id_transaksi], references: [id])
+}
+
+model Sampah {
+  id               Int                @id @default(autoincrement())
+  nama             String
+  Sampah_Transaksi Sampah_Transaksi[]
+}
+
+model StatusTransaksi {
+  id        Int         @id @default(autoincrement())
+  type      String
+  Transaksi Transaksi[]
+}
+
+// enum StatusTransaksi {
+//   SIMPAN
+//   PROSES
+//   SELESAI
+// }

@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+// import { TransaksiCreate } from "~/components/form/transaksi-create";
 export default component$(() => {
   return (
     <>
@@ -10,7 +11,7 @@ export default component$(() => {
           <br />
           Happy coding.
         </p>
-
+        {/* <TransaksiCreate/> */}
         {/* <Lines height={100}width={200}/> */}
       </div>
     </>
