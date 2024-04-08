@@ -8,6 +8,9 @@ dependencies:
   '@modular-forms/qwik':
     specifier: ^0.23.1
     version: 0.23.1(@builder.io/qwik-city@1.5.1)(@builder.io/qwik@1.5.1)
+  '@modular-forms/qwik':
+    specifier: ^0.23.1
+    version: 0.23.1(@builder.io/qwik-city@1.5.1)(@builder.io/qwik@1.5.1)
   '@qwikest/icons':
     specifier: ^0.0.13
     version: 0.0.13(@builder.io/qwik@1.5.1)

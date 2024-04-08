@@ -1,9 +1,9 @@
 import { TUser } from "~/type/user";
 import { prisma } from "./prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
+import { Prisma } from "@prisma/client";
 
 class User implements IPrismaOperator<TUser> {
-
   findFirst = async () => {
     const users = await prisma.user.findFirst();
     return users;
@@ -11,6 +11,20 @@ class User implements IPrismaOperator<TUser> {
 
   findAll = async () => {
     const users = await prisma.user.findMany();
+    return users;
+  };
+
+  findSearchPage = async (nama: string, page: number, limit: number) => {
+    const where = {} as Prisma.UserWhereInput;
+
+    if (nama) {
+      where.nama = { contains: nama };
+    }
+    const users = await prisma.user.findMany({
+      where,
+      take: limit,
+      skip: page,
+    });
     return users;
   };
 
@@ -55,9 +69,6 @@ class User implements IPrismaOperator<TUser> {
     const user = await prisma.user.delete({ where: { id } });
     return user;
   };
-
-
-  
 }
 
 export const user = new User();

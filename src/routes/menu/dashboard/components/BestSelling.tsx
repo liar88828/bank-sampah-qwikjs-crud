@@ -41,6 +41,8 @@ export const BestSelling = component$(() => {
                       <div class="avatar static">
                         <div class="h-12 w-20 rounded">
                           <img
+                          height={10}
+                          width={20}
                             src="https://picsum.photos/200/300?random=2"
                             alt="Avatar Tailwind CSS Component" />
                         </div>

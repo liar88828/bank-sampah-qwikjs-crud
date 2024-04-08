@@ -9,12 +9,13 @@ import {
   LuHome,
   LuPersonStanding,
   LuPieChart,
+  LuStickyNote,
 } from "@qwikest/icons/lucide";
 import { Link } from "@builder.io/qwik-city";
 
 const listMenu = [
   {
-    href: "/menu/home",
+    href: "/menu/landing-page/",
     text: "Home",
     icon: <LuHome font-size={25} class="inline-block h-6 w-6 stroke-current" />,
   },
@@ -24,6 +25,11 @@ const listMenu = [
     icon: (
       <LuPieChart font-size={25} class="inline-block h-6 w-6 stroke-current" />
     ),
+  },
+  {
+    href: "/menu/page/",
+    text: "Page",
+    icon: <LuStickyNote font-size={25} class="inline-block h-6 w-6 stroke-current" />,
   },
 ];
 

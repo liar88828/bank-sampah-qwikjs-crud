@@ -6,9 +6,9 @@ import { works } from "~/db/work";
 
 export default component$(() => {
   return (
-    <main>
+    <>
       <Slot />
-    </main>
+    </>
   );
 });
 
