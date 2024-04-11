@@ -33,7 +33,6 @@
   },
   "files": [
     "./.eslintrc.cjs",
-    "./src/routes/table/transaksi/LoaderTransaksi.tsx",
   ],
   "include": [
     "src",
