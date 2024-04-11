@@ -36,7 +36,7 @@ export const FormUserCreate = component$(
             <input
               name="nama"
               class="input input-bordered"
-              value={createUserAction.formData?.get("name")}
+              value={createUserAction.formData?.get("nama")}
             />
           </label>
 
@@ -55,7 +55,7 @@ export const FormUserCreate = component$(
               type="tel"
               name="no_hp"
               class="input input-bordered"
-              value={createUserAction.formData?.get("np_hp")}
+              value={createUserAction.formData?.get("no_hp")}
             />
           </label>
 

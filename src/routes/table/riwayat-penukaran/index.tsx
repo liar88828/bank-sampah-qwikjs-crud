@@ -11,7 +11,9 @@ import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { getDate } from "~/lib/date";
 
 export const useGetAll = routeLoader$(async () => {
-  return riwayatPenukaran.findAll();
+  const res = await riwayatPenukaran.findAll();
+  console.log(res)
+  return res;
 });
 
 export const useDeleteOnly = routeAction$(
@@ -29,7 +31,10 @@ export default component$(() => {
     <section class="container bg-base-300 p-5">
       <div class="mb-2 flex items-center gap-2">
         <h1>Riwayat Penukaran's directory</h1>
-        <Link class="btn btn-info btn-xs" href="/table/riwayat-penukaran/create">
+        <Link
+          class="btn btn-info btn-xs"
+          href="/table/riwayat-penukaran/create"
+        >
           Create
         </Link>
       </div>

@@ -1,5 +1,5 @@
 import { TUser } from "~/type/user";
-import { prisma } from "./prisma";
+import { prisma } from "../config/prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { Prisma } from "@prisma/client";
 

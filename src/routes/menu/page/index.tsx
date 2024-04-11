@@ -1,9 +1,8 @@
 import { component$ } from "@builder.io/qwik";
+import { routeLoader$ } from "@builder.io/qwik-city";
+import { TSearchData, material } from "~/db/material";
 import { NasabahActive } from "./component/NasabahActive";
 import { MaterialSampah } from "./component/MaterialSampah";
-import { TSearchData, material } from "~/db/material";
-import { routeLoader$ } from "@builder.io/qwik-city";
-import { user } from "~/db/users";
 
 
 export const useLoadMaterial = routeLoader$(({ query }) => {

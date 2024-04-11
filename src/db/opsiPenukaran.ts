@@ -1,6 +1,6 @@
-import {prisma} from "./prisma";
+import {prisma} from "../config/prisma";
 import {IPrismaOperator} from "~/type/IPrismaOperator";
-import {TOpsi_Penukaran} from "~/type/TOpsi_Penukaran";
+import {TOpsi_Penukaran} from "~/type/opsiPenukaran.type";
 
 class OpsiPenukaran implements IPrismaOperator<TOpsi_Penukaran> {
   

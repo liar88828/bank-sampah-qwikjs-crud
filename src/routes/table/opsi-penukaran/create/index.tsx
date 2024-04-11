@@ -1,18 +1,20 @@
-import {component$} from "@builder.io/qwik";
-import {Form, routeAction$,} from "@builder.io/qwik-city";
-import {zodOpsiPenukaran} from "~/lib/Zod";
-import {opsiPenukaran} from "~/db/opsiPenukaran";
+import { component$ } from "@builder.io/qwik";
+import { Form, Link, routeAction$, } from "@builder.io/qwik-city";
+import { zodOpsiPenukaran } from "~/lib/Zod";
+import { opsiPenukaran } from "~/db/opsiPenukaran";
 
 export const useCreateOpsiPenukaran = routeAction$(
-  async (data, {redirect}) => {
+  async (data, { redirect }) => {
+
     const json = await opsiPenukaran.createOne({
       harga: Number(data.harga),
       deskripsi: data.deskripsi
     });
+
     if (json) {
       throw redirect(302, "/table/opsi-penukaran");
     }
-    
+
     return json;
   },
   zodOpsiPenukaran
@@ -24,8 +26,8 @@ export default component$(() => {
   return (
     <section class="static card bg-base-300">
       <Form class="text-center card-body items-center" action={createAction}>
-        <h1 class="card-title">Create User</h1>
-        
+        <h1 class="card-title">Create Opsi Penukaran</h1>
+
         <label class="form-control">
           Deskripsi
           <input
@@ -34,8 +36,8 @@ export default component$(() => {
             value={createAction.formData?.get("deskripsi")}
           />
         </label>
-        
-        
+
+
         <label class="form-control">
           Harga
           <input
@@ -45,12 +47,16 @@ export default component$(() => {
             value={createAction.formData?.get("harga")}
           />
         </label>
-        
-        
+
+
         <div class="card-actions">
           <button type="submit" class="btn btn-success">
             Create
           </button>
+          <Link 
+          href='/table/opsi-penukaran'
+          class="btn btn-warning"
+          >Back</Link>
         </div>
       </Form>
       {!createAction.value?.failed && (
@@ -58,15 +64,15 @@ export default component$(() => {
           <h2>Material created successfully!</h2>
         </div>
       )}
-      
-      
+
+
       {createAction.value?.failed && (<>
-          {zodError?.deskripsi && <p>Nama {zodError?.deskripsi}</p>}
-          {zodError?.harga && <p>Alamat {zodError.harga}</p>}
-        </>
+        {zodError?.deskripsi && <p>Nama {zodError?.deskripsi}</p>}
+        {zodError?.harga && <p>Alamat {zodError.harga}</p>}
+      </>
       )}
-    
-    
+
+
     </section>
   );
 });

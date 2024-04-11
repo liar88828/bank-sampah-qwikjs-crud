@@ -3,15 +3,6 @@ import { useLoadMaterial } from "..";
 import { JenisSampah } from "../../dashboard/components/JenisSampah";
 import { useNavigate } from "@builder.io/qwik-city";
 
-// const datas = [
-//   { name: "Aaron", city: "Syria", size: 823 },
-//   { name: "Eddie", city: "Tuvalu", size: 918 },
-//   { name: "Roy", city: "Iraq", size: 110 },
-//   { name: "sd", city: "Iraq", size: 110 },
-//   { name: "Linnie", city: "Ecuador", size: 644 },
-//   { name: "Jordan", city: "Algeria", size: 913 },
-// ];
-
 export const MaterialSampah = component$(() => {
   const datas = useLoadMaterial();
   const nav = useNavigate();
@@ -44,7 +35,7 @@ export const MaterialSampah = component$(() => {
                       Search
                     </button>
                   </div>
-                  
+
                 </div>
                 <div class="overflow-x-auto">
                   <table class="table table-xs static sm:table-sm md:table-md ">

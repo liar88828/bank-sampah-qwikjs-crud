@@ -24,10 +24,10 @@ export const useUpdateTransaksi = routeAction$(
     
     const newData = {
       tgl_transaksi: new Date(data.tgl_transaksi),
-      berat: Number(data.berat),
-      harga: Number(data.harga),
+      // berat: Number(data.berat),
+      // harga: Number(data.harga),
       id_user: Number(data.id_user),
-      id_material: Number(data.id_material),
+      // id_material: Number(data.id_material),
     }
     
     const user = await transaksi.updateOne(id, newData);
@@ -78,7 +78,7 @@ export default component$(() => {
                 />
               </label>
               
-              <label class="form-control">
+              {/* <label class="form-control">
                 Berat
                 <input
                   name="berat"
@@ -90,8 +90,8 @@ export default component$(() => {
                     updateAction.formData?.get("berat")}
                 />
               </label>
-              
-              <label class="form-control">
+               */}
+              {/* <label class="form-control">
                 Harga
                 <input
                   
@@ -104,7 +104,7 @@ export default component$(() => {
                     updateAction.formData?.get("harga") ||
                     0}
                 />
-              </label>
+              </label> */}
               
               <label class="form-control">
                 <select class="select select-bordered w-full "
@@ -118,7 +118,7 @@ export default component$(() => {
               </label>
               
               
-              <label class="form-control">
+              {/* <label class="form-control">
                 <select class="select select-bordered w-full  "
                         name={'id_material'}
                 >
@@ -126,7 +126,7 @@ export default component$(() => {
                     <option key={m.id} value={m.id}>{m.nama || ''}</option>
                   ))}
                 </select>
-              </label>
+              </label> */}
               
               
               <div class="card-actions">
@@ -154,11 +154,11 @@ export default component$(() => {
       )}
       
       {updateAction.value?.failed && (<>
-          {zodError?.berat && <p>Berat {zodError?.berat}</p>}
+          {/* {zodError?.berat && <p>Berat {zodError?.berat}</p>}
           {zodError?.harga && <p>Harga {zodError.harga}</p>}
+          {zodError?.id_material && <p>ID Material{zodError.id_material}</p>} */}
           {zodError?.id_user && <p>ID User {zodError.id_user}</p>}
           {zodError?.tgl_transaksi && <p>Tanggal Transaksi {zodError.tgl_transaksi}</p>}
-          {zodError?.id_material && <p>ID Material{zodError.id_material}</p>}
         </>
       )}
     </section>

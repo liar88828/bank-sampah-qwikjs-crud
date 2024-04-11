@@ -1,7 +1,7 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
-import { prisma } from "./prisma";
-import { TMaterial } from "~/type/TMaterial";
+import { prisma } from "../config/prisma";
 import { Prisma } from "@prisma/client";
+import { TMaterial } from "~/type/material.type";
 export type TSearchData = { nama: string; jenis: string };
 class Material implements IPrismaOperator<TMaterial> {
   findAll = async () => {

@@ -1,8 +1,8 @@
 import { component$ } from "@builder.io/qwik";
 import { ProfileProps } from "../../type/penyerahan-sampah.type";
+import { Link } from "@builder.io/qwik-city";
 
-
-export const Profile = component$(({ data }: { data: ProfileProps; }) => {
+export const Profile = component$(({ data }: { data: ProfileProps }) => {
   return (
     <div class="rounded-lg bg-white p-5 shadow">
       <div class="flex flex-col items-center">
@@ -21,6 +21,11 @@ export const Profile = component$(({ data }: { data: ProfileProps; }) => {
           <li class="mb-2">{data?.alamat}</li>
           <li class="mb-2">{data?.email}</li>
           <li class="mb-2">{data?.no_hp}</li>
+          <li>
+            <Link href="create" class="btn btn-primary">
+              Create
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

@@ -1,6 +1,6 @@
-import { prisma } from "./prisma";
+import { prisma } from "../config/prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
-import { TRiwayat_Penukaran } from "~/type/TRiwayat_Penukaran";
+import { TRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 
 class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
   findAll = async () => {
@@ -46,7 +46,7 @@ class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
     return prisma.riwayat_Penukaran.create({
       data: {
         tgl_tukar: data.tgl_tukar,
-        id_user: data.id_user,
+        id_user_penukaran: data.id_user,
         id_opsi_penukaran: data.id_opsi_penukaran,
       },
     });
@@ -58,7 +58,7 @@ class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
       },
       data: {
         tgl_tukar: data.tgl_tukar,
-        id_user: data.id_user,
+        id_user_penukaran: data.id_user,
         id_opsi_penukaran: data.id_opsi_penukaran,
       },
     });

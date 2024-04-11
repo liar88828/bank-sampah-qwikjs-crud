@@ -22,7 +22,7 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { prisma } from "~/db/prisma";
+import { prisma } from "~/config/prisma";
 import { user } from "~/db/users";
 
 export const useLoadData = routeLoader$(async ({ query }) => {

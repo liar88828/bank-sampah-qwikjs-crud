@@ -1,22 +1,22 @@
-import {component$} from "@builder.io/qwik";
-import {Form, routeAction$, routeLoader$} from "@builder.io/qwik-city";
-import {join} from "~/db/join";
-import {transaksi} from "~/db/transaksi";
-import {zodTransaksi} from "~/lib/Zod";
+import { component$ } from "@builder.io/qwik";
+import { Form, Link, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
+import { join } from "~/db/join";
+import { transaksi } from "~/db/transaksi";
+import { zodTransaksi } from "~/lib/Zod";
 
 export const useSelectData = routeLoader$(async () => {
   return join.user_material()  // as Promise<Required<SelectDatas>>
 })
 
 export const useCreateTransaksi = routeAction$(
-  async (data, {redirect, fail}) => {
+  async (data, { redirect, fail }) => {
     const newData = {
       tgl_transaksi: new Date(data.tgl_transaksi),
-      berat: Number(data.berat),
-      harga: Number(data.harga),
+      // berat: Number(data.berat),
+      // harga: Number(data.harga),
       id_user: Number(data.id_user),
-      id_material: Number(data.id_material),
-      
+      // id_material: Number(data.id_material),
+
     }
     console.log(newData)
     const user = await transaksi.createOne(newData);
@@ -35,9 +35,9 @@ export default component$(() => {
   const zodError = createAction?.value?.fieldErrors || null
   return (
     <section class="card bg-base-300">
-      <Form class="text-cente card-body items-center" action={createAction}>
+      <Form class="text-center card-body items-center" action={createAction}>
         <h1 class="card-title">Transaksi User</h1>
-        
+
         <label class="form-control">
           Tanggal Transaksi
           <input
@@ -47,8 +47,8 @@ export default component$(() => {
             value={createAction.formData?.get("tgl_transaksi")}
           />
         </label>
-        
-        <label class="form-control">
+
+        {/* <label class="form-control">
           Berat
           <input
             name="berat"
@@ -58,8 +58,8 @@ export default component$(() => {
             value={createAction.formData?.get("berat")}
           />
         </label>
-        
-        <label class="form-control">
+         */}
+        {/* <label class="form-control">
           Harga
           <input
             
@@ -69,11 +69,11 @@ export default component$(() => {
             min="1"
             value={createAction.formData?.get("harga")}
           />
-        </label>
-        
+        </label> */}
+
         <label class="form-control">
           <select class="select select-bordered w-full  "
-                  name={'id_user'}
+            name={'id_user'}
           >
             {/*<option disabled selected>Who shot first?</option>*/}
             {selectData.value.user.map(u => (
@@ -81,24 +81,24 @@ export default component$(() => {
             ))}
           </select>
         </label>
-        
-        
+
+        {/*         
         <label class="form-control">
           <select class="select select-bordered w-full  "
                   name={'id_material'}
           >
-            {/*<option disabled selected>Who shot first?</option>*/}
             {selectData.value.materials.map(m => (
               <option key={m.id} value={m.id}>{m.nama || ''}</option>
             ))}
           </select>
         </label>
-        
-        
+         */}
+
         <div class="card-actions">
           <button type="submit" class="btn btn-success">
             Create
           </button>
+          <Link href="/table/transaksi" class="btn btn-warning">Back</Link>
         </div>
       </Form>
       {!createAction.value?.failed && (
@@ -106,14 +106,14 @@ export default component$(() => {
           <h2>User created successfully!</h2>
         </div>
       )}
-      
+
       {createAction.value?.failed && (<>
-          {zodError?.berat && <p>Berat {zodError?.berat}</p>}
+        {/* {zodError?.berat && <p>Berat {zodError?.berat}</p>}
           {zodError?.harga && <p>Harga {zodError.harga}</p>}
-          {zodError?.id_user && <p>ID User {zodError.id_user}</p>}
-          {zodError?.tgl_transaksi && <p>Tanggal Transaksi {zodError.tgl_transaksi}</p>}
-          {zodError?.id_material && <p>ID Material{zodError.id_material}</p>}
-        </>
+          {zodError?.id_material && <p>ID Material{zodError.id_material}</p>} */}
+        {zodError?.id_user && <p>ID User {zodError.id_user}</p>}
+        {zodError?.tgl_transaksi && <p>Tanggal Transaksi {zodError.tgl_transaksi}</p>}
+      </>
       )}
     </section>
   );

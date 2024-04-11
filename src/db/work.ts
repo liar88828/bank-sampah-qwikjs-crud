@@ -1,5 +1,5 @@
-import { prisma } from "./prisma";
-import { TPenyerahanSampah } from "~/type/TPenyerahanSampah";
+import { prisma } from "../config/prisma";
+import { TPenyerahanSampah } from "~/type/penyerahanSampah.type";
 
 class Work {
   // single transaction

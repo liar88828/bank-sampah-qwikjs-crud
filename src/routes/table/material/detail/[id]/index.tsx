@@ -42,6 +42,7 @@ export default component$(() => {
               <h1 class="card-title">Material : {material.nama}</h1>
 
               <p>Berat : {material.berat}</p>
+              <p>Jenis : {material.jenis}</p>
 
               <div class="card-actions ">
                 <Link

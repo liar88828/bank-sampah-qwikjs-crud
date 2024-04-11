@@ -3,7 +3,6 @@
     "allowJs": true,
     "target": "ES2017",
     "module": "ES2022",
- 
     "lib": [
       "es2022",
       "DOM",
@@ -26,7 +25,6 @@
       "node",
       "vite/client"
     ],
-    
     "paths": {
       "~/*": [
         "./src/*"
@@ -35,13 +33,7 @@
   },
   "files": [
     "./.eslintrc.cjs",
-    "src/routes/work/type/penyerahan-sampah.type.tsx",
-    "src/routes/work/penyerahan-sampah/component/transaksi/TotalMaterial.tsx",
-    "src/routes/work/penyerahan-sampah/component/OpsiPenukaran.tsx",
-    "src/routes/work/penyerahan-sampah/component/Riwayat.tsx",
-    "src/routes/work/penyerahan-sampah/component/Profile.tsx",
-    "src/routes/work/penyerahan-sampah/component/transaksi/Transaksi.tsx",
-    "./src/routes/work/penyerahan-sampah/component/transaksi/TransaksiSampah.tsx",
+    "./src/routes/table/transaksi/LoaderTransaksi.tsx",
   ],
   "include": [
     "src",

@@ -1,23 +1,25 @@
-import {component$, Resource,} from "@builder.io/qwik";
-import {Form, Link, routeAction$, routeLoader$, z, zod$,} from "@builder.io/qwik-city";
-import {opsiPenukaran} from "~/db/opsiPenukaran";
+import { component$, Resource, } from "@builder.io/qwik";
+import { Form, Link, routeAction$, routeLoader$, z, zod$, } from "@builder.io/qwik-city";
+import { opsiPenukaran } from "~/db/opsiPenukaran";
+import { loaderOpsi_Penukaran } from "~/type/opsiPenukaran.type";
 
 export const useGetAll = routeLoader$(async () => {
-  return opsiPenukaran.findAll();
+  const res = await opsiPenukaran.findAll()
+  return res as loaderOpsi_Penukaran[]
 });
 
 export const useDeleteOnly = routeAction$(
   async (data) => {
     return await opsiPenukaran.deleteOne(Number(data.id));
   },
-  zod$({id: z.string()}),
+  zod$({ id: z.string() }),
 );
 
 export default component$(() => {
   const Datas = useGetAll();
   const deleteData = useDeleteOnly();
-  
-  
+
+
   return (
     <section class="container bg-base-300 p-5">
       <div class="mb-2 flex items-center gap-2">
@@ -26,7 +28,7 @@ export default component$(() => {
           Create
         </Link>
       </div>
-      
+
       <Resource
         value={Datas}
         onPending={() => <span class="loading loading-spinner"></span>}
@@ -35,36 +37,36 @@ export default component$(() => {
           <div class="overflow-x-auto">
             <table class="static table table-zebra table-xs  rounded ">
               <thead>
-              <tr>
-                <th>No</th>
-                <th>Deskripsi</th>
-                <th>Harga</th>
-                <th>Action</th>
-              </tr>
+                <tr>
+                  <th>No</th>
+                  <th>Deskripsi</th>
+                  <th>Harga</th>
+                  <th>Action</th>
+                </tr>
               </thead>
               <tbody>
-              {data.map((d, i) => (
-                <tr key={d.id}>
-                  <th>{i + 1}</th>
-                  <td>{d.deskripsi}</td>
-                  <td>{d.harga}</td>
-                  <td class="flex flex-nowrap gap-2">
-                    <Link
-                      href={`/table/opsi-penukaran/detail/${d.id}`}
-                      class="btn btn-primary btn-xs"
-                    >
-                      Detail
-                    </Link>
-                    
-                    <Form action={deleteData}>
-                      <input type="hidden" name="id" value={d.id}/>
-                      <button type="submit" class="btn btn-error btn-xs">
-                        Delete
-                      </button>
-                    </Form>
-                  </td>
-                </tr>
-              ))}
+                {data.map((d, i) => (
+                  <tr key={d.id}>
+                    <th>{i + 1}</th>
+                    <td>{d.deskripsi}</td>
+                    <td>{d.harga}</td>
+                    <td class="flex flex-nowrap gap-2">
+                      <Link
+                        href={`/table/opsi-penukaran/detail/${d.id}`}
+                        class="btn btn-primary btn-xs"
+                      >
+                        Detail
+                      </Link>
+
+                      <Form action={deleteData}>
+                        <input type="hidden" name="id" value={d.id} />
+                        <button type="submit" class="btn btn-error btn-xs">
+                          Delete
+                        </button>
+                      </Form>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

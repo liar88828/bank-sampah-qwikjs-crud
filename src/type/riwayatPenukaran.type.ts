@@ -10,3 +10,14 @@ export type Opsi_Penukaran_Relasional = {
   deskripsi: string;
   Riwayat_Penukaran: TRiwayat_Penukaran[];
 };
+
+export type LoaderRiwayatPenukaran_Select = {
+  user: {
+    id: number;
+    nama: string | null;
+  }[];
+  opsiPenukaran: {
+    id: number;
+    deskripsi: string;
+  }[];
+};
