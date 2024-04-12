@@ -45,3 +45,4 @@ prisma/migrations/20240329022148_new_migrate/migration.sql
 /src/components/basic/zz/
 /note
 /zzznote
+.env

@@ -33,6 +33,9 @@
   },
   "files": [
     "./.eslintrc.cjs",
+    "src/components/basic/assets/listMenu.tsx",
+    "src/components/basic/assets/listTable.tsx",
+    "src/components/basic/assets/listWork.tsx",
   ],
   "include": [
     "src",
