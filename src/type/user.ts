@@ -1,8 +1,8 @@
 import { TTransaksi } from "./transaksi.type";
 import { TRiwayat_Penukaran } from "./riwayatPenukaran.type";
 
-export type PropsProfile = {
-  user: {
+
+export type UserProfile={
     id: number;
     nama: string | null;
     alamat: string;
@@ -11,6 +11,8 @@ export type PropsProfile = {
     createdAt: Date;
     updatedAt: Date;
   } 
+export type PropsProfile = {
+  user: UserProfile
   point: {
     totalTransaksi: number;
     totalBeli: number;

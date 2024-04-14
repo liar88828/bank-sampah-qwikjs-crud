@@ -1,14 +1,14 @@
-export type TRiwayat_Penukaran = {
-  id?: number;
+export type LoaderRiwayat_Penukaran = {
+  id: number;
   tgl_tukar: Date;
-  id_user?: number;
-  id_opsi_penukaran?: number;
+  id_user_penukaran: number | null;
+  id_opsi_penukaran: number | null;
 };
 export type Opsi_Penukaran_Relasional = {
   id?: number;
   harga: number;
   deskripsi: string;
-  Riwayat_Penukaran: TRiwayat_Penukaran[];
+  Riwayat_Penukaran: LoaderRiwayat_Penukaran[];
 };
 
 export type LoaderRiwayatPenukaran_Select = {

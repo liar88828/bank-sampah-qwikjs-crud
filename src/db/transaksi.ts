@@ -3,7 +3,7 @@ import { prisma } from "../config/prisma";
 import { TTransaksi } from "~/type/transaksi.type";
 
 class Transaksi implements IPrismaOperator<TTransaksi> {
-  findAllUser = async (id: number, page = 0) => {
+  findAllUser = async (id: number, page = 0, search = "") => {
     let limit = 100;
     return prisma.transaksi.findMany({
       where: {

@@ -10,11 +10,12 @@ import {
   zod$,
 } from "@builder.io/qwik-city";
 import { LuSearch } from "@qwikest/icons/lucide";
+import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
-import { LoaderTransaksi } from "~/type/transaksi.type";
+import { LoaderRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 
-export const useLoadUserTransaksi = routeLoader$(
+export const useLoadUserPenukaran = routeLoader$(
   async ({ sharedMap, query }) => {
     const session: Session | null = sharedMap.get("session") as Session;
     const id = Number(session?.user?.id);
@@ -23,12 +24,12 @@ export const useLoadUserTransaksi = routeLoader$(
     page = page <= 0 ? 0 : page;
 
     const search: string | null = query.get("search") ?? "";
-    
-    const res = await transaksi.findAllUser(id, page, search);
-    return res as LoaderTransaksi[];
+
+    const res = await riwayatPenukaran.findAllUser(id, page, search);
+    return res as LoaderRiwayat_Penukaran[];
   },
 );
-export const useDeleteTransaksi = routeAction$(
+export const useDeletePenukaran = routeAction$(
   async (data) => {
     return await transaksi.deleteOne(Number(data.id));
   },
@@ -36,10 +37,11 @@ export const useDeleteTransaksi = routeAction$(
 );
 
 export default component$(() => {
-  const transaksiData = useLoadUserTransaksi();
-  const transaksiDelete = useDeleteTransaksi();
+  const dataLoad = useLoadUserPenukaran();
+  const dataDelete = useDeletePenukaran();
   const search = useSignal("");
   const local = useLocation();
+  // console.log(local)
   const page = local.url.searchParams.get("page");
 
   return (
@@ -48,48 +50,48 @@ export default component$(() => {
         Back
       </Link>
       <div class="mb-2 flex items-center gap-2">
-        <h1>Transaksi's directory</h1>
+        <h1>Penukaran's directory</h1>
 
-        <Link class="btn btn-info btn-xs" href="/table/transaksi/create">
+        <Link class="btn btn-info btn-xs" href="/user/profile/create">
           Create
         </Link>
       </div>
 
       <Resource
-        value={transaksiData}
+        value={dataLoad}
         onPending={() => <span class="loading loading-spinner"></span>}
         onRejected={() => <span>Error</span>}
-        onResolved={(transaksi) => {
-          let buttonOff = transaksi.length === 0;
-          let buttonLess = transaksi.length > 0;
+        onResolved={(datas) => {
+          let buttonOff = datas.length === 0;
+          let buttonLess = datas.length > 0;
           return (
             <div class="overflow-x-auto ">
               <table class="table table-zebra table-xs static  rounded  bg-base-100">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Tanggal Transaksi</th>
+                    <th>Tanggal Penukaran</th>
                     <th>Id_User</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {transaksi.map((t, i) => (
-                    <tr key={t.id}>
+                  {datas.map((d, i) => (
+                    <tr key={d.id}>
                       <th>{i + 1}</th>
-                      <td>{getDate(t.tgl_transaksi)}</td>
-                      <td>{t.id_user}</td>
+                      <td>{getDate(d.tgl_tukar)}</td>
+                      <td>{d.id_user_penukaran}</td>
 
                       <td class="flex flex-nowrap gap-2">
                         <Link
-                          href={`/table/transaksi/detail/${t.id}`}
+                          href={`/user/profile/penukaran/detail/${d.id}`}
                           class="btn btn-primary btn-xs"
                         >
                           Detail
                         </Link>
 
-                        <Form action={transaksiDelete}>
-                          <input type="hidden" name="id" value={t.id} />
+                        <Form action={dataDelete}>
+                          <input type="hidden" name="id" value={d.id} />
                           <button type="submit" class="btn btn-error btn-xs">
                             Delete
                           </button>
@@ -103,8 +105,7 @@ export default component$(() => {
                     <th colSpan={2}>
                       <div class="join">
                         <Link
-                          // aria-disabled={buttonOff}
-                          href={`/user/profile/transaksi/?page=${Number(page) - 1}`}
+                          href={`/user/profile/penukaran?page=${Number(page) - 1}`}
                           class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
                         >
                           «
@@ -114,7 +115,7 @@ export default component$(() => {
                         </button>
                         <Link
                           aria-disabled={buttonOff}
-                          href={`/user/profile/transaksi/?page=${Number(page) + 1}`}
+                          href={`user/profile/penukaran?page=${Number(page) + 1}`}
                           class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
                         >
                           »
@@ -131,7 +132,7 @@ export default component$(() => {
                       <Link
                         type="button"
                         class="btn btn-square btn-primary btn-sm"
-                        href={`/user/profile/transaksi/?page=${Number(page)}&search=${search.value} `}
+                        href={`user/profile/penukaran?page=${Number(page)}&search=${search.value} `}
                       >
                         <LuSearch />
                       </Link>

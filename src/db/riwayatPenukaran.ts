@@ -3,6 +3,17 @@ import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { TRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 
 class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
+  findAllUser = async (id: number, page = 0, search = "") => {
+    let limit = 100;
+    return prisma.riwayat_Penukaran.findMany({
+      where: {
+        id_user_penukaran: id,
+      },
+      take: 100,
+      skip: page * limit,
+    });
+  };
+
   findAll = async () => {
     return prisma.riwayat_Penukaran.findMany({
       include: {

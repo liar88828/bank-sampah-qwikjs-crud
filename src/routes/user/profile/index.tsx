@@ -65,7 +65,7 @@ export const Profile = component$(
               </div>
 
               <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5">
-                <dt class="text-lg font-bold">Total Points : </dt>
+                <dt class="text-lg font-bold">Total Transaksi : </dt>
 
                 <dd class="mt-1  flex w-full flex-wrap gap-2  sm:col-span-2 sm:mt-0">
                   <Link href="transaksi?page=0" class="btn btn-primary btn-sm">
@@ -73,8 +73,8 @@ export const Profile = component$(
                     <LuArrowLeftRight />
                     {point.totalTransaksi}
                   </Link>
-                  <Link href="beli?page=0" class="btn btn-info btn-sm">
-                    Beli
+                  <Link href="penukaran?page=0" class="btn btn-info btn-sm">
+                    Penukaran
                     <LuBadgeDollarSign />
                     {point.totalBeli}
                   </Link>

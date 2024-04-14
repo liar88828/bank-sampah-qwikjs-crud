@@ -1,9 +1,9 @@
-import { TUser } from "~/type/user";
 import { prisma } from "../config/prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { Prisma } from "@prisma/client";
+import { UserProfile } from "~/type/user";
 
-class User implements IPrismaOperator<TUser> {
+class User implements IPrismaOperator<UserProfile> {
   findFirst = async () => {
     const users = await prisma.user.findFirst();
     return users;
@@ -34,7 +34,7 @@ class User implements IPrismaOperator<TUser> {
   };
 
   createOne = async (
-    data: Pick<TUser, "email" | "alamat" | "no_hp" | "nama">,
+    data: Pick<UserProfile, "email" | "alamat" | "no_hp" | "nama">,
   ) => {
     const user = await prisma.user.create({
       data: {
@@ -49,7 +49,7 @@ class User implements IPrismaOperator<TUser> {
   };
   updateOne = async (
     id: number,
-    data: Pick<TUser, "email" | "alamat" | "no_hp" | "nama">,
+    data: Pick<UserProfile, "email" | "alamat" | "no_hp" | "nama">,
   ) => {
     const user = await prisma.user.update({
       where: {

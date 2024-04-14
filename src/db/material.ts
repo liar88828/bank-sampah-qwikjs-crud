@@ -4,19 +4,21 @@ import { Prisma } from "@prisma/client";
 import { TMaterial } from "~/type/material.type";
 export type TSearchData = { nama: string; jenis: string };
 class Material implements IPrismaOperator<TMaterial> {
-  findAllUser = async (id: number) => {
-    const materials = await prisma.material.findMany({
+  findAllUser = async (id: number, page = 0, search = "") => {
+    let limit = 100;
+    return prisma.material.findMany({
       where: {
+        nama: { contains: search },
         Sampah_Transaksi: {
           Transaksi: {
             id_user: id,
           },
         },
       },
+      take: 100,
+      skip: page * limit,
     });
-    return materials;
   };
-
   findAll = async () => {
     const materials = await prisma.material.findMany({});
     return materials;

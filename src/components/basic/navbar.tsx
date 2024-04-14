@@ -6,27 +6,26 @@ import {
   useAuthSignin,
   useAuthSignout,
 } from "~/routes/plugin@auth";
-import { listMenu } from "./assets/listMenu";
-import { listTable } from "./assets/listTable";
-import { listWork } from "./assets/listWork";
+import { listMenu } from "~/assets/listMenu";
+import { listTable } from "~/assets/listTable";
+import { listWork } from "~/assets/listWork";
+
 
 export const Navbar = component$(() => {
   return (
-    <>
-      <div class="navbar bg-base-200">
-        <div class="navbar-start">
-          <SideBar />
-        </div>
-        <div class="navbar-center">
-          <Link href={"/"} class="btn btn-ghost text-xl">
-            daisyUI
-          </Link>
-        </div>
-        <div class="navbar-end">
-          <ListMenu />
-        </div>
+    <div class="navbar bg-base-200">
+      <div class="navbar-start">
+        <SideBar />
       </div>
-    </>
+      <div class="navbar-center">
+        <Link href={"/"} class="btn btn-ghost text-xl">
+          daisyUI
+        </Link>
+      </div>
+      <div class="navbar-end">
+        <ListMenu />
+      </div>
+    </div>
   );
 });
 
