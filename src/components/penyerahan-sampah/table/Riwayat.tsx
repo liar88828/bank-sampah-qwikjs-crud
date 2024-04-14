@@ -1,9 +1,7 @@
 import { component$, Resource } from "@builder.io/qwik";
-import { useGetPenukaran, useGetTransaksiSampah } from "../layout";
+import { useGetPenukaran } from "../../../routes/work/penyerahan-sampah/layout";
 import { Pagination } from "~/components/basic/pagination";
 import { getDate } from "~/lib/date";
-
-// const test:TestData='total_berat'
 
 export const Riwayat = component$(() => {
   const dataLoad = useGetPenukaran();
@@ -15,7 +13,7 @@ export const Riwayat = component$(() => {
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
         return (
-          <section class="rounded-b-lg  sm:rounded-lg bg-white p-5 shadow ">
+          <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">
             <div class="mb-2 flex items-center justify-between gap-2">
               <h2 class="text-xl font-bold">Riwayat Penukaran</h2>
             </div>
@@ -64,9 +62,7 @@ export const Riwayat = component$(() => {
                       <button class="btn btn-info btn-xs">Print</button>
                     </th>
                     <th>
-                      <button class="btn btn-primary btn-xs">
-                        Action
-                      </button>
+                      <button class="btn btn-primary btn-xs">Action</button>
                     </th>
                   </tr>
                 </tfoot>
@@ -76,6 +72,5 @@ export const Riwayat = component$(() => {
         );
       }}
     />
-
   );
 });

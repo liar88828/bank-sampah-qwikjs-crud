@@ -1,3 +1,4 @@
+import { Session } from "@auth/core/types";
 import { component$, Resource } from "@builder.io/qwik";
 import {
   Form,
@@ -11,8 +12,12 @@ import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
 import { LoaderTransaksi } from "~/type/transaksi.type";
 
-export const useGetTransaksi = routeLoader$(async () => {
-  const res = await transaksi.findAll();
+export const useGetTransaksi = routeLoader$(async ({ sharedMap, query }) => {
+  const page = Number(query.get("page") ?? 0);
+
+  const session: Session | null = sharedMap.get("session") as Session;
+
+  const res = await transaksi.findAllUser(Number(session?.user?.id), page);
   return res as LoaderTransaksi[];
 });
 
@@ -39,6 +44,7 @@ export default component$(() => {
       <Resource
         value={transaksiData}
         onPending={() => <span class="loading loading-spinner"></span>}
+        onRejected={() => <span>Error</span>}
         onResolved={(transaksi) => (
           <div class="overflow-x-auto">
             <table class="table table-zebra table-xs static  rounded ">
@@ -46,10 +52,7 @@ export default component$(() => {
                 <tr>
                   <th>No</th>
                   <th>Tanggal Transaksi</th>
-                  {/* <th>Berat</th> */}
-                  {/* <th>Harga</th> */}
                   <th>Id_User</th>
-                  {/* <th>Id_Material</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -81,7 +84,6 @@ export default component$(() => {
             </table>
           </div>
         )}
-        onRejected={() => <span>Error</span>}
       />
     </section>
   );

@@ -4,6 +4,19 @@ import { Prisma } from "@prisma/client";
 import { TMaterial } from "~/type/material.type";
 export type TSearchData = { nama: string; jenis: string };
 class Material implements IPrismaOperator<TMaterial> {
+  findAllUser = async (id: number) => {
+    const materials = await prisma.material.findMany({
+      where: {
+        Sampah_Transaksi: {
+          Transaksi: {
+            id_user: id,
+          },
+        },
+      },
+    });
+    return materials;
+  };
+
   findAll = async () => {
     const materials = await prisma.material.findMany({});
     return materials;

@@ -1,32 +1,23 @@
 import { component$, Resource } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
-import {
-  useLoadPenyerahan,
-} from "./layout";
-import { ProfileProps } from "../type/penyerahan-sampah.type";
-import { Profile } from "./component/Profile";
-import { Transaksi } from "./component/transaksi/Transaksi";
-import { Riwayat } from "./component/Riwayat";
+import { useLoadPenyerahan } from "./layout";
+import { ProfileProps } from "../../../type/penyerahan-sampah.type";
+import { Profile } from "../../../components/penyerahan-sampah/Profile";
+import { Transaksi } from "../../../components/penyerahan-sampah/Transaksi";
+import { Riwayat } from "../../../components/penyerahan-sampah/table/Riwayat";
 
 export default component$(() => {
   const dataLoad = useLoadPenyerahan();
 
   return (
     <section class=" container rounded bg-base-300 p-5">
-      {/* <div class="mb-2 flex items-center gap-2">
-        <h1>User Profile</h1>
-        <Link class="btn btn-info " href="create">
-          Penyerahan Sampah
-        </Link>
-      </div> */}
-
       <Resource
         value={dataLoad}
         onPending={() => <span class="loading loading-spinner"></span>}
         onRejected={() => <span>Error</span>}
         onResolved={(data) => (
           <>
-            <div class="sm:grid grid-rows-1  sm:space-y-5 ">
+            <div class="grid-rows-1 sm:grid  sm:space-y-5 ">
               <div class="row-span-1">
                 <div class="grid gap-5 sm:grid-cols-3">
                   <div class="sm:col-span-1   ">
@@ -44,11 +35,8 @@ export default component$(() => {
               </div>
             </div>
           </>
-
         )}
       />
     </section>
   );
 });
-
-

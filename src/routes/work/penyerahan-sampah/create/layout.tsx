@@ -16,18 +16,8 @@ import { useGetSession } from "../layout";
 import { SessionExample } from "~/type/global.type";
 
 export default component$(() => {
-  // const { menu } = useContent();
-  // const { url } = useLocation();
-  // console.log(menu);
-  // console.log(url);
-
   const head = useDocumentHead();
-  // console.log(head)
-  return (
-    <main>
-      <Slot />
-    </main>
-  );
+  return <Slot />;
 });
 
 export const useLoadData = routeLoader$(

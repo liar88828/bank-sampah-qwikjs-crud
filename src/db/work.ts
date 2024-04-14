@@ -49,6 +49,8 @@ class Work {
   // multi
   penyerahanSampah = async (data: TPenyerahanSampah) => {
     return prisma.$transaction(async (tx) => {
+      // console.log(data);
+
       const user = await tx.user.findUnique({
         where: { id: Number(data.id_user) },
       });
@@ -67,6 +69,8 @@ class Work {
         },
       });
 
+      // console.log(transaksi);
+
       const status_Transaksi = await tx.status_Transaksi.create({
         data: {
           type: data.status,
@@ -78,7 +82,7 @@ class Work {
         data: {
           total_berat: 0,
           total_harga: 0,
-          id_Transaksi: user.id,
+          id_Transaksi: transaksi.id,
         },
       });
 
@@ -88,7 +92,7 @@ class Work {
             berat: Number(d.berat),
             jenis: d.jenis,
             nama: d.nama,
-            id_sampahTransaksi: user.id,
+            id_sampahTransaksi: sampah_Transaksi.id,
           };
         }),
       });
@@ -200,6 +204,74 @@ class Work {
         User: true,
       },
     });
+  };
+
+  totalPoint = async (id: number) => {
+    return prisma.$transaction(async (tx) => {
+      const totalTransaksi = await tx.transaksi.count({
+        where: { id_user: id },
+      });
+
+      const totalBeli = await tx.riwayat_Penukaran.count({
+        where: { id_user_penukaran: id },
+      });
+
+      const totalMaterial = await tx.material.count({
+        where: {
+          Sampah_Transaksi: {
+            Transaksi: {
+              id_user: id,
+            },
+          },
+        },
+      });
+
+      return {
+        totalTransaksi,
+        totalBeli,
+        totalMaterial,
+      };
+    });
+  };
+
+  test = async (id: number) => {
+    const test = await prisma.material.groupBy({
+      by: ["jenis"],
+      _sum: {
+        berat: true,
+      },
+      _count: {
+        _all: true,
+      },
+      where: {
+        Sampah_Transaksi: {
+          Transaksi: {
+            id_user: id,
+          },
+        },
+      },
+    });
+
+    const test2 = await prisma.material.aggregate({
+      // by: ["jenis"],
+      _sum: {
+        berat: true,
+      },
+      _count: {
+        _all: true,
+        // jenis: true,
+      },
+      where: {
+        Sampah_Transaksi: {
+          Transaksi: {
+            id_user: id,
+          },
+        },
+      },
+    });
+
+    console.log(test, "groupBy");
+    console.log(test2, "aggregate");
   };
 }
 

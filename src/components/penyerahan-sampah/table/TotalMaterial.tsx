@@ -1,12 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import { Pagination } from "~/components/basic/pagination";
-import { TotalMaterialProps } from "~/routes/work/type/penyerahan-sampah.type";
-
+import { TotalMaterialProps } from "~/type/penyerahan-sampah.type";
 
 export const TotalMaterial = component$(
-  ({ data }: { data: TotalMaterialProps; }) => {
+  ({ data }: { data: TotalMaterialProps }) => {
     return (
-      <section>
+      <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">
         <div class="mb-2 flex items-center justify-between gap-2">
           <h2 class="text-xl font-bold">Opsi Penukaran</h2>
         </div>
@@ -57,5 +56,5 @@ export const TotalMaterial = component$(
         </div>
       </section>
     );
-  }
+  },
 );

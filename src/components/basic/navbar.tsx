@@ -1,9 +1,11 @@
 import { $, component$ } from "@builder.io/qwik";
-import {
-  LuAlignJustify,
-} from "@qwikest/icons/lucide";
+import { LuAlignJustify } from "@qwikest/icons/lucide";
 import { Link } from "@builder.io/qwik-city";
-import { useAuthSession, useAuthSignin, useAuthSignout } from "~/routes/plugin@auth";
+import {
+  useAuthSession,
+  useAuthSignin,
+  useAuthSignout,
+} from "~/routes/plugin@auth";
 import { listMenu } from "./assets/listMenu";
 import { listTable } from "./assets/listTable";
 import { listWork } from "./assets/listWork";
@@ -34,11 +36,14 @@ export const ListMenu = component$(() => {
   const signOut = useAuthSignout();
 
   const handlerSignOut = $(() => {
-    signOut.submit({ callbackUrl: '/' })
-  })
+    signOut.submit({ callbackUrl: "/" });
+  });
   const handlerSignIn = $(() => {
-    signIn.submit({ providerId: 'github', options: { callbackUrl: 'http://localhost:5173/' } })
-  })
+    signIn.submit({
+      providerId: "github",
+      options: { callbackUrl: "http://localhost:5173/" },
+    });
+  });
   return (
     <>
       {/*List */}
@@ -50,17 +55,25 @@ export const ListMenu = component$(() => {
           <details>
             <summary>Auth</summary>
             <ul class="rounded-t-none bg-base-100 p-2">
-              <li class=''>
-                {session.value?.user === undefined &&
+              <li class="">
+                {session.value?.user === undefined && (
                   <button
-                    class='whitespace-nowrap'
-                    onClick$={() => handlerSignIn()}>Sign In</button>}
+                    class="whitespace-nowrap"
+                    onClick$={() => handlerSignIn()}
+                  >
+                    Sign In
+                  </button>
+                )}
               </li>
               <li>
-                {session.value?.user !== undefined &&
+                {session.value?.user !== undefined && (
                   <button
-                    class='whitespace-nowrap'
-                    onClick$={() => handlerSignOut()}>Sign Out</button>}
+                    class="whitespace-nowrap"
+                    onClick$={() => handlerSignOut()}
+                  >
+                    Sign Out
+                  </button>
+                )}
               </li>
             </ul>
           </details>
@@ -135,4 +148,3 @@ export const SideBar = component$(() => {
     </>
   );
 });
-

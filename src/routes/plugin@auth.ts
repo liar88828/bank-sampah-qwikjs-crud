@@ -41,7 +41,7 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
         return true;
       },
       jwt: async ({ token, account, user, profile, session }) => {
-        console.log({ token, user, account, session, profile });
+        // console.log({ token, user, account, session, profile });
         // console.log("called jwt");
         // console.log(profile,'profile');
         // token.id=profile?.id

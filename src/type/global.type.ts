@@ -10,7 +10,6 @@ export type SessionExample = {
   updatedAt: Date;
 };
 
-
 export type Search = {
   search?: string;
   valueSearch: string;
@@ -20,4 +19,14 @@ export type Pagination = {
   pages: number;
   increment: QRL<(this: Pagination) => void>;
   decrement: QRL<(this: Pagination) => void>;
+};
+
+type SessionUser = {
+  user: {
+    name: string;
+    email: string;
+    image: string;
+    id: string;
+  };
+  expires: string;
 };

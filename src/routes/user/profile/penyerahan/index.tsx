@@ -1,28 +1,12 @@
-/*
-// will save
-- riwayat {
-  transaksi
-  pengiriman
-}
-// will write
-- nomor anggota
-- Jenis sampah {
-  nama
-  jenis
-  berat
-}
- 
- */
-
 import { $, component$, useStore } from "@builder.io/qwik";
 import { Form, Link } from "@builder.io/qwik-city";
-import { SampahStore } from "../../../../type/penyerahan-sampah.type";
 import { useCreatePenyerahan, useLoadData } from "./layout";
+import { SampahStore } from "~/type/penyerahan-sampah.type";
 
 export default component$(() => {
   const action = useCreatePenyerahan();
   const {
-    value: { queryData: query, user: selectAnggota },
+    value: { queryData: query },
   } = useLoadData();
 
   const listSampah = useStore<SampahStore>({
@@ -55,55 +39,14 @@ export default component$(() => {
       <Form class="card-body items-center text-center" action={action}>
         <h1 class="card-title">Penyerahan Sampah</h1>
         <div class="flex items-center gap-5">
-          <h1 class="card-title">List Sampah</h1>
           <button
             type="button"
             onClick$={handlerAdd}
             class="btn btn-info btn-sm"
           >
-            Add
+            Add List Sampah
           </button>
         </div>
-        {/* <div class="no-wrap flex bg-base-200 p-5">
-          <label class="form-control">
-            ID Anggota
-            <input
-              //@ts-ignore
-              list="id-user"
-              type="text"
-              class="input input-bordered"
-              name={"id_user"}
-              value={query.id_user || action.formData?.get(`id_user`)}
-            />
-            <datalist id="id-user">
-              {selectAnggota.length !== 0 &&
-                selectAnggota.map((d, i) => (
-                  //@ts-ignore
-                  <option key={d.id} value={d.id}>
-                    {String(d.id)} : {d.nama || ""}
-                  </option>
-                ))}
-            </datalist>
-          </label>
-
-          <label class="form-control" for="status">
-            Status
-            <select class="select select-bordered" name="status">
-              {["SIMPAN", "PROCESS", "SELESAI"].map((d, i) => (
-                <option value={d} key={i}>
-                  {d}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label class="form-control" for="status">
-            <span> .</span>
-            <button type="button" onClick$={handlerAdd} class="btn btn-info">
-              Add
-            </button>
-          </label>
-        </div> */}
 
         {listSampah.list.map((d, i) => (
           <div
@@ -167,7 +110,7 @@ export default component$(() => {
             Create
           </button>
 
-          <Link class="btn btn-warning" href="/work/penyerahan-sampah/">
+          <Link class="btn btn-warning" href="/user/profile">
             Back
           </Link>
         </div>

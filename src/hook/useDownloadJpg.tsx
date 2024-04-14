@@ -1,28 +1,20 @@
-import { $, useId, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { $, useSignal } from "@builder.io/qwik";
 import { toJpeg } from "html-to-image";
 
-export const useDownloadJpg = () => {
+export const useDownload = ({ id }: { id: string }) => {
   const elemIdSignal = useSignal<string | null>(null);
-  const id = useId();
-  const elemId = `${id}-example`;
-  console.log("server-side id:", elemId);
-
-  // eslint-disable-next-line qwik/no-use-visible-task
-  //   useVisibleTask$(({ track }) => {
-  //     track(() => elemId);
-  //     const elem = document.getElementById(elemId);
-  //     elemIdSignal.value = elem?.getAttribute("id") || null;
-  //   });
-
   const handlerDownload = $(() => {
-    const elem = document.getElementById(elemId);
+    // console.log('click')
+    const elem = document.getElementById(id);
     elemIdSignal.value = elem?.getAttribute("id") || null;
 
+    console.log(elem);
     if (!elemIdSignal.value) {
       return;
     }
-    // console.log(elem);
-    toJpeg(elem as any, { quality: 0.95 })
+    toJpeg(elem as any, {
+      quality: 1,
+    })
       .then(function (dataUrl) {
         const link = document.createElement("a");
         link.download = "my-image-name.png";
@@ -31,5 +23,5 @@ export const useDownloadJpg = () => {
       })
       .catch((error) => console.error(error));
   });
-  return { handlerDownload, elemId };
+  return { handlerDownload };
 };

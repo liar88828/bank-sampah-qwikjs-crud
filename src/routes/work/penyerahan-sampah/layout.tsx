@@ -5,11 +5,7 @@ import { user } from "~/db/users";
 import { works } from "~/db/work";
 
 export default component$(() => {
-  return (
-    <>
-      <Slot />
-    </>
-  );
+  return <Slot />;
 });
 
 export const useGetSession = routeLoader$(async () => {

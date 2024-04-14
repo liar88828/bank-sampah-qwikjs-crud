@@ -18,7 +18,7 @@ export const TransaksiSampah = component$(
     const totalHarga = getTotal("total_harga");
 
     return (
-      <section>
+      <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">
         <div class="mb-2 flex items-center justify-between gap-2">
           <h2 class="text-xl font-bold">Transaksi Sampah</h2>
           <h2 class="text-lg font-semibold">Total Berat : {totalBerat}</h2>
