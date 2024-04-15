@@ -18,13 +18,11 @@ export const Transaksi = component$(({ data }: { data: ProfileProps }) => {
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
         return (
-          <div class="rounded-t-lg bg-white p-5 sm:rounded-lg sm:shadow ">
-            <div class="space-y-5">
-              <TransaksiSampah
-                data={data.totalTransaksiSampah as TransaksiSampahProps}
-              />
-              <TotalMaterial data={data.totalMaterial as TotalMaterialProps} />
-            </div>
+          <div class="space-y-5">
+            <TransaksiSampah
+              data={data.totalTransaksiSampah as TransaksiSampahProps}
+            />
+            <TotalMaterial data={data.totalMaterial as TotalMaterialProps} />
           </div>
         );
       }}

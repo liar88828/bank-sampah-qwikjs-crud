@@ -1,13 +1,8 @@
 import { Session } from "@auth/core/types";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { user } from "~/db/users";
-import { Slot, component$ } from "@builder.io/qwik";
 import { works } from "~/db/work";
 import { PropsProfile } from "~/type/user";
-
-export default component$(() => {
-  return <Slot />;
-});
 
 export const useLoaderData = routeLoader$(
   async ({ resolveValue, sharedMap, redirect }) => {

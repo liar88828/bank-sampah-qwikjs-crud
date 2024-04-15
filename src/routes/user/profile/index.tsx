@@ -11,7 +11,7 @@ import {
 export default component$(() => {
   const loadData = useLoaderData();
   return (
-    <div>
+    <div class="container">
       <Resource
         value={loadData}
         onPending={() => <span class="loading loading-spinner"></span>}
@@ -26,7 +26,7 @@ export const Profile = component$(
   ({ data: { user, point } }: { data: PropsProfile }) => {
     // console.log(data, 'profile')
     return (
-      <div class="card static bg-base-200 ">
+      <div class="card static bg-base-100 ">
         <div class="card-body">
           <div class="px-4 py-5 sm:px-6">
             <h2 class="card-title">User Profile</h2>

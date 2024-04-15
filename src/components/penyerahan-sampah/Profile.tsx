@@ -4,7 +4,7 @@ import { Link } from "@builder.io/qwik-city";
 
 export const Profile = component$(({ data }: { data: ProfileProps }) => {
   return (
-    <div class="rounded-lg bg-white p-5 shadow">
+    <div class="rounded-lg bg-base-100 p-5 shadow">
       <div class="flex flex-col items-center">
         <img
           height={20}

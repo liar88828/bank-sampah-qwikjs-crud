@@ -47,7 +47,7 @@ export default component$(() => {
   return (
     <>
       <Navbar />
-      <div class=" bg-base-300 min-h-screen  pt-5">
+      <div class=" bg-base-300 min-h-screen  py-5">
         <Slot />
       </div>
     </>

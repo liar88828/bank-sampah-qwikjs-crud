@@ -36,26 +36,14 @@ export default component$(() => {
 
   return (
     <section class="container">
-      <div class="card static bg-base-300 ">
+      <div class="card static bg-base-100 ">
         <Form class="card-body items-center text-center" action={action}>
           <h1 class="card-title">Penyerahan Sampah</h1>
-          <div class="flex items-center gap-5">
-            <button
-              type="button"
-              onClick$={handlerAdd}
-              class="btn btn-info btn-sm"
-            >
-              Add List Sampah
-            </button>
-          </div>
 
           {listSampah.list.map((d, i) => (
-            <div key={d.id} class="rounded bg-base-100  p-2 ">
+            <div key={d.id} class="rounded bg-base-200  p-5 ">
               <div class="text-left">
-                <span class='badge badge-primary'>
-
-                List : {i + 1}
-                </span>
+                <span class="badge badge-primary">List : {i + 1}</span>
               </div>
               <div class="flex flex-wrap justify-center gap-2 sm:justify-normal">
                 <label class="form-control">
@@ -108,13 +96,25 @@ export default component$(() => {
           ))}
 
           <div class="card-actions">
+
+          <Link class="btn btn-warning" href="/user/profile">
+              Back
+            </Link>
+
+            {/* <div class="flex items-center gap-5"> */}
+            <button
+              type="button"
+              onClick$={handlerAdd}
+              class="btn btn-info "
+            >
+              Add List
+            </button>
+            {/* </div> */}
+
             <button type="submit" class="btn btn-success">
               Create
             </button>
 
-            <Link class="btn btn-warning" href="/user/profile">
-              Back
-            </Link>
           </div>
         </Form>
       </div>

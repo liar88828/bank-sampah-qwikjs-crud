@@ -13,13 +13,13 @@ export const Riwayat = component$(() => {
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
         return (
-          <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">
+          <section class="rounded bg-base-100 p-5 shadow ">
             <div class="mb-2 flex items-center justify-between gap-2">
               <h2 class="text-xl font-bold">Riwayat Penukaran</h2>
             </div>
 
-            <div class="overflow-x-auto  bg-base-100 shadow-lg ">
-              <table class="table table-zebra table-xs static  rounded ">
+            <div class="overflow-x-auto   ">
+              <table class="table table-zebra table-xs static  rounded border">
                 <thead>
                   <tr>
                     <th>No</th>

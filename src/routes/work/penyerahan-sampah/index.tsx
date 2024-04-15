@@ -10,31 +10,29 @@ export default component$(() => {
   const dataLoad = useLoadPenyerahan();
 
   return (
-    <section class=" container rounded bg-base-300 p-5">
+    <section class=" container ">
       <Resource
         value={dataLoad}
         onPending={() => <span class="loading loading-spinner"></span>}
         onRejected={() => <span>Error</span>}
         onResolved={(data) => (
-          <>
-            <div class="grid-rows-1 sm:grid  sm:space-y-5 ">
-              <div class="row-span-1">
-                <div class="grid gap-5 sm:grid-cols-3">
-                  <div class="sm:col-span-1   ">
-                    <Profile data={data as ProfileProps} />
-                  </div>
+          <div class="grid-rows-1 sm:grid  sm:space-y-5 ">
+            <div class="row-span-1">
+              <div class="grid gap-5 sm:grid-cols-3">
+                <div class="sm:col-span-1   ">
+                  <Profile data={data as ProfileProps} />
+                </div>
 
-                  <div class="sm:col-span-2   ">
-                    <Transaksi data={data as ProfileProps} />
-                  </div>
+                <div class="sm:col-span-2   ">
+                  <Transaksi data={data as ProfileProps} />
                 </div>
               </div>
-
-              <div class="row-span-1 ">
-                <Riwayat />
-              </div>
             </div>
-          </>
+
+            <div class="row-span-1 mt-5 sm:mt-0">
+              <Riwayat />
+            </div>
+          </div>
         )}
       />
     </section>

@@ -22,7 +22,7 @@ export const MaterialWarehouse = component$(() => {
   // console.log(datasWithPercentage);
   return (
     <>
-      <div class="rounded bg-base-300 p-5  shadow  shadow-gray-400">
+      <div class="rounded bg-base-100 p-5  shadow  shadow-gray-400">
         <h1 class="text-xl font-bold">Material Warehouse</h1>
         <div class="overflow-x-auto">
           <table class="table table-xs static sm:table-sm md:table-md ">

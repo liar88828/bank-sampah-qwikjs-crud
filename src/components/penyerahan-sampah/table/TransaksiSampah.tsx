@@ -1,10 +1,12 @@
 import { component$ } from "@builder.io/qwik";
 import { Pagination } from "~/components/basic/pagination";
-import { TestData, TransaksiSampahProps } from "../../../type/penyerahan-sampah.type";
-
+import {
+  TestData,
+  TransaksiSampahProps,
+} from "../../../type/penyerahan-sampah.type";
 
 export const TransaksiSampah = component$(
-  ({ data }: { data: TransaksiSampahProps; }) => {
+  ({ data }: { data: TransaksiSampahProps }) => {
     const getTotal = (list: TestData) => {
       return data.reduce((acc, curr: any) => {
         if (!curr?.[list]) {
@@ -18,15 +20,15 @@ export const TransaksiSampah = component$(
     const totalHarga = getTotal("total_harga");
 
     return (
-      <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">
+      <section class="rounded  bg-base-100 p-5 shadow  ">
         <div class="mb-2 flex items-center justify-between gap-2">
           <h2 class="text-xl font-bold">Transaksi Sampah</h2>
           <h2 class="text-lg font-semibold">Total Berat : {totalBerat}</h2>
           <h2 class="text-lg font-semibold">Total Harga : {totalHarga}</h2>
         </div>
 
-        <div class="overflow-x-auto  bg-base-100 shadow-lg">
-          <table class="table table-zebra table-xs static  rounded ">
+        <div class="overflow-x-auto   ">
+          <table class="table table-zebra table-xs static  rounded border ">
             <thead>
               <tr>
                 <th>No</th>
@@ -70,5 +72,5 @@ export const TransaksiSampah = component$(
         </div>
       </section>
     );
-  }
+  },
 );

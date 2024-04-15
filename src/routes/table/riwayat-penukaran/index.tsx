@@ -28,7 +28,7 @@ export default component$(() => {
   const deleteData = useDeleteOnly();
 
   return (
-    <section class="container bg-base-300 p-5">
+    <section class="container bg-base-100 p-5 rounded">
       <div class="mb-2 flex items-center gap-2">
         <h1>Riwayat Penukaran's directory</h1>
         <Link
@@ -45,7 +45,7 @@ export default component$(() => {
         onRejected={() => <span>Error</span>}
         onResolved={(data) => (
           <div class="overflow-x-auto">
-            <table class="table table-zebra table-xs static  rounded ">
+            <table class="table table-zebra table-xs static  rounded  border">
               <thead>
                 <tr>
                   <th>No</th>
@@ -54,13 +54,13 @@ export default component$(() => {
                   <th>Opsi Penukaran</th>
                 </tr>
               </thead>
-              <tbody>
+            <tbody>
                 {data.map((d, i) => (
                   <tr key={d.id}>
                     <th>{i + 1}</th>
                     <td>{getDate(d.tgl_tukar)}</td>
                     <td>
-                      {d.id_user} {d.User?.nama}
+                      {d.id_user_penukaran} {d.User?.nama}
                     </td>
                     <td>
                       {d.id_opsi_penukaran} {d.Opsi_Penukaran?.deskripsi}

@@ -9,7 +9,7 @@ export const Status = component$(() => {
       {/* <div class="flex gap-2 flex-col"> */}
       <div class="grid grid-cols-1 gap-5  sm:grid-cols-2 sm:gap-5 md:grid-cols-4 ">
         <>
-          <div class=" flex  justify-between rounded bg-base-200 px-10 py-5  shadow shadow-gray-400 sm:px-5 ">
+          <div class=" flex  justify-between rounded bg-base-100 px-10 py-5  shadow shadow-gray-400 sm:px-5 ">
             <div class=" flex flex-col justify-between">
               <h1 class="whitespace-nowrap font-semibold">Week Sales</h1>
               <p class="text-2xl font-bold">$47k</p>
@@ -22,7 +22,7 @@ export const Status = component$(() => {
         </>
 
         <>
-          <div class="flex justify-between rounded bg-base-200 px-10 py-5 shadow shadow-gray-400 md:p-5">
+          <div class="flex justify-between rounded bg-base-100 px-10 py-5 shadow shadow-gray-400 md:p-5">
             <div class="flex flex-col justify-between">
               <h1 class="whitespace-nowrap font-semibold">Total Order</h1>
               <p class="text-2xl font-bold">85.4k</p>
@@ -35,7 +35,7 @@ export const Status = component$(() => {
         </>
 
         <>
-          <div class="flex justify-between rounded bg-base-200  px-10 py-5 shadow shadow-gray-400 md:p-5">
+          <div class="flex justify-between rounded bg-base-100  px-10 py-5 shadow shadow-gray-400 md:p-5">
             <div class="">
               <h1 class="whitespace-nowrap font-semibold">Market Share</h1>
               <ul class="mt-1 space-y-1 text-xs">
@@ -59,7 +59,7 @@ export const Status = component$(() => {
         </>
 
         <>
-          <div class="flex justify-between rounded bg-base-200 px-10 py-5 shadow shadow-gray-400 md:p-5">
+          <div class="flex justify-between rounded bg-base-100 px-10 py-5 shadow shadow-gray-400 md:p-5">
             <div class="flex flex-col justify-between">
               <h1 class="whitespace-nowrap font-semibold">Total Order</h1>
               <p class="text-2xl font-bold">85.4k</p>
