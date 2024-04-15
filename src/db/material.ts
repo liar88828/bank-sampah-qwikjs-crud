@@ -25,20 +25,6 @@ class Material implements IPrismaOperator<TMaterial> {
   };
 
   findAllSearch = async (searchData: TSearchData) => {
-    // let search: { OR?: { jenis?: string; nama?: string }[] } = {};
-
-    // if (searchData.nama) {
-    //   search.OR = search.OR || [];
-    //   search.OR.push({ nama: { contains: searchData.nama } });
-    // }
-
-    // if (searchData.jenis) {
-    //   search.OR = search.OR || [];
-    //   search.OR.push({ jenis: { contains: searchData.jenis } });
-    // }
-    // const res = await prisma.material.findMany({
-    //   where: search,
-    // });
     const where = {} as Prisma.MaterialWhereInput;
 
     if (searchData.nama) {
@@ -53,8 +39,37 @@ class Material implements IPrismaOperator<TMaterial> {
     // console.log(where);
     const res = await prisma.material.findMany({ where });
     return res;
+
+    // let search: { OR?: { jenis?: string; nama?: string }[] } = {};
+
+    // if (searchData.nama) {
+    //   search.OR = search.OR || [];
+    //   search.OR.push({ nama: { contains: searchData.nama } });
+    // }
+
+    // if (searchData.jenis) {
+    //   search.OR = search.OR || [];
+    //   search.OR.push({ jenis: { contains: searchData.jenis } });
+    // }
+    // const res = await prisma.material.findMany({
+    //   where: search,
+    // });
+  };
+
+  findMaterial = async () => {
+    return prisma.material.groupBy({
+      by: ["jenis"],
+      _sum: {
+        berat: true,
+      },
+    });
   };
   findGroup = async (search: TSearchData) => {
+    return {
+      group: await this.findMaterial(),
+      load: await this.findAllSearch(search),
+    };
+
     // console.log(search);
     // const res = await prisma.material.groupBy({
     //   by: "jenis",
@@ -64,17 +79,6 @@ class Material implements IPrismaOperator<TMaterial> {
     //     id_sampahTransaksi: true,
     //   },
     // });
-    const res = await prisma.material.groupBy({
-      by: ["jenis"],
-      _sum: {
-        berat: true,
-      },
-    });
-
-    return {
-      group: res,
-      load: await this.findAllSearch(search),
-    };
   };
 
   findId = async (id: number) => {

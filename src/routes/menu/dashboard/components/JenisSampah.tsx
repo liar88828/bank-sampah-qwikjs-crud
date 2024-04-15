@@ -1,64 +1,50 @@
-import { Resource, component$ } from "@builder.io/qwik";
-import { useDataGroup } from "../../page";
+import { component$ } from "@builder.io/qwik";
 import { useNavigate } from "@builder.io/qwik-city";
+import { PropsMaterialSelect } from "./PropsMaterialSelect";
 
-// const datas = [
-//   { name: "Aaron", city: "Syria", size: 823 },
-//   { name: "Eddie", city: "Tuvalu", size: 918 },
-//   { name: "Roy", city: "Iraq", size: 110 },
-//   { name: "sd", city: "Iraq", size: 110 },
-//   { name: "Linnie", city: "Ecuador", size: 644 },
-//   { name: "Jordan", city: "Algeria", size: 913 },
-// ];
-type dataProps = {
-  jenis: string;
-  _sum: {
-    berat: number | null;
-  };
-}[];
-export const JenisSampah = component$(({ data }: { data: dataProps }) => {
-  // const datas = useDataGroup();
-  const nav = useNavigate();
-  // console.log(data);
+export const JenisSampah = component$(
+  ({ data }: { data: PropsMaterialSelect }) => {
+    const nav = useNavigate();
 
-  const totalBerat = data
-    .map((d) => d._sum.berat)
-    .reduce((a, b) => {
-      if (a !== null) {
-        if (b) return a + b
-      }
-      return a
-    }, 0);
+    const totalBerat = data
+      .map((d) => d._sum.berat)
+      .reduce((a, b) => {
+        if (a !== null) {
+          if (b) return a + b;
+        }
+        return a;
+      }, 0);
 
-  return (
-    <div class="flex flex-row gap-5">
-      <button
-        type="button"
-        class="btn btn-info"
-        onClick$={() => nav("/menu/page?jenis=")}
-      >
-        <div class="flex items-center text-xl font-bold">
-          <span>All</span>
-          <span class="badge badge-neutral">{totalBerat}</span>
-        </div>
-      </button>
-      
-      {data.map((d,i) => (
+    return (
+      <div class="flex flex-row gap-5">
         <button
-          key={d.jenis + d._sum.berat+i}
           type="button"
           class="btn btn-info"
-          onClick$={() => nav("/menu/page?jenis=" + d.jenis)}
+          onClick$={() => nav("/menu/page?jenis=")}
         >
           <div class="flex items-center text-xl font-bold">
-            <span>{d.jenis}</span>
-            <span class="badge badge-neutral">{d._sum.berat}</span>
+            <span>All</span>
+            <span class="badge badge-neutral">{totalBerat}</span>
           </div>
         </button>
-      ))}
-    </div>
-  );
-});
+
+        {data.map((d, i) => (
+          <button
+            key={d.jenis + d._sum.berat + i}
+            type="button"
+            class="btn btn-info"
+            onClick$={() => nav("/menu/page?jenis=" + d.jenis)}
+          >
+            <div class="flex items-center text-xl font-bold">
+              <span>{d.jenis}</span>
+              <span class="badge badge-neutral">{d._sum.berat}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+    );
+  },
+);
 {
   /* <>
 <div class="rounded bg-base-300 p-5  shadow  shadow-gray-400">

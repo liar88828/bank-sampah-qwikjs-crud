@@ -1,7 +1,9 @@
 import {
-  LuHome, LuPieChart,
+  LuAppWindow,
+  LuHome,
+  LuPieChart,
   LuStickyNote,
-  LuUser
+  LuUser,
 } from "@qwikest/icons/lucide";
 
 export const listMenu = [
@@ -25,6 +27,18 @@ export const listMenu = [
   {
     href: "/menu/page/",
     text: "Page",
-    icon: <LuStickyNote font-size={25} class="inline-block h-6 w-6 stroke-current" />,
+    icon: (
+      <LuStickyNote
+        font-size={25}
+        class="inline-block h-6 w-6 stroke-current"
+      />
+    ),
   },
+  // {
+  //   href: "/menu/beranda/",
+  //   text: "Beranda",
+  //   icon: (
+  //     <LuAppWindow font-size={25} class="inline-block h-6 w-6 stroke-current" />
+  //   ),
+  // },
 ];

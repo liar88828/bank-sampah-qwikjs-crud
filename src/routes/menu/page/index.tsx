@@ -1,27 +1,10 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
-import { TSearchData, material } from "~/db/material";
 import { NasabahActive } from "./component/NasabahActive";
 import { MaterialSampah } from "./component/MaterialSampah";
 
-
-export const useLoadMaterial = routeLoader$(({ query }) => {
-  const search: TSearchData = {
-    jenis: query.get('jenis') || '',
-    nama: query.get('nama') || ''
-  }
-  return material.findGroup(search);
-});
-
-// export const useLoadUser = routeLoader$(({ query }) => {
-//   const nama = query.get('user') || ''
-//   return user.findSearch(nama);
-// })
-
-
 export default component$(() => {
   return (
-    <section class=" container rounded bg-base-300 p-5">
+    <section class=" container ">
       <div class="space-y-5">
         <NasabahActive />
 

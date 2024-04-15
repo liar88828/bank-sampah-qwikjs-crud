@@ -1,102 +1,170 @@
-import { Resource, component$, useSignal } from "@builder.io/qwik";
-import { useLoadMaterial } from "..";
-import { JenisSampah } from "../../dashboard/components/JenisSampah";
-import { useNavigate } from "@builder.io/qwik-city";
+import { Resource, component$, useStore } from "@builder.io/qwik";
+import { useLoadMaterial, useActionMaterial } from "../layout";
+import { LuSearch } from "@qwikest/icons/lucide";
 
 export const MaterialSampah = component$(() => {
-  const datas = useLoadMaterial();
-  const nav = useNavigate();
-  const nama = useSignal('')
-  // console.log(datasWithPercentage);
+  const actionMaterial = useActionMaterial();
+  const loadData = useLoadMaterial();
+  const storeData = useStore({
+    jenis: "",
+    search: "",
+    page: 0,
+  });
+
   return (
-    <>
-      <Resource
-        value={datas}
-        onPending={() => <span class="loading loading-spinner"></span>}
-        onRejected={() => <span>Error</span>}
-        onResolved={(data) => {
-          // const total = datas.flatMap((d) => d.size).reduce((a, b) => a + b, 0);
+    <Resource
+      value={loadData}
+      onPending={() => <span class="loading loading-spinner"></span>}
+      onRejected={() => <span>Error</span>}
+      onResolved={(data) => {
+        // console.log(storeData, "storeData");
+        const lengthData = data.searchMaterial.length === 0;
+        return (
+          <div class="rounded-lg bg-base-100 p-5 shadow">
+            <div class="gap-5 sm:flex">
+              <h1 class="text-md font-bold sm:text-xl ">Sampah Material</h1>
+              <div class="flex items-center ">
+                <input
+                  type="text"
+                  class="input input-xs input-bordered sm:input-md"
+                  value={storeData.search}
+                  placeholder="Cari Nama : Alex...."
+                  onInput$={(_, el) => (storeData.search = el.value)}
+                />
 
-          return (
-            <>
-              <div class="rounded-lg bg-base-100 p-5 shadow">
-                <div class='flex items-center gap-5'>
-                  <h1 class="text-xl font-bold">Sampah Material</h1>
-                  <JenisSampah data={data.group} />
+                <button
+                  class="btn btn-info btn-xs sm:btn-md"
+                  onClick$={() => {
+                    storeData.jenis = "";
+                    storeData.page = 0;
+                    actionMaterial.submit({
+                      search: storeData.search,
+                      jenis: storeData.jenis,
+                      page: storeData.page,
+                    });
+                  }}
+                >
+                  <LuSearch />
+                </button>
+              </div>
+              {/* <JenisSampah data={data.loadMaterial.group} /> */}
 
-                  <div class="flex items-center gap-5">
-                    <input
-                      type="text"
-                      class='input input-bordered'
-                      bind:value={nama} />
+              {/* <div class="flex items-center gap-5">
+                <input
+                  type="text"
+                  class="input input-bordered"
+                  bind:value={nama}
+                />
 
-                    <button class='btn btn-info'
-                      onClick$={() => nav("/menu/page?nama=" + nama.value)}>
-                      Search
-                    </button>
-                  </div>
+                <button
+                  class="btn btn-info"
+                  onClick$={() => nav("/menu/page?nama=" + nama.value)}
+                >
+                  Search
+                </button>
+              </div> */}
+            </div>
+            <div class="overflow-x-auto">
+              <table class="table table-xs static sm:table-sm md:table-md ">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>id</th>
+                    <th>Nama</th>
+                    <th>Berat</th>
+                    <th>Jenis</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
 
-                </div>
-                <div class="overflow-x-auto">
-                  <table class="table table-xs static sm:table-sm md:table-md ">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>id</th>
-                        <th>Nama</th>
-                        <th>Berat</th>
-                        <th>Jenis</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* row 1 */}
-                      {data.load.map((d, i) => (
-                        <tr key={d.id}>
-                          <td>{i + 1}</td>
-                          <td>{d.id}</td>
-                          <td>{d.nama}</td>
-                          <td>{d.jenis}</td>
-                          <td>{d.berat}Kg</td>
-                          <th>
-                            <button class="btn btn-info btn-sm">details</button>
-                          </th>
-                        </tr>
-                      ))}
-                    </tbody>
-                    {/* foot */}
-                    {/* <tfoot>
-                    <tr>
-                      <th
-                      // colSpan={2}
-                      >
-                        <div class="join">
-                          <button class="btn join-item btn-sm">«</button>
-                          <button class="btn join-item btn-sm">Page 22</button>
-                          <button class="btn join-item btn-sm">»</button>
-                        </div>
-                      </th>
-                      <th
-                      // colSpan={2}
-                      >
-                        <select class="select select-bordered select-sm w-full max-w-xs">
-                          <option disabled selected>
-                            Who shot first?
-                          </option>
-                          <option>Han Solo</option>
-                          <option>Greedo</option>
-                        </select>
+                <tbody>
+                  {data.searchMaterial.map((d, i) => (
+                    <tr key={d.id}>
+                      <td>{i + 1}</td>
+                      <td>{d.id}</td>
+                      <td>{d.nama}</td>
+                      <td>{d.jenis}</td>
+                      <td>{d.berat}Kg</td>
+                      <th>
+                        <button class="btn btn-info btn-xs">details</button>
                       </th>
                     </tr>
-                  </tfoot> */}
-                  </table>
-                </div>
-              </div>
-            </>
-          );
-        }}
-      />
-    </>
+                  ))}
+                </tbody>
+
+                <tfoot>
+                  <tr>
+                    <th colSpan={3}>
+                      <div class="join">
+                        <button
+                          class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
+                          onClick$={() => {
+                            // cannot be less than 0
+                            if (storeData.page > 0) {
+                              storeData.page--;
+                              actionMaterial.submit({
+                                search: storeData.search,
+                                jenis: storeData.jenis,
+                                page: storeData.page,
+                              });
+                            }
+                          }}
+                        >
+                          «
+                        </button>
+                        <button class="btn join-item btn-sm">
+                          Page {storeData.page}
+                        </button>
+                        <button
+                          class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
+                          onClick$={() => {
+                            // when data search leng is 0
+                            if (!lengthData) {
+                              storeData.page++;
+                              actionMaterial.submit({
+                                search: storeData.search,
+                                jenis: storeData.jenis,
+                                page: storeData.page,
+                              });
+                            }
+                          }}
+                        >
+                          »
+                        </button>
+                      </div>
+                    </th>
+                    <th colSpan={3}>
+                      <select
+                        class="select select-bordered select-sm w-full max-w-xs"
+                        onChange$={(_, el) => {
+                          storeData.jenis = el.value;
+                          actionMaterial.submit({
+                            search: storeData.search,
+                            jenis: el.value,
+                            page: storeData.page,
+                          });
+                        }}
+                      >
+                        <option disabled selected>
+                          Select Material
+                        </option>
+                        {data.selectMaterial.jenisMaterial.map((d) => (
+                          // @ts-ignore
+                          <option key={d.jenis} value={d.jenis}>
+                            {d.jenis} {String(d._count.jenis)}
+                          </option>
+                        ))}
+                      </select>
+                    </th>
+                  </tr>
+                </tfoot>
+                {/*  */}
+              </table>
+            </div>
+          </div>
+        );
+      }}
+    />
   );
 });

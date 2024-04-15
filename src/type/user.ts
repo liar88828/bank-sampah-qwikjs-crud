@@ -1,5 +1,5 @@
+import { LoaderRiwayat_Penukaran } from "./riwayatPenukaran.type";
 import { TTransaksi } from "./transaksi.type";
-import { TRiwayat_Penukaran } from "./riwayatPenukaran.type";
 
 
 export type UserProfile={
@@ -28,5 +28,5 @@ export type User_Relasional = {
   email: string;
 
   Transaksi: TTransaksi[];
-  Riwayat: TRiwayat_Penukaran[];
+  Riwayat: LoaderRiwayat_Penukaran[];
 };

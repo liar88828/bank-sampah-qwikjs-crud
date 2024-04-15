@@ -39,7 +39,7 @@ export const useCreatePenyerahan = routeAction$(
       id_user: Number(session.user.id),
       status: "SIMPAN",
     };
-    // console.log({ session, newData });
+
     const res = await works.penyerahanSampah(newData);
 
     console.log(res);

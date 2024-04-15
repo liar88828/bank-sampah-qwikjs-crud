@@ -13,7 +13,7 @@ import { listWork } from "~/assets/listWork";
 
 export const Navbar = component$(() => {
   return (
-    <div class="navbar bg-base-200">
+    <div class="navbar bg-base-100">
       <div class="navbar-start">
         <SideBar />
       </div>
@@ -47,9 +47,9 @@ export const ListMenu = component$(() => {
     <>
       {/*List */}
       <ul class="menu menu-horizontal flex justify-end px-1">
-        <li>
+        {/* <li>
           <Link href={"/"}>Link</Link>
-        </li>
+        </li> */}
         <li>
           <details>
             <summary>Auth</summary>

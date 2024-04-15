@@ -47,7 +47,7 @@ export default component$(() => {
   return (
     <>
       <Navbar />
-      <div class="flex min-h-full items-center justify-center p-10 ">
+      <div class=" bg-base-300 min-h-screen  pt-5">
         <Slot />
       </div>
     </>
