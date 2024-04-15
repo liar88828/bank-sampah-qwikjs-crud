@@ -1,64 +1,51 @@
-import { Resource, component$, useResource$ } from "@builder.io/qwik";
+import { Resource, component$, useStore } from "@builder.io/qwik";
 import { LuSearch } from "@qwikest/icons/lucide";
-import { useSearch } from "../../../../hook/useSearch";
-import { usePagination } from "../../../../hook/usePagination";
-import { UserProfile } from "~/type/user";
-import { useLoadNasabah } from "../layout";
+import { useActionNasabah, useLoadNasabah } from "../layout";
+import { Link } from "@builder.io/qwik-city";
 
 export const NasabahActive = component$(() => {
-  const testLoad = useLoadNasabah();
-  const search = useSearch();
-  const pagination = usePagination();
-  // console.log(testLoad.value);
-  const dataLoad = useResource$<UserProfile[]>(async ({ track, cleanup }) => {
-    track(() => {
-      return [search.valueSearch, pagination.pages];
-    });
-
-    const abortController = new AbortController();
-    cleanup(() => abortController.abort("cleanup"));
-
-    let pageSearch =
-      search.valueSearch.length > 0 ? "0" : String(pagination.pages);
-
-    // console.log(search.valueSearch.length > 0)
-
-    const url = new URL("http://localhost:5173/api/nasabah");
-    url.searchParams.set("name", search.valueSearch);
-    url.searchParams.set("page", pageSearch);
-    // console.log(url.search);
-    const res = await fetch(url);
-    const json = await res.json();
-    return json.data;
+  const actionMaterial = useActionNasabah();
+  const loadData = useLoadNasabah();
+  const storeData = useStore({
+    search: "",
+    page: 0,
   });
 
   return (
-    <div class="rounded-lg bg-base-100 p-5 shadow">
-      <div class="gap-5 sm:flex">
-        <h1 class="text-md font-bold sm:text-xl ">Nasabah Users </h1>
-        <div class="flex items-center ">
-          <input
-            type="text"
-            class="input input-xs input-bordered sm:input-md"
-            value={search.search}
-            placeholder="Cari Nama : Alex...."
-            onInput$={(_, el) => (search.search = el.value)}
-          />
+    <Resource
+      value={loadData}
+      onPending={() => <span class="loading loading-spinner"></span>}
+      onRejected={() => <span>Error</span>}
+      onResolved={(data) => {
+        const lengthData = data.searchNasabah.length === 0;
+        return (
+          <div class="rounded-lg bg-base-100 p-5 shadow">
+            <div class="gap-5 sm:flex">
+              <h1 class="text-md font-bold sm:text-xl ">Nasabah Users </h1>
+              <div class="flex items-center ">
+                <input
+                  type="text"
+                  class="input input-xs input-bordered sm:input-md"
+                  value={storeData.search}
+                  placeholder="Cari Nama : Alex...."
+                  onInput$={(_, el) => (storeData.search = el.value)}
+                />
 
-          <button
-            class="btn btn-info btn-xs sm:btn-md"
-            onClick$={() => search.goSearch()}
-          >
-            <LuSearch />
-          </button>
-        </div>
-      </div>
-      <Resource
-        value={dataLoad}
-        onPending={() => <span class="loading loading-spinner"></span>}
-        onRejected={() => <span>Error</span>}
-        onResolved={(data) => {
-          return (
+                <button
+                  class="btn btn-info btn-xs sm:btn-md"
+                  onClick$={() => {
+                    storeData.page = 0;
+                    actionMaterial.submit({
+                      search: storeData.search,
+                      page: storeData.page,
+                    });
+                  }}
+                >
+                  <LuSearch />
+                </button>
+              </div>
+            </div>
+
             <div class="overflow-x-auto">
               <table class="table table-xs static sm:table-sm md:table-md ">
                 {/* head */}
@@ -75,27 +62,18 @@ export const NasabahActive = component$(() => {
                 </thead>
 
                 <tbody>
-                  {data.map((d, i) => (
+                  {data.searchNasabah.map((d, i) => (
                     <tr key={d.nama}>
                       <td>{i + 1}</td>
-                      <td class="gap flex items-center">
-                        <div class="avatar static  ">{d.id}</div>
-                      </td>
+                      <td>{d.id}</td>
+                      <td>{d.nama}</td>
+                      <td>{d.alamat}</td>
+                      <td>{d.no_hp}</td>
+                      <td>{d.email}</td>
                       <td>
-                        <div class=" text-lg "> {d.nama} </div>
-                      </td>
-                      <td>
-                        <div class="">{d.alamat}</div>
-                      </td>
-                      <td>
-                        <div class="whitespace-nowrap text-sm">{d.no_hp}</div>
-                      </td>
-                      <td>
-                        <div>{d.email}</div>
-                      </td>
-
-                      <td>
-                        <div class="btn btn-info  btn-sm">Info</div>
+                        <Link
+                        href={`${d.id}`}
+                        class="btn btn-info  btn-sm">details</Link>
                       </td>
                     </tr>
                   ))}
@@ -106,29 +84,41 @@ export const NasabahActive = component$(() => {
                     <th colSpan={2}>
                       <div class="join">
                         <button
-                          class="btn join-item btn-sm"
+                          class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
                           onClick$={() => {
-                            pagination.decrement();
-                            search.valueSearch = "";
+                            // cannot be less than 0
+                            if (storeData.page > 0) {
+                              storeData.page--;
+                              actionMaterial.submit({
+                                search: storeData.search,
+                                page: storeData.page,
+                              });
+                            }
                           }}
                         >
                           «
                         </button>
                         <button class="btn join-item btn-sm">
-                          Page {pagination.pages}
+                          Page {storeData.page}
                         </button>
                         <button
-                          class="btn join-item btn-sm"
+                          class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
                           onClick$={() => {
-                            pagination.increment();
-                            search.valueSearch = "";
+                            // when data search leng is 0
+                            if (!lengthData) {
+                              storeData.page++;
+                              actionMaterial.submit({
+                                search: storeData.search,
+                                page: storeData.page,
+                              });
+                            }
                           }}
                         >
                           »
                         </button>
                       </div>
                     </th>
-                    <th colSpan={2}>
+                    {/* <th colSpan={2}>
                       <select class="select select-bordered select-sm w-full max-w-xs">
                         <option disabled selected>
                           Who shot first?
@@ -136,14 +126,14 @@ export const NasabahActive = component$(() => {
                         <option>Han Solo</option>
                         <option>Greedo</option>
                       </select>
-                    </th>
+                    </th> */}
                   </tr>
                 </tfoot>
               </table>
             </div>
-          );
-        }}
-      />
-    </div>
+          </div>
+        );
+      }}
+    />
   );
 });

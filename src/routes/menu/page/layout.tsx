@@ -1,57 +1,13 @@
-import {
-  RequestHandler,
-  routeAction$,
-  routeLoader$,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
+import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { prisma } from "~/config/prisma";
-import { TSearchData, material } from "~/db/material";
-import { user } from "~/db/users";
-
-export const useMaterialSelect = routeLoader$(async ({ params }) => {
-  const jenis = await prisma.material.groupBy({
-    by: "jenis",
-    _sum: {
-      berat: true,
-    },
-    _count: {
-      jenis: true,
-    },
-  });
-
-  // const jumlah=await prisma.material.count({
-  // })
-  return {
-    jenisMaterial: jenis,
-    // jumlahMaterial: jumlah,
-  };
-});
-export const onRequest: RequestHandler = async ({ json, query, sharedMap }) => {
-  const nama = query.get("name") || "";
-  const page = Number(query.get("page")) || 0;
-
-  const limit = 10;
-  const pages = page * 10;
-
-  const res = await user.findSearchPage(nama, pages, limit);
-  sharedMap.set("res", res);
-};
-
-export const useLoadNasabah = routeLoader$(async ({ url, sharedMap }) => {
-  const res = sharedMap.get("res");
-  //   console.log(res);
-
-  return "test";
-});
-
-export const useLoadMaterial = routeLoader$(async ({ query, resolveValue }) => {
-  const selectMaterial = await resolveValue(useMaterialSelect);
+import { material } from "~/db/material";
+import { TSearchData } from "~/type/material.type";
+// ------------- Material
+export const useLoadMaterial = routeLoader$(async ({ resolveValue }) => {
+  const selectMaterial = await resolveValue(useSelectMaterial);
   const searchMaterial = await resolveValue(useSearchMaterial);
-  const groupMaterial = await resolveValue(useMaterialGroup);
 
   return {
-    loadMaterial: groupMaterial,
     searchMaterial: searchMaterial,
     selectMaterial: selectMaterial,
   };
@@ -78,24 +34,14 @@ export const useActionMaterial = routeAction$(
 );
 
 export const useSearchMaterial = routeLoader$(async ({ sharedMap }) => {
-  const search = sharedMap.get("search")||'';
+  const search = sharedMap.get("search") || "";
   const jenis = sharedMap.get("jenis") || "";
-  const page = sharedMap.get("page")||0;
-
+  const page = sharedMap.get("page") || 0;
   // console.log({ search, jenis, page });
-
-  const res = await prisma.material.findMany({
-    where: {
-      jenis: { contains: jenis },
-      nama: { contains: search },
-    },
-    take: 100,
-    skip: 100 * Number(page),
-  });
-  return res;
+  return material.findSearchPage(jenis, search, Number(page));
 });
 
-export const useMaterialGroup = routeLoader$(
+export const useGroupMaterial = routeLoader$(
   async ({ query, resolveValue }) => {
     const search: TSearchData = {
       jenis: query.get("jenis") || "",
@@ -105,3 +51,51 @@ export const useMaterialGroup = routeLoader$(
     return material.findGroup(search);
   },
 );
+// ------------- nasabah
+
+export const useLoadNasabah = routeLoader$(async ({ resolveValue }) => {
+  const searchNasabah = await resolveValue(useSearchNasabah);
+
+  return { searchNasabah };
+});
+
+export const useActionNasabah = routeAction$(
+  async (_data, { sharedMap }) => {
+    const search = _data.search ?? "";
+    const page = _data.page ?? 0;
+
+    sharedMap.set("search_nasabah", search || "");
+    sharedMap.set("page_nasabah", page);
+
+    return { search, page };
+  },
+  zod$({
+    search: z.string().optional(),
+    page: z.number().optional(),
+  }),
+);
+
+export const useSelectMaterial = routeLoader$(async ({}) => {
+  return prisma.material.groupBy({
+    by: "jenis",
+    _sum: {
+      berat: true,
+    },
+    _count: {
+      jenis: true,
+    },
+  });
+});
+
+export const useSearchNasabah = routeLoader$(async ({ sharedMap }) => {
+  const search = sharedMap.get("search_nasabah") || "";
+  const page = sharedMap.get("page_nasabah") || 0;
+
+  return prisma.user.findMany({
+    where: {
+      nama: { contains: search },
+    },
+    take: 100,
+    skip: 100 * Number(page),
+  });
+});

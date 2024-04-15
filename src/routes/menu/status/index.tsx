@@ -4,7 +4,7 @@ import { UserActive } from '../dashboard/components/UserActive';
 export default component$(() => {
   return (
     <div class='container'>
-      <UserActive />
+      process
     </div>
   );
 });

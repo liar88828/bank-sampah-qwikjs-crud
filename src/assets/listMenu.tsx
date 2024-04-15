@@ -4,6 +4,7 @@ import {
   LuPieChart,
   LuStickyNote,
   LuUser,
+  LuWrapText,
 } from "@qwikest/icons/lucide";
 
 export const listMenu = [
@@ -34,11 +35,11 @@ export const listMenu = [
       />
     ),
   },
-  // {
-  //   href: "/menu/beranda/",
-  //   text: "Beranda",
-  //   icon: (
-  //     <LuAppWindow font-size={25} class="inline-block h-6 w-6 stroke-current" />
-  //   ),
-  // },
+  {
+    href: "/menu/status/",
+    text: "Status",
+    icon: (
+      <LuWrapText font-size={25} class="inline-block h-6 w-6 stroke-current" />
+    ),
+  },
 ];

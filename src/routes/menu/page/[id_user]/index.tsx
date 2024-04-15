@@ -1,10 +1,75 @@
 import { Resource, component$, useStore } from "@builder.io/qwik";
-import { useLoadMaterial, useActionMaterial } from "../layout";
 import { LuSearch } from "@qwikest/icons/lucide";
+import { useLoadMaterialUser, useLoadUserId } from "./layout";
+import { Link } from "@builder.io/qwik-city";
+import { useActionMaterial } from "../layout";
 
-export const MaterialSampah = component$(() => {
+export default component$(() => {
+  return (
+    <div class="container space-y-5">
+      <Link href="/menu/page" class="btn btn-warning">
+        Back
+      </Link>
+      <ProfileUser />
+      <MaterialUser />
+    </div>
+  );
+});
+
+export const ProfileUser = component$(() => {
+  const loadData = useLoadUserId();
+  return (
+    <Resource
+      value={loadData}
+      onPending={() => <span class="loading loading-spinner"></span>}
+      onRejected={() => <span>Error</span>}
+      onResolved={(data) => {
+        return (
+          <div class="card w-full  bg-base-100">
+            <div class="card-body space-y-6">
+              <div class="flex items-center space-x-6">
+                <div class="relative mr-2 h-12 w-12 overflow-hidden rounded-full">
+                  <img
+                    class="rounded-full object-cover"
+                    height="64"
+                    src="https://picsum.photos/200/200"
+                    width="64"
+                    alt='avatar "Jane Doe"'
+                  />
+                </div>
+                <div class="space-y-1.5">
+                  <h1 class="text-2xl font-bold">{data.nama}</h1>
+                  <p class="text-gray-500 dark:text-gray-400">{data.email}</p>
+                </div>
+              </div>
+              <div class="space-y-2 text-sm leading-loose md:text-base">
+                <p>
+                  Product designer passionate about creating beautiful and
+                  user-friendly interfaces. Currently working at Acme
+                  Corporation.
+                </p>
+              </div>
+              <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+                <div class="space-y-2">
+                  <h2 class="text-lg font-semibold">Alamat</h2>
+                  <p>{data.alamat}</p>
+                </div>
+                <div class="space-y-2">
+                  <h2 class="text-lg font-semibold">No Hp</h2>
+                  <p>{data.no_hp}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }}
+    />
+  );
+});
+
+export const MaterialUser = component$(() => {
   const actionMaterial = useActionMaterial();
-  const loadData = useLoadMaterial();
+  const loadData = useLoadMaterialUser();
   const storeData = useStore({
     jenis: "",
     search: "",
@@ -17,22 +82,23 @@ export const MaterialSampah = component$(() => {
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
-        const lengthData = data.searchMaterial.length === 0;
+        const lengthData = data.material.length === 0;
+
         return (
           <div class="rounded-lg bg-base-100 p-5 shadow">
-            <div class="gap-5 sm:flex">
+            <div class="flex items-center justify-between gap-5">
               <h1 class="text-md font-bold sm:text-xl ">Sampah Material</h1>
               <div class="flex items-center ">
                 <input
                   type="text"
-                  class="input input-xs input-bordered sm:input-md"
+                  class="input input-xs input-bordered sm:input-sm md:input-md"
                   value={storeData.search}
                   placeholder="Cari Nama : Alex...."
                   onInput$={(_, el) => (storeData.search = el.value)}
                 />
 
                 <button
-                  class="btn btn-info btn-xs sm:btn-md"
+                  class="btn btn-info btn-xs sm:btn-sm md:btn-md"
                   onClick$={() => {
                     storeData.jenis = "";
                     storeData.page = 0;
@@ -63,7 +129,7 @@ export const MaterialSampah = component$(() => {
                 </thead>
 
                 <tbody>
-                  {data.searchMaterial.map((d, i) => (
+                  {data.material.map((d, i) => (
                     <tr key={d.id}>
                       <td>{i + 1}</td>
                       <td>{d.id}</td>
@@ -71,7 +137,9 @@ export const MaterialSampah = component$(() => {
                       <td>{d.jenis}</td>
                       <td>{d.berat}Kg</td>
                       <th>
-                        <button class="btn btn-info btn-xs">details</button>
+                        <Link href={`${d.id}`} class="btn btn-info btn-xs">
+                          Detail
+                        </Link>
                       </th>
                     </tr>
                   ))}
@@ -133,7 +201,8 @@ export const MaterialSampah = component$(() => {
                         <option disabled selected>
                           Select Material
                         </option>
-                        {data.selectMaterial.map((d) => (
+                        <option value={""}>All</option>
+                        {data.select.map((d) => (
                           // @ts-ignore
                           <option key={d.jenis} value={d.jenis}>
                             {d.jenis} {String(d._count.jenis)}
