@@ -1,8 +1,8 @@
+import { LoaderRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 import { prisma } from "../config/prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
-import { TRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 
-class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
+class RiwayatPenukaranUser {
   findAllUser = async (id: number, page = 0, search = "") => {
     let limit = 100;
     return prisma.riwayat_Penukaran.findMany({
@@ -13,7 +13,14 @@ class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
       skip: page * limit,
     });
   };
+}
 
+export const riwayatPenukaranUser = new RiwayatPenukaranUser();
+
+class RiwayatPenukaran
+  extends RiwayatPenukaranUser
+  implements IPrismaOperator<LoaderRiwayat_Penukaran>
+{
   findAll = async () => {
     return prisma.riwayat_Penukaran.findMany({
       include: {
@@ -53,23 +60,25 @@ class RiwayatPenukaran implements IPrismaOperator<TRiwayat_Penukaran> {
       },
     });
   };
-  createOne = async (data: TRiwayat_Penukaran) => {
+
+  createOne = async (data: LoaderRiwayat_Penukaran) => {
     return prisma.riwayat_Penukaran.create({
       data: {
         tgl_tukar: data.tgl_tukar,
-        id_user_penukaran: data.id_user,
+        id_user_penukaran: data.id_user_penukaran,
         id_opsi_penukaran: data.id_opsi_penukaran,
       },
     });
   };
-  updateOne = async (id: number, data: TRiwayat_Penukaran) => {
+
+  updateOne = async (id: number, data: LoaderRiwayat_Penukaran) => {
     return prisma.riwayat_Penukaran.update({
       where: {
         id: id,
       },
       data: {
         tgl_tukar: data.tgl_tukar,
-        id_user_penukaran: data.id_user,
+        id_user_penukaran: data.id_user_penukaran,
         id_opsi_penukaran: data.id_opsi_penukaran,
       },
     });

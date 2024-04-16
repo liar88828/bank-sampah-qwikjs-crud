@@ -21,6 +21,7 @@ model User {
   updatedAt DateTime            @updatedAt
   Transaksi Transaksi[]
   Riwayat   Riwayat_Penukaran[]
+  Material  Material[]
 }
 
 model Transaksi {
@@ -46,8 +47,8 @@ model Transaksi {
 model Status_Transaksi {
   id           Int       @id @default(autoincrement())
   type         String
-  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
   id_transaksi Int       @unique
+  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
 }
 
 model Opsi_Penukaran {
@@ -64,6 +65,7 @@ model Riwayat_Penukaran {
   id_opsi_penukaran Int?
   User              User?           @relation(fields: [id_user_penukaran], references: [id])
   Opsi_Penukaran    Opsi_Penukaran? @relation(fields: [id_opsi_penukaran], references: [id])
+  Material          Material[]
 }
 
 // model Riwayat_Transaksi {
@@ -82,18 +84,22 @@ model Sampah_Transaksi {
   // id_transaksi Int?
   // Sampah    Sampah?    @relation(fields: [id_Sampah], references: [id])
   // Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
-  Material     Material[]
-  Transaksi    Transaksi  @relation(fields: [id_Transaksi], references: [id])
   id_Transaksi Int        @unique
+  Transaksi    Transaksi  @relation(fields: [id_Transaksi], references: [id])
+  Material     Material[]
 }
 
 model Material {
-  id                 Int               @id @default(autoincrement())
-  nama               String
-  berat              Int // total semua benda yang di simpan dalam gudang
-  jenis              String // total semua benda yang di simpan dalam gudang
-  id_sampahTransaksi Int?
-  Sampah_Transaksi   Sampah_Transaksi? @relation(fields: [id_sampahTransaksi], references: [id])
+  id                   Int                @id @default(autoincrement())
+  nama                 String
+  berat                Int // total semua benda yang di simpan dalam gudang
+  jenis                String // total semua benda yang di simpan dalam gudang
+  id_sampahTransaksi   Int?
+  id_riwayat_Penukaran Int?
+  id_user              Int?
+  Sampah_Transaksi     Sampah_Transaksi?  @relation(fields: [id_sampahTransaksi], references: [id])
+  Riwayat_Penukaran    Riwayat_Penukaran? @relation(fields: [id_riwayat_Penukaran], references: [id])
+  User                 User?              @relation(fields: [id_user], references: [id])
 }
 
 // model Sampah {

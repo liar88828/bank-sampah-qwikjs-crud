@@ -270,8 +270,8 @@ class Work {
       },
     });
 
-    console.log(test, "groupBy");
-    console.log(test2, "aggregate");
+    // console.log(test, "groupBy");
+    // console.log(test2, "aggregate");
   };
 }
 

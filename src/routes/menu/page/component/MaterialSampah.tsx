@@ -1,23 +1,68 @@
-import { Resource, component$, useStore } from "@builder.io/qwik";
+import { $, Resource, component$, useStore } from "@builder.io/qwik";
 import { useLoadMaterial, useActionMaterial } from "../layout";
 import { LuSearch } from "@qwikest/icons/lucide";
+import { Link } from "@builder.io/qwik-city";
 
 export const MaterialSampah = component$(() => {
   const actionMaterial = useActionMaterial();
   const loadData = useLoadMaterial();
+
   const storeData = useStore({
     jenis: "",
     search: "",
     page: 0,
+    length: false,
   });
 
+  const handlerSearch = $(() => {
+    storeData.jenis = "";
+    storeData.page = 0;
+    actionMaterial.submit({
+      search: storeData.search,
+      jenis: storeData.jenis,
+      page: storeData.page,
+    });
+  });
+
+  const handlerDecrement = $(() => {
+    // when data search leng is 0
+    if (storeData.page > 0) {
+      storeData.page--;
+      actionMaterial.submit({
+        search: storeData.search,
+        jenis: storeData.jenis,
+        page: storeData.page,
+      });
+    }
+  });
+
+  const handlerIncrement = $(() => {
+    // when data search leng is 0
+    if (!storeData.length) {
+      storeData.page++;
+      actionMaterial.submit({
+        search: storeData.search,
+        jenis: storeData.jenis,
+        page: storeData.page,
+      });
+    }
+  });
+
+  const handlerSelect = $((_: Event, el: HTMLSelectElement) => {
+    storeData.jenis = el.value;
+    actionMaterial.submit({
+      search: storeData.search,
+      jenis: el.value,
+      page: storeData.page,
+    });
+  });
   return (
     <Resource
       value={loadData}
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
-        const lengthData = data.searchMaterial.length === 0;
+        storeData.length = data.searchMaterial.length === 0;
         return (
           <div class="rounded-lg bg-base-100 p-5 shadow">
             <div class="gap-5 sm:flex">
@@ -33,15 +78,7 @@ export const MaterialSampah = component$(() => {
 
                 <button
                   class="btn btn-info btn-xs sm:btn-md"
-                  onClick$={() => {
-                    storeData.jenis = "";
-                    storeData.page = 0;
-                    actionMaterial.submit({
-                      search: storeData.search,
-                      jenis: storeData.jenis,
-                      page: storeData.page,
-                    });
-                  }}
+                  onClick$={handlerSearch}
                 >
                   <LuSearch />
                 </button>
@@ -71,7 +108,12 @@ export const MaterialSampah = component$(() => {
                       <td>{d.jenis}</td>
                       <td>{d.berat}Kg</td>
                       <th>
-                        <button class="btn btn-info btn-xs">details</button>
+                        <Link
+                          href={`material/${d.id}`}
+                          class="btn btn-info btn-xs"
+                        >
+                          details
+                        </Link>
                       </th>
                     </tr>
                   ))}
@@ -83,17 +125,7 @@ export const MaterialSampah = component$(() => {
                       <div class="join">
                         <button
                           class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
-                          onClick$={() => {
-                            // cannot be less than 0
-                            if (storeData.page > 0) {
-                              storeData.page--;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                jenis: storeData.jenis,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
+                          onClick$={handlerDecrement}
                         >
                           «
                         </button>
@@ -101,18 +133,8 @@ export const MaterialSampah = component$(() => {
                           Page {storeData.page}
                         </button>
                         <button
-                          class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
-                          onClick$={() => {
-                            // when data search leng is 0
-                            if (!lengthData) {
-                              storeData.page++;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                jenis: storeData.jenis,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
+                          class={`btn join-item btn-sm ${storeData.length && "btn-disabled"}`}
+                          onClick$={handlerIncrement}
                         >
                           »
                         </button>
@@ -121,14 +143,7 @@ export const MaterialSampah = component$(() => {
                     <th colSpan={3}>
                       <select
                         class="select select-bordered select-sm w-full max-w-xs"
-                        onChange$={(_, el) => {
-                          storeData.jenis = el.value;
-                          actionMaterial.submit({
-                            search: storeData.search,
-                            jenis: el.value,
-                            page: storeData.page,
-                          });
-                        }}
+                        onChange$={handlerSelect}
                       >
                         <option disabled selected>
                           Select Material
