@@ -9,8 +9,8 @@ import {
 } from "@builder.io/qwik-city";
 import { LuShoppingCart, LuX } from "@qwikest/icons/lucide";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { prisma } from "~/config/prisma";
 import { material } from "~/db/material";
-import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { getDate } from "~/lib/date";
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {
@@ -22,7 +22,33 @@ export const useActionMaterialBeli = routeAction$(
     const id = Number(params.id_material);
     const jumlah = Number(_data.jumlah);
 
-    return riwayatPenukaran.createPenukaran(id, jumlah);
+    return prisma.$transaction(async (tx) => {
+      const material = await tx.material.findUnique({ where: { id } });
+
+      if (!material) {
+        return {
+          error: "Material not found",
+        };
+      }
+      if (material.berat < jumlah) {
+        return {
+          error: "Material Berat is Valid",
+        };
+      }
+      const transaksi = await tx.material.update({
+        where: { id },
+        data: {
+          berat: {
+            decrement: jumlah,
+          },
+        },
+      });
+
+      return {
+        transaksi,
+        material,
+      };
+    });
   },
   zod$({
     jumlah: z.string(),
@@ -32,12 +58,12 @@ export const useActionMaterialBeli = routeAction$(
 export default component$(() => {
   const location = useLocation();
   const url = location.url;
+  const callback = url.searchParams.get("callback") ?? "";
   const pathName = url.pathname;
   const loadData = useLoadMaterialId();
   const actionData = useActionMaterialBeli();
   const show = useSignal(false);
   const jumlah = useSignal("");
-  const callback = url.searchParams.get("callback") ?? "";
   const handlerBuy = $(() => {
     actionData.submit({
       jumlah: jumlah.value,

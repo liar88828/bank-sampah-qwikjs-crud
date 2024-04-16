@@ -45,10 +45,11 @@ model Transaksi {
 }
 
 model Status_Transaksi {
-  id           Int       @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   type         String
-  id_transaksi Int       @unique
-  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+  id_transaksi Int    @unique
+
+  Transaksi Transaksi @relation(fields: [id_transaksi], references: [id])
 }
 
 model Opsi_Penukaran {
@@ -88,16 +89,17 @@ model Status_Penukaran {
 
 //
 model Sampah_Transaksi {
-  id           Int        @id @default(autoincrement())
+  id           Int @id @default(autoincrement())
   // nama         String
   total_berat  Int // bukan jumlah per satuan / berat yang akan di beli
   total_harga  Int
   // id_transaksi Int?
   // Sampah    Sampah?    @relation(fields: [id_Sampah], references: [id])
   // Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
-  id_Transaksi Int        @unique
-  Transaksi    Transaksi  @relation(fields: [id_Transaksi], references: [id])
-  Material     Material[]
+  id_Transaksi Int @unique
+
+  Transaksi Transaksi  @relation(fields: [id_Transaksi], references: [id])
+  Material  Material[]
 }
 
 model Material {

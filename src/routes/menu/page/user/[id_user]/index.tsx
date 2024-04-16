@@ -22,69 +22,51 @@ export default component$(() => {
 export const ProfileUser = component$(() => {
   const loadData = useLoadUserId();
   return (
-    <>
-      <Breadcrumbs
-        data={[
-          {
-            name: "Home",
-            link: "/menu/page",
-          },
-          {
-            name: "User",
-            link: "",
-          },
-          {
-            name: loadData.value?.nama as string,
-            link: "",
-          },
-        ]}
-      />
-      <Resource
-        value={loadData}
-        onPending={() => <span class="loading loading-spinner"></span>}
-        onRejected={() => <span>Error</span>}
-        onResolved={(data) => {
-          return (
-            <div class="card static w-full  bg-base-100">
-              <div class="card-body space-y-3">
-                <div class="flex items-center space-x-6">
-                  <div class="static   mr-2 h-12 w-12 overflow-hidden rounded-full">
-                    <img
-                      class="rounded-full object-cover "
-                      height="64"
-                      src="https://picsum.photos/200/200"
-                      width="64"
-                      alt='avatar "Jane Doe"'
-                    />
-                  </div>
-                  <div class="space-y-1.5">
-                    <h1 class="text-2xl font-bold">{data.nama}</h1>
-                    <p class="text-gray-500 dark:text-gray-400">{data.email}</p>
-                  </div>
+    <Resource
+      value={loadData}
+      onPending={() => <span class="loading loading-spinner"></span>}
+      onRejected={() => <span>Error</span>}
+      onResolved={(data) => {
+        return (
+          <div class="card w-full  bg-base-100">
+            <div class="card-body space-y-6">
+              <div class="flex items-center space-x-6">
+                <div class="relative mr-2 h-12 w-12 overflow-hidden rounded-full">
+                  <img
+                    class="rounded-full object-cover"
+                    height="64"
+                    src="https://picsum.photos/200/200"
+                    width="64"
+                    alt='avatar "Jane Doe"'
+                  />
                 </div>
-                <div class="space-y-2 text-sm leading-loose md:text-base">
-                  <p>
-                    Product designer passionate about creating beautiful and
-                    user-friendly interfaces. Currently working at Acme
-                    Corporation.
-                  </p>
+                <div class="space-y-1.5">
+                  <h1 class="text-2xl font-bold">{data.nama}</h1>
+                  <p class="text-gray-500 dark:text-gray-400">{data.email}</p>
                 </div>
-                <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
-                  <div class="space-y-2">
-                    <h2 class="text-lg font-semibold">Alamat</h2>
-                    <p>{data.alamat}</p>
-                  </div>
-                  <div class="space-y-2">
-                    <h2 class="text-lg font-semibold">No Hp</h2>
-                    <p>{data.no_hp}</p>
-                  </div>
+              </div>
+              <div class="space-y-2 text-sm leading-loose md:text-base">
+                <p>
+                  Product designer passionate about creating beautiful and
+                  user-friendly interfaces. Currently working at Acme
+                  Corporation.
+                </p>
+              </div>
+              <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+                <div class="space-y-2">
+                  <h2 class="text-lg font-semibold">Alamat</h2>
+                  <p>{data.alamat}</p>
+                </div>
+                <div class="space-y-2">
+                  <h2 class="text-lg font-semibold">No Hp</h2>
+                  <p>{data.no_hp}</p>
                 </div>
               </div>
             </div>
-          );
-        }}
-      />
-    </>
+          </div>
+        );
+      }}
+    />
   );
 });
 
