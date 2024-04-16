@@ -10,6 +10,7 @@ import {
   zod$,
 } from "@builder.io/qwik-city";
 import { LuSearch } from "@qwikest/icons/lucide";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
@@ -45,17 +46,27 @@ export default component$(() => {
   const page = local.url.searchParams.get("page");
 
   return (
-    <section class="container bg-base-300 p-5">
+    <section class="space-y-3">
       <Link class="btn btn-warning btn-xs" href="/user/profile">
         Back
       </Link>
-      <div class="mb-2 flex items-center gap-2">
-        <h1>Penukaran's directory</h1>
 
-        <Link class="btn btn-info btn-xs" href="/user/profile/create">
-          Create
-        </Link>
-      </div>
+      <Breadcrumbs
+        data={[
+          {
+            name: "Home",
+            link: "/",
+          },
+          {
+            name: "Profile",
+            link: "/user/profile/",
+          },
+          {
+            name: "Penukaran",
+            link: "/user/profile/penukaran",
+          },
+        ]}
+      />
 
       <Resource
         value={dataLoad}
@@ -65,81 +76,95 @@ export default component$(() => {
           let buttonOff = datas.length === 0;
           let buttonLess = datas.length > 0;
           return (
-            <div class="overflow-x-auto ">
-              <table class="table table-zebra table-xs static  rounded  bg-base-100">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Tanggal Penukaran</th>
-                    <th>Id_User</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {datas.map((d, i) => (
-                    <tr key={d.id}>
-                      <th>{i + 1}</th>
-                      <td>{getDate(d.tgl_tukar)}</td>
-                      <td>{d.id_user_penukaran}</td>
+            <div class="card static bg-base-100 ">
+              <div class="card-body">
+                <div class=" flex items-center gap-2">
+                  <h1>Penukaran's directory</h1>
 
-                      <td class="flex flex-nowrap gap-2">
-                        <Link
-                          href={`/user/profile/penukaran/detail/${d.id}`}
-                          class="btn btn-primary btn-xs"
-                        >
-                          Detail
-                        </Link>
+                  <Link class="btn btn-info btn-xs" href="/user/profile/create">
+                    Create
+                  </Link>
+                </div>
+                <div class="overflow-x-auto ">
+                  <table class="table table-zebra table-xs static  rounded  bg-base-100">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Tanggal Penukaran</th>
+                        <th>Id_User</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {datas.map((d, i) => (
+                        <tr key={d.id}>
+                          <th>{i + 1}</th>
+                          <td>{getDate(d.tgl_tukar)}</td>
+                          <td>{d.id_user_penukaran}</td>
 
-                        <Form action={dataDelete}>
-                          <input type="hidden" name="id" value={d.id} />
-                          <button type="submit" class="btn btn-error btn-xs">
-                            Delete
-                          </button>
-                        </Form>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th colSpan={2}>
-                      <div class="join">
-                        <Link
-                          href={`/user/profile/penukaran?page=${Number(page) - 1}`}
-                          class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
-                        >
-                          «
-                        </Link>
-                        <button class="btn join-item btn-sm">
-                          Page {page}
-                        </button>
-                        <Link
-                          aria-disabled={buttonOff}
-                          href={`user/profile/penukaran?page=${Number(page) + 1}`}
-                          class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
-                        >
-                          »
-                        </Link>
-                      </div>
-                    </th>
-                    <th colSpan={2} class="">
-                      <input
-                        type="text"
-                        class="input input-sm input-bordered"
-                        placeholder="Cari Nama : Alex...."
-                        bind:value={search}
-                      />
-                      <Link
-                        type="button"
-                        class="btn btn-square btn-primary btn-sm"
-                        href={`user/profile/penukaran?page=${Number(page)}&search=${search.value} `}
-                      >
-                        <LuSearch />
-                      </Link>
-                    </th>
-                  </tr>
-                </tfoot>
-              </table>
+                          <td class="flex flex-nowrap gap-2">
+                            <Link
+                              href={`/user/profile/penukaran/detail/${d.id}`}
+                              class="btn btn-primary btn-xs"
+                            >
+                              Detail
+                            </Link>
+
+                            <Form action={dataDelete}>
+                              <input type="hidden" name="id" value={d.id} />
+                              <button
+                                type="submit"
+                                class="btn btn-error btn-xs"
+                              >
+                                Delete
+                              </button>
+                            </Form>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colSpan={2}>
+                          <div class="join">
+                            <Link
+                              href={`/user/profile/penukaran?page=${Number(page) - 1}`}
+                              class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
+                            >
+                              «
+                            </Link>
+                            <button class="btn join-item btn-sm">
+                              Page {page}
+                            </button>
+                            <Link
+                              aria-disabled={buttonOff}
+                              href={`user/profile/penukaran?page=${Number(page) + 1}`}
+                              class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
+                            >
+                              »
+                            </Link>
+                          </div>
+                        </th>
+                        <th colSpan={2} class="">
+                          <input
+                            type="text"
+                            class="input input-sm input-bordered"
+                            placeholder="Cari Nama : Alex...."
+                            bind:value={search}
+                          />
+                          <Link
+                            type="button"
+                            class="btn btn-square btn-primary btn-sm"
+                            href={`user/profile/penukaran?page=${Number(page)}&search=${search.value} `}
+                          >
+                            <LuSearch />
+                          </Link>
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
             </div>
           );
         }}

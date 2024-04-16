@@ -1,7 +1,8 @@
 import { Session } from "@auth/core/types";
 import { component$, Resource } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
-import { RiwayatTransaksiComponent } from "~/components/penyerahan-sampah/table/RiwayatTransaksi";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { RiwayatTransaksi } from "~/components/penyerahan-sampah/table/RiwayatTransaksi";
 import { TotalMaterial } from "~/components/penyerahan-sampah/table/TotalMaterial";
 import { TransaksiSampah } from "~/components/penyerahan-sampah/table/TransaksiSampah";
 import { works } from "~/db/work";
@@ -36,29 +37,50 @@ export const useResolveAll = routeLoader$(async ({ resolveValue }) => {
 export default component$(() => {
   const dataLoad = useResolveAll();
   return (
-    <section class=" container rounded bg-base-300 p-5">
-      <>
-        <div class="grid-rows-1 sm:grid  sm:space-y-5 ">
-          <div class="row-span-1 ">
-            <Resource
-              value={dataLoad}
-              onPending={() => <span class="loading loading-spinner"></span>}
-              onRejected={() => <span>Error</span>}
-              onResolved={(data) => (
-                <div class="space-y-5">
-                  <RiwayatTransaksiComponent data={data.penukaran} />
-                  <TransaksiSampah
-                    data={data.totalTransaksiSampah as TransaksiSampahProps}
-                  />
-                  <TotalMaterial
-                    data={data.totalMaterial as TotalMaterialProps}
-                  />
-                </div>
-              )}
-            />
+    <section
+      class="space-y-3"
+      //  class=" rounded bg-base-100 p-5"
+    >
+      <Link class="btn btn-warning btn-xs" href="/user/profile">
+        Back
+      </Link>
+
+      <Breadcrumbs
+        data={[
+          {
+            name: "Home",
+            link: "/",
+          },
+          {
+            name: "Profile",
+            link: "/user/profile/",
+          },
+          {
+            name: "Info",
+            link: "/user/profile/info",
+          },
+        ]}
+      />
+      <Resource
+        value={dataLoad}
+        onPending={() => <span class="loading loading-spinner"></span>}
+        onRejected={() => <span>Error</span>}
+        onResolved={(data) => (
+          <div class="grid-rows-1 sm:grid  sm:space-y-5 ">
+            <div class="row-span-1 ">
+              <div class="space-y-5">
+                {/* <RiwayatTransaksi data={data.penukaran} /> */}
+                <TransaksiSampah
+                  data={data.totalTransaksiSampah as TransaksiSampahProps}
+                />
+                <TotalMaterial
+                  data={data.totalMaterial as TotalMaterialProps}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </>
+        )}
+      />
     </section>
   );
 });

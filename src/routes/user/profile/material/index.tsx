@@ -10,6 +10,7 @@ import {
   zod$,
 } from "@builder.io/qwik-city";
 import { LuSearch } from "@qwikest/icons/lucide";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { material } from "~/db/material";
 
 export const useLoadUserMaterial = routeLoader$(
@@ -22,7 +23,7 @@ export const useLoadUserMaterial = routeLoader$(
 
     const search: string | null = query.get("search") ?? "";
 
-    return material.findAllUser(id,page, search);
+    return material.findAllUser(id, page, search);
   },
 );
 
@@ -41,16 +42,27 @@ export default component$(() => {
   const page = local.url.searchParams.get("page");
 
   return (
-    <section class="container bg-base-300 p-5">
+    <section class="space-y-3">
       <Link class="btn btn-warning  btn-xs" href="/user/profile">
         Back
       </Link>
-      <div class="mb-2 flex items-center gap-2">
-        <h1>Material's directory</h1>
-        <Link class="btn btn-info btn-xs" href="/table/material/create">
-          Create
-        </Link>
-      </div>
+
+      <Breadcrumbs
+        data={[
+          {
+            name: "Home",
+            link: "/",
+          },
+          {
+            name: "Profile",
+            link: "/user/profile/",
+          },
+          {
+            name: "Material",
+            link: "/user/profile/material",
+          },
+        ]}
+      />
 
       <Resource
         value={dataLoad}
@@ -61,81 +73,98 @@ export default component$(() => {
           let buttonLess = datas.length > 0;
 
           return (
-            <div class="overflow-x-auto">
-              <table class="table table-zebra table-xs static  rounded bg-base-100">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Material</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {datas.map((d, i) => (
-                    <tr key={d.id}>
-                      <th>{i + 1}</th>
-                      <td>{d.nama}</td>
-                      <td>{d.berat}</td>
-                      <td class="flex flex-nowrap gap-2">
-                        <Link
-                          href={`/table/material/detail/${d.id}`}
-                          class="btn btn-primary btn-xs"
-                        >
-                          Detail
-                        </Link>
+            <div class="card static bg-base-100 ">
+              <div class="card-body">
+                <div class=" flex items-center gap-2">
+                  <h1>Material's directory</h1>
+                  <Link
+                    class="btn btn-info btn-xs"
+                    href="/table/material/create"
+                  >
+                    Create
+                  </Link>
+                </div>
 
-                        <Form action={dataDelete}>
-                          <input type="hidden" name="id" value={d.id} />
-                          <button type="submit" class="btn btn-error btn-xs">
-                            Delete
-                          </button>
-                        </Form>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th colSpan={2}>
-                      <div class="join">
-                        <Link
-                          // aria-disabled={buttonOff}
-                          href={`/user/profile/material/?page=${Number(page) - 1}`}
-                          class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
-                        >
-                          «
-                        </Link>
-                        <button class="btn join-item btn-sm">
-                          Page {page}
-                        </button>
-                        <Link
-                          aria-disabled={buttonOff}
-                          href={`/user/profile/material/?page=${Number(page) + 1}`}
-                          class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
-                        >
-                          »
-                        </Link>
-                      </div>
-                    </th>
-                    <th colSpan={2} class="">
-                      <input
-                        type="text"
-                        class="input input-sm input-bordered"
-                        placeholder="Cari Nama : Alex...."
-                        bind:value={search}
-                      />
-                      <Link
-                        type="button"
-                        class="btn btn-square btn-primary btn-sm"
-                        href={`/user/profile/material/?page=${Number(page)}&search=${search.value} `}
-                      >
-                        <LuSearch />
-                      </Link>
-                    </th>
-                  </tr>
-                </tfoot>
-              </table>
+                <div class="overflow-x-auto">
+                  <table class="table table-zebra table-xs static  rounded bg-base-100">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Material</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {datas.map((d, i) => (
+                        <tr key={d.id}>
+                          <th>{i + 1}</th>
+                          <td>{d.nama}</td>
+                          <td>{d.berat}</td>
+                          <td class="flex flex-nowrap gap-2">
+                            <Link
+                              href={`/table/material/detail/${d.id}`}
+                              class="btn btn-primary btn-xs"
+                            >
+                              Detail
+                            </Link>
+
+                            <Form action={dataDelete}>
+                              <input type="hidden" name="id" value={d.id} />
+                              <button
+                                type="submit"
+                                class="btn btn-error btn-xs"
+                              >
+                                Delete
+                              </button>
+                            </Form>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colSpan={2}>
+                          <div class="join">
+                            <Link
+                              // aria-disabled={buttonOff}
+                              href={`/user/profile/material/?page=${Number(page) - 1}`}
+                              class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
+                            >
+                              «
+                            </Link>
+                            <button class="btn join-item btn-sm">
+                              Page {page}
+                            </button>
+                            <Link
+                              aria-disabled={buttonOff}
+                              href={`/user/profile/material/?page=${Number(page) + 1}`}
+                              class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
+                            >
+                              »
+                            </Link>
+                          </div>
+                        </th>
+                        <th colSpan={2} class="">
+                          <input
+                            type="text"
+                            class="input input-sm input-bordered"
+                            placeholder="Cari Nama : Alex...."
+                            bind:value={search}
+                          />
+                          <Link
+                            type="button"
+                            class="btn btn-square btn-primary btn-sm"
+                            href={`/user/profile/material/?page=${Number(page)}&search=${search.value} `}
+                          >
+                            <LuSearch />
+                          </Link>
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
             </div>
           );
         }}

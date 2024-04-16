@@ -1,4 +1,4 @@
-import { Resource, component$, useStore } from "@builder.io/qwik";
+import { $, Resource, component$, useStore } from "@builder.io/qwik";
 import { LuSearch } from "@qwikest/icons/lucide";
 import { useActionNasabah, useLoadNasabah } from "../layout";
 import { Link } from "@builder.io/qwik-city";
@@ -9,15 +9,45 @@ export const NasabahActive = component$(() => {
   const storeData = useStore({
     search: "",
     page: 0,
+    length: false,
   });
 
+  const handlerSearch = $(() => {
+    storeData.page = 0;
+    actionMaterial.submit({
+      search: storeData.search,
+      page: storeData.page,
+    });
+  });
+
+  const handlerDecrement = $(() => {
+    // cannot be less than 0
+    if (storeData.page > 0) {
+      storeData.page--;
+      actionMaterial.submit({
+        search: storeData.search,
+        page: storeData.page,
+      });
+    }
+  });
+
+  const handlerIncrement = $(() => {
+    // when data search leng is 0
+    if (!storeData.length) {
+      storeData.page++;
+      actionMaterial.submit({
+        search: storeData.search,
+        page: storeData.page,
+      });
+    }
+  });
   return (
     <Resource
       value={loadData}
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
-        const lengthData = data.searchNasabah.length === 0;
+        storeData.length = data.searchNasabah.length === 0;
         return (
           <div class="rounded-lg bg-base-100 p-5 shadow">
             <div class="gap-5 sm:flex">
@@ -33,13 +63,7 @@ export const NasabahActive = component$(() => {
 
                 <button
                   class="btn btn-info btn-xs sm:btn-md"
-                  onClick$={() => {
-                    storeData.page = 0;
-                    actionMaterial.submit({
-                      search: storeData.search,
-                      page: storeData.page,
-                    });
-                  }}
+                  onClick$={handlerSearch}
                 >
                   <LuSearch />
                 </button>
@@ -72,8 +96,11 @@ export const NasabahActive = component$(() => {
                       <td>{d.email}</td>
                       <td>
                         <Link
-                        href={`${d.id}`}
-                        class="btn btn-info  btn-sm">details</Link>
+                          href={`user/${d.id}`}
+                          class="btn btn-info  btn-sm"
+                        >
+                          details
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -81,20 +108,11 @@ export const NasabahActive = component$(() => {
 
                 <tfoot>
                   <tr>
-                    <th colSpan={2}>
+                    <th colSpan={3}>
                       <div class="join">
                         <button
                           class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
-                          onClick$={() => {
-                            // cannot be less than 0
-                            if (storeData.page > 0) {
-                              storeData.page--;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
+                          onClick$={handlerDecrement}
                         >
                           «
                         </button>
@@ -102,17 +120,8 @@ export const NasabahActive = component$(() => {
                           Page {storeData.page}
                         </button>
                         <button
-                          class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
-                          onClick$={() => {
-                            // when data search leng is 0
-                            if (!lengthData) {
-                              storeData.page++;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
+                          class={`btn join-item btn-sm ${storeData.length && "btn-disabled"}`}
+                          onClick$={handlerIncrement}
                         >
                           »
                         </button>

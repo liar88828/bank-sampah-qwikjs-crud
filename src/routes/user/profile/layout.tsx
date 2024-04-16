@@ -1,9 +1,17 @@
 import { Session } from "@auth/core/types";
+import { Slot, component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { user } from "~/db/users";
 import { works } from "~/db/work";
 import { PropsProfile } from "~/type/user";
 
+export default component$(() => {
+  return (
+    <div class="container">
+      <Slot />
+    </div>
+  );
+});
 export const useLoaderData = routeLoader$(
   async ({ resolveValue, sharedMap, redirect }) => {
     const session: Session | null = sharedMap.get("session") as Session;

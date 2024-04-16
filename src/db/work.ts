@@ -54,8 +54,9 @@ class Work {
       const user = await tx.user.findUnique({
         where: { id: Number(data.id_user) },
       });
-
+      console.log("user found");
       if (!user) {
+        console.log("user not found");
         return {
           success: false,
           error: "User Not Found",
@@ -68,8 +69,7 @@ class Work {
           id_user: user.id,
         },
       });
-
-      // console.log(transaksi);
+      console.log("success create transaksi");
 
       const status_Transaksi = await tx.status_Transaksi.create({
         data: {
@@ -77,6 +77,7 @@ class Work {
           id_transaksi: transaksi.id,
         },
       });
+      console.log("success create status transaksi");
 
       const sampah_Transaksi = await tx.sampah_Transaksi.create({
         data: {
@@ -85,6 +86,7 @@ class Work {
           id_Transaksi: transaksi.id,
         },
       });
+      console.log("success create sampah transaksi");
 
       const material = await tx.material.createMany({
         data: data.sampah.map((d) => {
@@ -96,6 +98,7 @@ class Work {
           };
         }),
       });
+      console.log("success create material");
 
       // const transaksi = await tx.transaksi.create({
       //   data: {
@@ -270,8 +273,8 @@ class Work {
       },
     });
 
-    console.log(test, "groupBy");
-    console.log(test2, "aggregate");
+    // console.log(test, "groupBy");
+    // console.log(test2, "aggregate");
   };
 }
 

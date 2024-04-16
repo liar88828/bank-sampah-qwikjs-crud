@@ -30,3 +30,5 @@ type SessionUser = {
   };
   expires: string;
 };
+
+export type Status = "SIMPAN" | "PROCESS" | "SELESAI";

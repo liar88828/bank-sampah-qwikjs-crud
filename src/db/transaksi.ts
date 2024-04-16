@@ -1,19 +1,9 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { prisma } from "../config/prisma";
 import { TTransaksi } from "~/type/transaksi.type";
+import { TransaksiUser } from "./join";
 
-class Transaksi implements IPrismaOperator<TTransaksi> {
-  findAllUser = async (id: number, page = 0, search = "") => {
-    let limit = 100;
-    return prisma.transaksi.findMany({
-      where: {
-        id_user: id,
-      },
-      take: 100,
-      skip: page * limit,
-    });
-  };
-
+class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
   findAll = async (page = 0, limit = 1000) => {
     return prisma.transaksi.findMany({
       take: 100,

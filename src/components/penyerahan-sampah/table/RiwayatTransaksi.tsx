@@ -3,22 +3,22 @@ import { Pagination } from "~/components/basic/pagination";
 import { getDate } from "~/lib/date";
 import { PropsSignal } from "~/type/props.type";
 
-export const RiwayatTransaksi = component$(
-  ({ dataLoad }: { dataLoad: Signal<Loader_RiwayatTransaksi[]> }) => {
-    return (
-      <Resource
-        value={dataLoad}
-        onPending={() => <span class="loading loading-spinner"></span>}
-        onRejected={() => <span>Error</span>}
-        onResolved={(data) => {
-          return <RiwayatTransaksiComponent data={data} />;
-        }}
-      />
-    );
-  },
-);
+// export const RiwayatTransaksi = component$(
+//   ({ dataLoad }: { dataLoad: Signal<Loader_RiwayatTransaksi[]> }) => {
+//     return (
+//       <Resource
+//         value={dataLoad}
+//         onPending={() => <span class="loading loading-spinner"></span>}
+//         onRejected={() => <span>Error</span>}
+//         onResolved={(data) => {
+//           return <RiwayatTransaksiComponent data={data} />;
+//         }}
+//       />
+//     );
+//   },
+// );
 
-export const RiwayatTransaksiComponent = component$(
+export const RiwayatTransaksi = component$(
   ({ data }: { data: Loader_RiwayatTransaksi[] }) => {
     return (
       <section class="rounded-b-lg  bg-white p-5 shadow sm:rounded-lg ">

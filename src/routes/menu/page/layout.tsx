@@ -2,6 +2,17 @@ import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { prisma } from "~/config/prisma";
 import { material } from "~/db/material";
 import { TSearchData } from "~/type/material.type";
+
+import { Slot, component$ } from "@builder.io/qwik";
+
+export default component$(() => {
+  return (
+    <div class="container">
+      <Slot />
+    </div>
+  );
+});
+
 // ------------- Material
 export const useLoadMaterial = routeLoader$(async ({ resolveValue }) => {
   const selectMaterial = await resolveValue(useSelectMaterial);

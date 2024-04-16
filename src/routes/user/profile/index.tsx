@@ -7,24 +7,37 @@ import {
   LuBadgeDollarSign,
   LuBox,
 } from "@qwikest/icons/lucide";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 
 export default component$(() => {
   const loadData = useLoaderData();
   return (
-    <div class="container">
+    <section class="space-y-3">
+      <Breadcrumbs
+        data={[
+          {
+            name: "Home",
+            link: "/",
+          },
+          {
+            name: "Profile",
+            link: "/user/profile/",
+          },
+        ]}
+      />
+
       <Resource
         value={loadData}
         onPending={() => <span class="loading loading-spinner"></span>}
         onRejected={() => <span>Error</span>}
         onResolved={(data) => <Profile data={data} />}
       />
-    </div>
+    </section>
   );
 });
 
 export const Profile = component$(
   ({ data: { user, point } }: { data: PropsProfile }) => {
-    // console.log(data, 'profile')
     return (
       <div class="card static bg-base-100 ">
         <div class="card-body">
@@ -51,7 +64,18 @@ export const Profile = component$(
               <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5">
                 <dt class="text-sm font-medium ">Phone number</dt>
                 <dd class="mt-1 text-sm  sm:col-span-2 sm:mt-0">
-                  {user.no_hp}
+                  {user.no_hp.length === 0 ? (
+                    <Link
+                      href="/user/profile/edit"
+                      class="link
+                    
+                    text-error"
+                    >
+                      Please Input Number
+                    </Link>
+                  ) : (
+                    <span>{user.no_hp}</span>
+                  )}
                 </dd>
               </div>
 
