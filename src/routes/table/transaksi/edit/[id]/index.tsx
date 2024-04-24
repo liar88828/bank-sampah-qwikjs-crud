@@ -1,6 +1,6 @@
 import {component$, Resource} from "@builder.io/qwik";
 import {Form, Link, routeAction$, routeLoader$,} from "@builder.io/qwik-city";
-import {join} from "~/db/join";
+import {join} from "~/db/join/join";
 import {transaksi} from "~/db/transaksi";
 import {getDate} from "~/lib/date";
 import {zodTransaksi} from "~/lib/Zod";

@@ -3,7 +3,6 @@ import { LuSearch } from "@qwikest/icons/lucide";
 import { useLoadMaterialUser, useLoadUserId } from "./layout";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import { useActionMaterial } from "../../layout";
-import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 
 export default component$(() => {
   const location = useLocation();

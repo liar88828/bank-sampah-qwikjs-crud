@@ -42,4 +42,11 @@ export const listMenu = [
       <LuWrapText font-size={25} class="inline-block h-6 w-6 stroke-current" />
     ),
   },
+  {
+    href: "/work/transaksi/",
+    text: "Transaksi",
+    icon: (
+      <LuWrapText font-size={25} class="inline-block h-6 w-6 stroke-current" />
+    ),
+  },
 ];

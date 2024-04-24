@@ -1,16 +1,12 @@
 // import { Transaksi } from "@prisma/client";
 
+import { Signal } from "@builder.io/qwik";
 import { TTransaksi } from "./transaksi.type";
+import { Material, User } from "@prisma/client";
 
-export type TMaterial = {
-  id?: number;
-  nama: string;
-  jenis: string;
-  berat: number;
-  id_sampahTransaksi?: number;
-};
+export type TMaterial = Material;
 
-export type Material_Relasional = {
+export type Material_Relational = {
   berat: number;
   nama: string;
   id?: number;
@@ -24,12 +20,24 @@ export type PropsSelect = {
   _sum: {
     berat: number | null;
   };
-};export type PropsMaterialUser = {
+};
+export type PropsMaterialUser = Material;
+export type TSearchData = { nama: string; jenis: string };
+
+export type DataMaterial = {
   id: number;
   nama: string;
   berat: number;
   jenis: string;
-  id_sampahTransaksi: number | null;
+  id_user: number | null;
+  createdAt: Date;
+  User: User;
+  Transaksi: {
+    id: number;
+    tgl_transaksi: Date;
+    id_user: number | null;
+  }[];
 };
-export type TSearchData = { nama: string; jenis: string; };
-
+export type LoaderMaterialDetail =
+  | Readonly<Signal<null>>
+  | Readonly<Signal<DataMaterial>>;

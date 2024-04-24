@@ -1,22 +1,22 @@
 import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { zodRiwayatPenukaran } from "~/lib/Zod";
-import { join } from "~/db/join";
+import { join } from "~/db/join/join";
 import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { LoaderRiwayatPenukaran_Select } from "~/type/riwayatPenukaran.type";
 
 export const useSelectData = routeLoader$(async () => {
   const res = await join.user_opsiPenukaran();
-  return res as LoaderRiwayatPenukaran_Select
+  return res as LoaderRiwayatPenukaran_Select;
 });
 
 export const useCreateOpsiPenukaran = routeAction$(
   async (data, { redirect }) => {
-
     const json = await riwayatPenukaran.createOne({
-      tgl_tukar: new Date(data.tgl_tukar),
+      tgl_transaksi: new Date(data.tgl_tukar),
       id_user: Number(data.id_user),
-      id_opsi_penukaran: Number(data.id_opsi_penukaran),
+      id_material: Number(data.id_opsi_penukaran),
+      
     });
 
     if (json) {
@@ -35,7 +35,7 @@ export default component$(() => {
 
   return (
     <section class="card static bg-base-300  ">
-      <Form class="text-center card-body items-center" action={createAction}>
+      <Form class="card-body items-center text-center" action={createAction}>
         <h1 class="card-title ">Create Riwayat Penukaran</h1>
 
         <label class="form-control">
@@ -59,9 +59,9 @@ export default component$(() => {
           />
           <datalist
             id="id-user"
-          // class="select select-bordered w-full  "
-          //@ts-ignore
-          // name={"id_user"}
+            // class="select select-bordered w-full  "
+            //@ts-ignore
+            // name={"id_user"}
           >
             {selectData.value.user.map((d) => (
               //@ts-ignore
@@ -82,9 +82,9 @@ export default component$(() => {
             name={"id_opsi_penukaran"}
           />
           <datalist
-            id='id-opsi-penukaran'
-          // class="select select-bordered w-full  "
-          // name={"id_opsi_penukaran"}
+            id="id-opsi-penukaran"
+            // class="select select-bordered w-full  "
+            // name={"id_opsi_penukaran"}
           >
             {selectData.value.opsiPenukaran.map((d) => (
               //@ts-ignore

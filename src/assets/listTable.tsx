@@ -1,8 +1,9 @@
 import {
-  LuArrowLeftRight, LuBadgeDollarSign,
+  LuArrowLeftRight,
+  LuBadgeDollarSign,
   LuBoxes,
   LuHistory,
-  LuPersonStanding
+  LuPersonStanding,
 } from "@qwikest/icons/lucide";
 
 export const listTable = [
@@ -12,7 +13,8 @@ export const listTable = [
     icon: (
       <LuPersonStanding
         font-size={25}
-        class="inline-block h-6 w-6 stroke-current" />
+        class="inline-block h-6 w-6 stroke-current"
+      />
     ),
   },
   {
@@ -28,7 +30,8 @@ export const listTable = [
     icon: (
       <LuBadgeDollarSign
         font-size={25}
-        class="inline-block h-6 w-6 stroke-current" />
+        class="inline-block h-6 w-6 stroke-current"
+      />
     ),
   },
 
@@ -38,7 +41,8 @@ export const listTable = [
     icon: (
       <LuArrowLeftRight
         font-size={25}
-        class="inline-block h-6 w-6 stroke-current" />
+        class="inline-block h-6 w-6 stroke-current"
+      />
     ),
   },
   {

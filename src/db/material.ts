@@ -1,7 +1,7 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { prisma } from "../config/prisma";
 import { TMaterial, TSearchData } from "~/type/material.type";
-import { MaterialUser } from "./join";
+import { MaterialUser } from "./join/MaterialUser";
 
 class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
   findAll = async () => {
@@ -47,18 +47,17 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
         jenis: true,
         nama: true,
         id: true,
-        Sampah_Transaksi: {
+        id_user: true,
+        createdAt: true,
+        User: true,
+        Transaksi: {
           select: {
-            Transaksi: {
+            id: true,
+            tgl_transaksi: true,
+            id_user: true,
+            User: {
               select: {
-                id: true,
-                tgl_transaksi: true,
-                id_user: true,
-                User: {
-                  select: {
-                    nama: true,
-                  },
-                },
+                nama: true,
               },
             },
           },
@@ -73,7 +72,6 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
         berat: data.berat,
         nama: data.nama,
         jenis: data.jenis,
-        id_sampahTransaksi: data.id_sampahTransaksi,
       },
     });
 
@@ -89,7 +87,6 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
         berat: data.berat,
         nama: data.nama,
         jenis: data.jenis,
-        id_sampahTransaksi: data.id_sampahTransaksi,
       },
     });
     return material;

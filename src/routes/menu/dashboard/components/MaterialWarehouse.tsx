@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik";
 
 
 
+
 export const MaterialWarehouse = component$(() => {
   const datas = [
     { name: "Aaron", city: "Syria", size: 823 },

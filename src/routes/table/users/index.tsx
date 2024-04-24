@@ -7,15 +7,15 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { user } from "~/db/users";
+import { users } from "~/db/users";
 
 export const useGetUsers = routeLoader$(async () => {
-  return user.findAll();
+  return users.findAll();
 });
 
 export const useDeleteUserOnly = routeAction$(
   async (data) => {
-    return user.deleteOne(Number(data.id));
+    return users.deleteOne(Number(data.id));
   },
   zod$({ id: z.string() }),
 );
@@ -89,37 +89,3 @@ export default component$(() => {
     </section>
   );
 });
-
-{
-  /* <ul>
-{users.value.map((user, i) => (
-  <li key={user.id}>
-    <div class="card bg-base-100 w-96 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title">
-          {i + 1}. {user.nama}
-        </h2>
-        <p>
-          {user.alamat} {user.no_hp}
-        </p>
-        <p> {user.email} </p>
-        <div class="card-actions justify-end">
-          <p>
-            <span>create at </span>
-            <span>
-              {user.createdAt.toLocaleDateString("id-ID", {
-                dateStyle: "full",
-              })}
-            </span>
-          </p>
-
-          <Link href={`/users/${user.id}`} class="btn btn-primary">
-            Detail
-          </Link>
-        </div>
-      </div>
-    </div>
-  </li>
-))}
-</ul> */
-}

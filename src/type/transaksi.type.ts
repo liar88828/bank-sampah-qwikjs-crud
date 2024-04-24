@@ -4,6 +4,7 @@ export type TTransaksi = {
   // berat: number;
   // harga: number;
   id_user?: number;
+
   // id_material?: number;
 };
 
@@ -13,6 +14,9 @@ export type LoaderTransaksi = {
   createdAt: Date;
   updatedAt: Date;
   id_user: number;
+  Sampah_Transaksi: {
+    Material: {}[];
+  };
 };
 
 export type LoaderTransaksi_Detail = {

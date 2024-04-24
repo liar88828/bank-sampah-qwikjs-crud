@@ -3,16 +3,15 @@ import {
   routeAction$,
   zod$,
   Form,
-  useNavigate,
   z,
   routeLoader$,
   Link,
 } from "@builder.io/qwik-city";
-import { user } from "~/db/users";
+import { users } from "~/db/users";
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
-  const res= await user.findId(id);
+  const res = await users.findId(id);
   if (!res) {
     status(404);
   }
@@ -22,7 +21,7 @@ export const useGetUser = routeLoader$(async ({ params, status }) => {
 export const useUpdateUser = routeAction$(
   async (data, { redirect, params }) => {
     const id = Number(params["userId"]);
-    const res= await user.updateOne(id, data);
+    const res = await users.updateOne(id, data);
     if (res) {
       throw redirect(302, `/table/users/detail/${id}`);
     }
@@ -43,7 +42,7 @@ export default component$(() => {
   return (
     <section class="card bg-base-300">
       <Form
-        class="text-center card-body items-center"
+        class="card-body items-center text-center"
         action={updateUserAction}
       >
         <h1 class="card-title">Update User : {userData.value?.nama}</h1>
@@ -105,11 +104,6 @@ export default component$(() => {
           </Link>
         </div>
       </Form>
-      {!updateUserAction.value?.failed && (
-        <div>
-          <h2>User Update successfully!</h2>
-        </div>
-      )}
 
       {updateUserAction.value?.failed && (
         <p>Email {updateUserAction.value.fieldErrors.email}</p>

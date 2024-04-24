@@ -10,7 +10,7 @@ import {
 } from "@builder.io/qwik-city";
 import { transaksi } from "~/db/transaksi";
 import { user } from "~/db/users";
-import { works } from "~/db/work";
+import { works } from "~/db/work/work";
 import { zodPenyerahanSampah } from "~/lib/Zod";
 import { useGetSession } from "../layout";
 import { SessionExample } from "~/type/global.type";

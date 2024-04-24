@@ -2,91 +2,59 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "~/config/prisma";
 import { TSearchData } from "~/type/material.type";
 
-class Join {
-  user_material = async () => {
-    return prisma.$transaction(async (tx) => {
-      const materials = await tx.material.findMany({
-        select: {
-          id: true,
-          nama: true,
-        },
-      });
-      const user = await tx.user.findMany({
-        select: {
-          id: true,
-          nama: true,
-        },
-      });
-
-      return { user, materials };
-    });
-  };
-
-  user_opsiPenukaran = async () => {
-    return prisma.$transaction(async (tx) => {
-      return {
-        user: await tx.user.findMany({
-          select: {
-            id: true,
-            nama: true,
-          },
-        }),
-        opsiPenukaran: await tx.opsi_Penukaran.findMany({
-          select: {
-            id: true,
-            deskripsi: true,
-          },
-        }),
-      };
-    });
-  };
-}
-
-export const join = new Join();
-
-export class TransaksiUser {
+export class MaterialUser {
   findAllUser = async (id: number, page = 0, search = "") => {
     let limit = 100;
+
     return prisma.transaksi.findMany({
       where: {
         id_user: id,
       },
-      take: 100,
-      skip: page * limit,
-    });
-  };
-}
-export class MaterialUser {
-  findAllUser = async (id: number, page = 0, search = "") => {
-    let limit = 100;
-    return prisma.material.findMany({
-      where: {
-        nama: { contains: search },
-        Sampah_Transaksi: {
-          Transaksi: {
-            id_user: id,
+      select: {
+        id: true,
+        id_user: true,
+        Material: {
+          select: {
+            nama: true,
+            id: true,
           },
         },
+        tgl_transaksi: true,
       },
+
       take: 100,
       skip: page * limit,
     });
+
+    // return prisma.material.findMany({
+    //   where: {
+    //     nama: { contains: search },
+    //     id_user: id,
+    //   },
+    //   select: {
+    //     id: true,
+    //     berat: true,
+    //     nama: true,
+    //     jenis: true,
+    //     id_user: true,
+    //     Transaksi: true,
+
+    //   },
+    //   take: 100,
+    //   skip: page * limit,
+    // });
   };
 
   findSearchPageUser = async (
     id: number,
     jenis: string,
     search: string,
-    page: number
+    page: number,
   ) => {
     // console.table({ id, jenis, search, page });
     return prisma.material.findMany({
       where: {
-        Sampah_Transaksi: {
-          Transaksi: {
-            id_user: id,
-          },
-        },
+        id_user: id,
         jenis: { contains: jenis },
         nama: { contains: search },
       },
@@ -98,11 +66,7 @@ export class MaterialUser {
   findMaterialUser = async (id: number) => {
     return prisma.material.groupBy({
       where: {
-        Sampah_Transaksi: {
-          Transaksi: {
-            id_user: id,
-          },
-        },
+        id_user: id,
       },
       by: "jenis",
       _sum: {
@@ -142,4 +106,3 @@ export class MaterialUser {
     });
   };
 }
-

@@ -1,7 +1,7 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { prisma } from "../config/prisma";
 import { TTransaksi } from "~/type/transaksi.type";
-import { TransaksiUser } from "./join";
+import { TransaksiUser } from "./join/TransaksiUser";
 
 class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
   findAll = async (page = 0, limit = 1000) => {
@@ -22,11 +22,12 @@ class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
         id: true,
         id_user: true,
         tgl_transaksi: true,
-        Sampah_Transaksi: {
+        opsi_Penukaran: {
           select: {
-            total_berat: true,
-            total_harga: true,
+            berat: true,
+            harga: true,
             id: true,
+            deskripsi: true,
           },
         },
         User: {
