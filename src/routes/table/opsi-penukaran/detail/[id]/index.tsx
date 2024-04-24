@@ -1,5 +1,12 @@
 import { component$ } from "@builder.io/qwik";
-import { Form, Link, routeAction$, routeLoader$, z, zod$, } from "@builder.io/qwik-city";
+import {
+  Form,
+  Link,
+  routeAction$,
+  routeLoader$,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
 import { opsiPenukaran } from "~/db/opsiPenukaran";
 
 export const useGetId = routeLoader$(async ({ params, status }) => {
@@ -28,32 +35,33 @@ export default component$(() => {
   return (
     <section>
       {value ? (
-        <>
-          <div class="static card w-96 bg-base-300 shadow-xl">
-            <div class="card-body">
-              <h1 class="card-title">Opsi Penukaran : {value.id}</h1>
+        <div class="card static w-96 bg-base-300 shadow-xl">
+          <div class="card-body">
+            <h1 class="card-title">Opsi Penukaran : {value.id}</h1>
 
-              <p>Deskripsi : {value.deskripsi}</p>
-              <p>harga : {value.harga}</p>
+            <p>Deskripsi : {value?.deskripsi}</p>
+            <p>harga : {value.harga}</p>
 
-              <div class="card-actions ">
-                <Link href={`/table/opsi-penukaran/edit/${value.id}`} class="btn btn-info">
-                  Edit
-                </Link>
+            <div class="card-actions ">
+              <Link
+                href={`/table/opsi-penukaran/edit/${value.id}`}
+                class="btn btn-info"
+              >
+                Edit
+              </Link>
 
-                <Form action={deleteData}>
-                  <input type="hidden" value={value.id} name={"id"} />
-                  <button class="btn btn-error" type="submit">
-                    Delete
-                  </button>
-                </Form>
-                <Link href={`/table/opsi-penukaran`} class="btn btn-primary">
-                  Back
-                </Link>
-              </div>
+              <Form action={deleteData}>
+                <input type="hidden" value={value.id} name={"id"} />
+                <button class="btn btn-error" type="submit">
+                  Delete
+                </button>
+              </Form>
+              <Link href={`/table/opsi-penukaran`} class="btn btn-primary">
+                Back
+              </Link>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <p>Material not found</p>
       )}

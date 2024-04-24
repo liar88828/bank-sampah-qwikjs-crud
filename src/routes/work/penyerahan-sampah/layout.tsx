@@ -2,7 +2,7 @@ import { Slot, component$ } from "@builder.io/qwik";
 import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { transaksi } from "~/db/transaksi";
 import { user } from "~/db/users";
-import { works } from "~/db/work";
+import { works } from "~/db/work/work";
 
 export default component$(() => {
   return <Slot />;
@@ -37,7 +37,7 @@ export const useGetTransaksiSampah = routeLoader$(async ({ resolveValue }) => {
 });
 
 export const useLoadPenyerahan = routeLoader$(async () => {
-  return works.findAll(1);
+  return works.users().findId(1)
 });
 
 export const useGetPenukaran = routeLoader$(async ({ resolveValue }) => {

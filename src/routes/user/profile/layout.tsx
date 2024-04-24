@@ -1,27 +1,11 @@
 import { Session } from "@auth/core/types";
-import { Slot, component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { user } from "~/db/users";
-import { works } from "~/db/work";
+import { users } from "~/db/users";
+import { works } from "~/db/work/work";
 import { PropsProfile } from "~/type/user";
 
-export default component$(() => {
-  return (
-    <div class="container">
-      <Slot />
-    </div>
-  );
-});
 export const useLoaderData = routeLoader$(
   async ({ resolveValue, sharedMap, redirect }) => {
-    const session: Session | null = sharedMap.get("session") as Session;
-
-    if (!session || new Date(session.expires) < new Date()) {
-      throw redirect(302, `/`);
-    } else {
-      sharedMap.set("user", session.user);
-    }
-
     const user = await resolveValue(useProfileUser);
     const point = await resolveValue(usePointUser);
     return { user, point };
@@ -29,8 +13,9 @@ export const useLoaderData = routeLoader$(
 );
 
 export const useProfileUser = routeLoader$(async ({ status, sharedMap }) => {
-  const id_user = sharedMap.get("user");
-  const res = await user.findId(Number(id_user.id));
+  const session = sharedMap.get("session") as Session;
+  const id = Number(session.user.id);
+  const res = await users.findId(id);
   if (!res) {
     status(404);
   }
@@ -38,8 +23,10 @@ export const useProfileUser = routeLoader$(async ({ status, sharedMap }) => {
 });
 
 export const usePointUser = routeLoader$(async ({ status, sharedMap }) => {
-  const id_user = sharedMap.get("user");
-  const res = await works.totalPoint(Number(id_user.id));
+  const session = sharedMap.get("session") as Session;
+  const id = Number(session.user.id);
+
+  const res = await works.transaksi().totalPoint(id);
   if (!res) {
     status(404);
   }

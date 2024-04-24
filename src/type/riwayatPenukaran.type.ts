@@ -4,7 +4,7 @@ export type LoaderRiwayat_Penukaran = {
   id_user_penukaran: number | null;
   id_opsi_penukaran: number | null;
 };
-export type Opsi_Penukaran_Relasional = {
+export type Opsi_Penukaran_Relational = {
   id?: number;
   harga: number;
   deskripsi: string;
@@ -20,4 +20,12 @@ export type LoaderRiwayatPenukaran_Select = {
     id: number;
     deskripsi: string;
   }[];
+};
+
+
+export type ActionRiwayatPenukaran = {
+  id: number;
+  tgl_tukar: Date;
+  id_user_penukaran: number | null;
+  id_opsi_penukaran: number | null;
 };

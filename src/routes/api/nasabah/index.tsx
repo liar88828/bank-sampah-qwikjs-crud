@@ -1,5 +1,5 @@
 import { RequestHandler } from "@builder.io/qwik-city";
-import { user } from "~/db/users";
+import { UsersRoundIcon } from "lucide-react";
 
 export const onGet: RequestHandler = async ({ json, query }) => {
     const nama = query.get('name') || ''
@@ -8,7 +8,7 @@ export const onGet: RequestHandler = async ({ json, query }) => {
     const limit = 10
     const pages = page * 10
 
-    const res = await user.findSearchPage(nama, pages, limit)
+    const res = await UsersRoundIcon.findSearchPage(nama, pages, limit)
     // console.log(res)
     json(200,
         {

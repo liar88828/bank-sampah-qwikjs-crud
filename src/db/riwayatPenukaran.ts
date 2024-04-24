@@ -1,27 +1,11 @@
-import { LoaderRiwayat_Penukaran } from "~/type/riwayatPenukaran.type";
 import { prisma } from "../config/prisma";
-import { IPrismaOperator } from "~/type/IPrismaOperator";
+import { RiwayatPenukaranUser } from "./join/RiwayatPenukaranUser";
+import { Transaksi } from "@prisma/client";
 
-class RiwayatPenukaranUser {
-  findAllUser = async (id: number, page = 0, search = "") => {
-    let limit = 100;
-    return prisma.riwayat_Penukaran.findMany({
-      where: {
-        id_user_penukaran: id,
-      },
-      take: 100,
-      skip: page * limit,
-    });
-  };
-}
-
-export const riwayatPenukaranUser = new RiwayatPenukaranUser();
-class RiwayatPenukaran
-  extends RiwayatPenukaranUser
-  implements IPrismaOperator<LoaderRiwayat_Penukaran>
-{
+class RiwayatPenukaran extends RiwayatPenukaranUser {
+  // implements IPrismaOperator<LoaderRiwayat_Penukaran>
   findAll = async () => {
-    return prisma.riwayat_Penukaran.findMany({
+    return prisma.transaksi.findMany({
       include: {
         User: {
           select: {
@@ -29,7 +13,7 @@ class RiwayatPenukaran
             nama: true,
           },
         },
-        Opsi_Penukaran: {
+        opsi_Penukaran: {
           select: {
             id: true,
             deskripsi: true,
@@ -40,7 +24,7 @@ class RiwayatPenukaran
   };
 
   findId = async (id: number) => {
-    return prisma.riwayat_Penukaran.findUnique({
+    return prisma.transaksi.findUnique({
       where: { id },
 
       include: {
@@ -50,7 +34,7 @@ class RiwayatPenukaran
             nama: true,
           },
         },
-        Opsi_Penukaran: {
+        opsi_Penukaran: {
           select: {
             id: true,
             deskripsi: true,
@@ -60,31 +44,33 @@ class RiwayatPenukaran
     });
   };
 
-  createOne = async (data: LoaderRiwayat_Penukaran) => {
-    return prisma.riwayat_Penukaran.create({
+  createOne = async (
+    data: Pick<Transaksi, "id_material" | "id_user" | "tgl_transaksi">,
+  ) => {
+    return prisma.transaksi.create({
       data: {
-        tgl_tukar: data.tgl_tukar,
-        id_user_penukaran: data.id_user_penukaran,
-        id_opsi_penukaran: data.id_opsi_penukaran,
+        tgl_transaksi: data.tgl_transaksi,
+        id_material: data.id_material,
+        id_user: data.id_user,
       },
     });
   };
 
-  updateOne = async (id: number, data: LoaderRiwayat_Penukaran) => {
-    return prisma.riwayat_Penukaran.update({
+  updateOne = async (id: number, data: Transaksi) => {
+    return prisma.transaksi.update({
       where: {
         id: id,
       },
       data: {
-        tgl_tukar: data.tgl_tukar,
-        id_user_penukaran: data.id_user_penukaran,
-        id_opsi_penukaran: data.id_opsi_penukaran,
+        tgl_transaksi: data.tgl_transaksi,
+        id_material: data.id_material,
+        id_user: data.id_user,
       },
     });
   };
 
   deleteOne = async (id: number) => {
-    return prisma.riwayat_Penukaran.delete({ where: { id } });
+    return prisma.transaksi.delete({ where: { id } });
   };
 }
 

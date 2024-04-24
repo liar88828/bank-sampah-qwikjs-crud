@@ -8,22 +8,27 @@ import {
   LuBox,
 } from "@qwikest/icons/lucide";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 
 export default component$(() => {
   const loadData = useLoaderData();
+  // console.log(listBreadcrumbs[0]);
   return (
-    <section class="space-y-3">
+    <section class="container space-y-3">
       <Breadcrumbs
-        data={[
-          {
-            name: "Home",
-            link: "/",
-          },
-          {
-            name: "Profile",
-            link: "/user/profile/",
-          },
-        ]}
+        data={
+          //   [
+          //   {
+          //     name: "Home",
+          //     link: "/",
+          //   },
+          //   {
+          //     name: "Profile",
+          //     link: "/user/profile/",
+          //   },
+          // ]
+          getBreadcrumbTrail("Profile")
+        }
       />
 
       <Resource
@@ -92,17 +97,17 @@ export const Profile = component$(
                 <dt class="text-lg font-bold">Total Transaksi : </dt>
 
                 <dd class="mt-1  flex w-full flex-wrap gap-2  sm:col-span-2 sm:mt-0">
-                  <Link href="transaksi?page=0" class="btn btn-primary btn-sm">
+                  <Link href="/user/transaksi?page=0" class="btn btn-primary btn-sm">
                     Transaksi
                     <LuArrowLeftRight />
                     {point.totalTransaksi}
                   </Link>
-                  <Link href="penukaran?page=0" class="btn btn-info btn-sm">
+                  <Link href="/user/penukaran?page=0" class="btn btn-info btn-sm">
                     Penukaran
                     <LuBadgeDollarSign />
                     {point.totalBeli}
                   </Link>
-                  <Link href="material?page=0" class="btn btn-warning btn-sm">
+                  <Link href="/user/material?page=0" class="btn btn-warning btn-sm">
                     Material
                     <LuBox />
                     {point.totalMaterial}
@@ -110,16 +115,16 @@ export const Profile = component$(
                 </dd>
               </div>
               <div class="card-actions py-3 sm:px-6 sm:py-5 ">
-                <Link href="edit" class="btn btn-warning">
+                <Link href="/user/edit" class="btn btn-warning">
                   Edit
                 </Link>
-                <Link href="print" class="btn btn-primary">
+                <Link href="/user/print" class="btn btn-primary">
                   Print
                 </Link>
-                <Link href="info" class="btn btn-info">
+                <Link href="/user/info" class="btn btn-info">
                   Info
                 </Link>
-                <Link href="penyerahan" class="btn btn-secondary">
+                <Link href="/user/penyerahan" class="btn btn-secondary">
                   Penyerahan
                 </Link>
               </div>

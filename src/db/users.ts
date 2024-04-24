@@ -3,7 +3,7 @@ import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { Prisma } from "@prisma/client";
 import { UserProfile } from "~/type/user";
 
-class User implements IPrismaOperator<UserProfile> {
+export class Users implements IPrismaOperator<UserProfile> {
   findFirst = async () => {
     const users = await prisma.user.findFirst();
     return users;
@@ -71,4 +71,4 @@ class User implements IPrismaOperator<UserProfile> {
   };
 }
 
-export const user = new User();
+export const users = new Users();

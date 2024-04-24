@@ -41,8 +41,8 @@ export const TransaksiSampah = component$(
               {data.map((d, i) => (
                 <tr key={d?.id}>
                   <th>{i + 1}</th>
-                  <td>{d?.total_berat}</td>
-                  <td>{d?.total_harga}</td>
+                  <td>{d?.berat}</td>
+                  <td>{d?.harga}</td>
 
                   <td class="flex flex-nowrap gap-2">
                     {/* <Link

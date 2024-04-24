@@ -1,7 +1,67 @@
-import { prisma } from "../config/prisma";
-import { TPenyerahanSampah } from "~/type/penyerahanSampah.type";
+import { prisma } from "~/config/prisma";
+import { TPenyerahanSampah } from "~/type/penyerahan-sampah.type";
+import { OpsiPenukaran } from "../opsiPenukaran";
 
-class Work {
+export class TransaksiUser {
+  // extends OpsiPenukaran
+  transaksiFindIdUser = async (id_user: number) => {
+    return prisma.transaksi.findMany({
+      where: { id_user },
+      select: {
+        id: true,
+        id_user: true,
+        tgl_transaksi: true,
+
+        status_Transaksi: true,
+        opsi_Penukaran: true,
+      },
+    });
+  };
+
+  findUserId_Material_Status_Opsi = async (
+    id: number,
+    page = 0,
+    search = "",
+  ) => {
+    let limit = 100;
+    return prisma.transaksi.findMany({
+      where: {
+        id_user: id,
+      },
+      select: {
+        id_user: true,
+        id: true,
+        tgl_transaksi: true,
+        status_Transaksi: true,
+        opsi_Penukaran: true,
+        Material: true,
+      },
+      take: 100,
+      skip: page * limit,
+    });
+  };
+
+  findAllTransaksiMaterialUser = async (id: number) => {
+    return prisma.material.findMany({
+      where: {
+        id_user: id,
+      },
+
+      select: {
+        berat: true,
+        id: true,
+        id_user: true,
+        jenis: true,
+        nama: true,
+        User: {
+          select: {
+            nama: true,
+          },
+        },
+      },
+    });
+  };
+
   // single transaction
   transaction_penyerahanSampah = async (data: TPenyerahanSampah) => {
     const user = await prisma.user.findUnique({
@@ -17,29 +77,30 @@ class Work {
         tgl_transaksi: new Date(),
         id_user: user.id,
         // status transaksi-one
-        Status_Transaksi: {
+        status_Transaksi: {
           create: {
             type: data.status,
           },
         },
         // sampah transaksi-one
-        Sampah_Transaksi: {
+        opsi_Penukaran: {
           create: {
-            total_berat: 0,
-            total_harga: 0,
+            harga: 0,
+            berat: 0,
+            deskripsi:""
             // material -many
-            Material: {
-              createMany: {
-                data: data.sampah.map((d) => {
-                  return {
-                    berat: Number(d.berat),
-                    jenis: d.jenis,
-                    nama: d.nama,
-                    id_sampahTransaksi: user.id,
-                  };
-                }),
-              },
-            },
+            // Material: {
+            //   createMany: {
+            //     data: data.sampah.map((d) => {
+            //       return {
+            //         berat: Number(d.berat),
+            //         jenis: d.jenis,
+            //         nama: d.nama,
+            //         id_sampahTransaksi: user.id,
+            //       };
+            //     }),
+            //   },
+            // },
           },
         },
       },
@@ -79,12 +140,8 @@ class Work {
       });
       console.log("success create status transaksi");
 
-      const sampah_Transaksi = await tx.sampah_Transaksi.create({
-        data: {
-          total_berat: 0,
-          total_harga: 0,
-          id_Transaksi: transaksi.id,
-        },
+      const sampah_Transaksi = await tx.opsi_Penukaran.create({
+        data: { id_transaksi: 0, berat: 0, harga: 0, deskripsi: "" },
       });
       console.log("success create sampah transaksi");
 
@@ -156,76 +213,19 @@ class Work {
     });
   };
 
-  findAll = async (id: number) => {
-    return prisma.user.findFirst();
-  };
-
-  transaksi = async (id_user: number) => {
-    return prisma.transaksi.findMany({
-      where: { id_user },
-      select: {
-        id: true,
-        id_user: true,
-        tgl_transaksi: true,
-
-        Status_Transaksi: true,
-        Sampah_Transaksi: {
-          select: {
-            id: true,
-            total_berat: true,
-            total_harga: true,
-
-            Material: true,
-            // _count: true,
-          },
-        },
-      },
-    });
-  };
-
-  transaksiSampah = async (id: number) => {
-    return prisma.sampah_Transaksi.findMany({
-      select: {
-        total_berat: true,
-        total_harga: true,
-        id: true,
-        id_Transaksi: true,
-        Material: true,
-      },
-    });
-  };
-
-  riwayatPenukaran = async (id: number) => {
-    return prisma.riwayat_Penukaran.findMany({
-      where: { id: id },
-      select: {
-        id: true,
-        id_opsi_penukaran: true,
-        id_user_penukaran: true,
-        Opsi_Penukaran: true,
-        tgl_tukar: true,
-        User: true,
-      },
-    });
-  };
-
   totalPoint = async (id: number) => {
     return prisma.$transaction(async (tx) => {
       const totalTransaksi = await tx.transaksi.count({
         where: { id_user: id },
       });
 
-      const totalBeli = await tx.riwayat_Penukaran.count({
-        where: { id_user_penukaran: id },
+      const totalBeli = await tx.transaksi.count({
+        where: { id_user: id },
       });
 
       const totalMaterial = await tx.material.count({
         where: {
-          Sampah_Transaksi: {
-            Transaksi: {
-              id_user: id,
-            },
-          },
+          id_user: id,
         },
       });
 
@@ -236,46 +236,4 @@ class Work {
       };
     });
   };
-
-  test = async (id: number) => {
-    const test = await prisma.material.groupBy({
-      by: ["jenis"],
-      _sum: {
-        berat: true,
-      },
-      _count: {
-        _all: true,
-      },
-      where: {
-        Sampah_Transaksi: {
-          Transaksi: {
-            id_user: id,
-          },
-        },
-      },
-    });
-
-    const test2 = await prisma.material.aggregate({
-      // by: ["jenis"],
-      _sum: {
-        berat: true,
-      },
-      _count: {
-        _all: true,
-        // jenis: true,
-      },
-      where: {
-        Sampah_Transaksi: {
-          Transaksi: {
-            id_user: id,
-          },
-        },
-      },
-    });
-
-    // console.log(test, "groupBy");
-    // console.log(test2, "aggregate");
-  };
 }
-
-export const works = new Work();
