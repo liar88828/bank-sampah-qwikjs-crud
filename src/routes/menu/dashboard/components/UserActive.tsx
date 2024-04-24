@@ -7,6 +7,7 @@ const datas = [
   { name: "Ophelia", city: "Equatorial Guinea", work: "developer" },
   { name: "Beatrice", city: "Grenada", work: "developer" },
 ];
+
 export const UserActive = component$(() => {
   return (
     <div class="rounded bg-base-100 p-5 shadow shadow-gray-400 ">
