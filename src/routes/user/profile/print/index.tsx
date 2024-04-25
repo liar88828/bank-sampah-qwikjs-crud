@@ -6,9 +6,9 @@ import {
   CardDepan,
   MultiHorizontal,
   MultiVertical,
-} from "./component/CardLayout";
-import { CardBelakangComponent } from "./component/CardBelakang";
-import { CardMember } from "./component/CardMember";
+} from "../../../../components/card/print/CardLayout";
+import { CardBelakangComponent } from "../../../../components/card/print/CardBelakang";
+import { CardMember } from "../../../../components/card/print/CardMember";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 
 export default component$(() => {

@@ -35,6 +35,7 @@ model Transaksi {
 
   status_Transaksi Status_Transaksi?
   opsi_Penukaran   Opsi_Penukaran?
+  Opsi_Penyerahan  Opsi_Penyerahan?
 }
 
 model Status_Transaksi {
@@ -47,6 +48,17 @@ model Status_Transaksi {
 }
 
 model Opsi_Penukaran {
+  id           Int       @id @default(autoincrement())
+  harga        Int?
+  berat        Int
+  deskripsi    String
+  id_transaksi Int       @unique
+  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Opsi_Penyerahan {
   id           Int       @id @default(autoincrement())
   harga        Int?
   berat        Int

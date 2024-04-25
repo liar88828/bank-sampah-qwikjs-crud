@@ -1,4 +1,4 @@
-import { QRL } from "@builder.io/qwik";
+import {type  QRL } from "@builder.io/qwik";
 
 export type TotalMaterialProps = {
   id: number;
@@ -47,7 +47,8 @@ export type SampahStore = {
   }[];
   add: QRL<(this: SampahStore) => void>;
   remove: QRL<(this: SampahStore, index: number) => void>;
-};export type TPenyerahanSampah = {
+};
+export type TPenyerahanSampah = {
   id_user: string | number;
   status: string;
   sampah: {

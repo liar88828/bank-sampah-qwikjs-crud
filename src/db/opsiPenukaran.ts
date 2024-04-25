@@ -2,7 +2,7 @@ import { prisma } from "../config/prisma";
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { TOpsi_Penukaran } from "~/type/opsiPenukaran.type";
 
-export  class OpsiPenukaran implements IPrismaOperator<TOpsi_Penukaran> {
+export class OpsiPenukaran implements IPrismaOperator<TOpsi_Penukaran> {
   findAll = async () => {
     return prisma.opsi_Penukaran.findMany({});
   };
@@ -16,6 +16,7 @@ export  class OpsiPenukaran implements IPrismaOperator<TOpsi_Penukaran> {
         deskripsi: data.deskripsi,
         harga: data.harga,
         berat: data.berat,
+        id_transaksi: 0,
       },
     });
   };
@@ -51,8 +52,6 @@ export  class OpsiPenukaran implements IPrismaOperator<TOpsi_Penukaran> {
     });
   };
 
-
-  
   user_opsiPenukaran = async () => {
     return prisma.$transaction(async (tx) => {
       return {

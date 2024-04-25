@@ -1,35 +1,20 @@
-import { QRL, Slot, component$ } from "@builder.io/qwik";
-import {
-  routeAction$,
-  routeLoader$,
-  useContent,
-  useDocumentHead,
-  useLocation,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
-import { transaksi } from "~/db/transaksi";
-import { user } from "~/db/users";
-import { works } from "~/db/work/work";
+import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { zodPenyerahanSampah } from "~/lib/Zod";
-import { useGetSession } from "../layout";
 import { SessionExample } from "~/type/global.type";
-
-export default component$(() => {
-  const head = useDocumentHead();
-  return <Slot />;
-});
+import { users } from "~/db/users";
+import { transaksi } from "~/db/transaksi";
+import { Session } from "@auth/core/types";
 
 export const useLoadData = routeLoader$(
-  async ({ query, resolveValue, cookie }) => {
-    const getSession = cookie.get("id_user")?.json();
-    if (!getSession) {
-      const sessions = await resolveValue(useGetSession);
-      cookie.set("id_user", sessions as SessionExample);
+  async ({ query, resolveValue, cookie, sharedMap }) => {
+    const session = sharedMap.get("session") as Session;
+
+    if (!session) {
+      cookie.set("id_user", session as SessionExample);
     }
 
     return {
-      user: await user.findAll(),
+      user: await users.findAll(),
       queryData: {
         // id_user: query.get("id_user"),
         // id_material: query.get("id_material"),
@@ -53,9 +38,15 @@ export const useCreatePenyerahan = routeAction$(
     }
     // let totalBerat = data.sampah.reduce((a, b) => Nu(a.berat) + b.berat, 0);
 
-    const res = await works.penyerahanSampah({
+    const res = await transaksi.penyerahanSampah({
       ...data,
       id_user: session.id, // "1"
+      status: "Menunggu Konfirmasi",
+      sampah: data.sampah.map((s) => ({
+        berat: Number(s.berat),
+        jenis: s.jenis,
+        nama: s.nama,
+      })),
     });
     console.log(res);
 

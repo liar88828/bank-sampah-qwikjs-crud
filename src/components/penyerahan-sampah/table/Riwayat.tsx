@@ -35,12 +35,12 @@ export const Riwayat = component$(() => {
                   {data.map((d, i) => (
                     <tr key={d?.id}>
                       <th>{i + 1}</th>
-                      <td>{getDate(d?.tgl_tukar)}</td>
+                      <td>{getDate(d?.tgl_transaksi)}</td>
                       <td>{d?.User?.nama}</td>
                       <td>{d?.User?.alamat}</td>
                       <td>{d?.User?.no_hp}</td>
-                      <td>{d?.Opsi_Penukaran?.harga}</td>
-                      <td>{d?.Opsi_Penukaran?.deskripsi}</td>
+                      <td>{d?.opsi_Penukaran?.harga}</td>
+                      <td>{d?.opsi_Penukaran?.deskripsi}</td>
 
                       <td class="flex flex-nowrap gap-2">
                         {/* <Link

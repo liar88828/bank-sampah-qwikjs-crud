@@ -1,8 +1,101 @@
 import { prisma } from "~/config/prisma";
+import { PenukaranTransaksi } from "~/type/transaksi.type";
+import { PenyerahanTransaksi } from "~/type/transaksi.type";
 import { TPenyerahanSampah } from "~/type/penyerahan-sampah.type";
-import { OpsiPenukaran } from "../opsiPenukaran";
+import { MaterialTransaction } from "~/type/transaksi.type";
+import { PropsProfile } from "~/type/user";
 
-export class TransaksiUser {
+
+
+
+export class ProfilePage {
+  findPenyerahanTransaksi = async (
+    id: number,
+    page = 0,
+    search = "",
+  ): Promise<PenyerahanTransaksi[]> => {
+    let limit = 100;
+
+    const res = await prisma.opsi_Penyerahan.findMany({
+      where: {
+        Transaksi: {
+          id_user: id,
+        },
+      },
+      select: {
+        berat: true,
+        createdAt: true,
+        deskripsi: true,
+        harga: true,
+        id: true,
+        id_transaksi: true,
+        updatedAt: true,
+        Transaksi: true,
+      },
+      take: 100,
+      skip: page * limit,
+    });
+    return res;
+  };
+
+  findPenukaranTransaksi = async (
+    id: number,
+    page = 0,
+    search = "",
+  ): Promise<PenukaranTransaksi[]> => {
+    let limit = 100;
+
+    return prisma.opsi_Penukaran.findMany({
+      where: {
+        Transaksi: {
+          id_user: id,
+        },
+      },
+      select: {
+        berat: true,
+        createdAt: true,
+        deskripsi: true,
+        harga: true,
+        id: true,
+        id_transaksi: true,
+        updatedAt: true,
+        Transaksi: true,
+      },
+      take: 100,
+      skip: page * limit,
+    });
+  };
+
+  findMaterialTransaksi = async (
+    id: number,
+    page = 0,
+    search = "",
+  ): Promise<MaterialTransaction[]> => {
+    let limit = 100;
+
+    return prisma.material.findMany({
+      where: {
+        id_user: id,
+      },
+      select: {
+        id: true,
+        nama: true,
+        berat: true,
+        jenis: true,
+        id_user: true,
+        createdAt: true,
+        updatedAt: true,
+
+        Transaksi: true,
+      },
+
+      take: 100,
+      skip: page * limit,
+    });
+  };
+}
+
+export class TransaksiUser extends ProfilePage {
   // extends OpsiPenukaran
   transaksiFindIdUser = async (id_user: number) => {
     return prisma.transaksi.findMany({
@@ -11,7 +104,6 @@ export class TransaksiUser {
         id: true,
         id_user: true,
         tgl_transaksi: true,
-
         status_Transaksi: true,
         opsi_Penukaran: true,
       },
@@ -46,7 +138,6 @@ export class TransaksiUser {
       where: {
         id_user: id,
       },
-
       select: {
         berat: true,
         id: true,
@@ -87,7 +178,7 @@ export class TransaksiUser {
           create: {
             harga: 0,
             berat: 0,
-            deskripsi:""
+            deskripsi: "",
             // material -many
             // Material: {
             //   createMany: {
@@ -110,12 +201,11 @@ export class TransaksiUser {
   // multi
   penyerahanSampah = async (data: TPenyerahanSampah) => {
     return prisma.$transaction(async (tx) => {
-      // console.log(data);
-
       const user = await tx.user.findUnique({
         where: { id: Number(data.id_user) },
       });
       console.log("user found");
+
       if (!user) {
         console.log("user not found");
         return {
@@ -128,22 +218,27 @@ export class TransaksiUser {
         data: {
           tgl_transaksi: new Date(),
           id_user: user.id,
+          status_Transaksi: {
+            create: {
+              type: data.status,
+            },
+          },
         },
       });
       console.log("success create transaksi");
 
-      const status_Transaksi = await tx.status_Transaksi.create({
-        data: {
-          type: data.status,
-          id_transaksi: transaksi.id,
-        },
-      });
-      console.log("success create status transaksi");
+      // const status_Transaksi = await tx.status_Transaksi.create({
+      //   data: {
+      //     type: data.status,
+      //     id_transaksi: transaksi.id,
+      //   },
+      // });
+      // console.log("success create status transaksi");
 
-      const sampah_Transaksi = await tx.opsi_Penukaran.create({
-        data: { id_transaksi: 0, berat: 0, harga: 0, deskripsi: "" },
-      });
-      console.log("success create sampah transaksi");
+      // const opsi_Penukaran = await tx.opsi_Penyerahan.create({
+      //   data: { id_transaksi: 0, berat: 0, harga: 0, deskripsi: "" },
+      // });
+      // console.log("success create sampah transaksi");
 
       const material = await tx.material.createMany({
         data: data.sampah.map((d) => {
@@ -151,7 +246,8 @@ export class TransaksiUser {
             berat: Number(d.berat),
             jenis: d.jenis,
             nama: d.nama,
-            id_sampahTransaksi: sampah_Transaksi.id,
+            id_user: user.id,
+            // id_sampahTransaksi: opsi_Penukaran.id,
           };
         }),
       });
@@ -206,9 +302,9 @@ export class TransaksiUser {
       return {
         user,
         transaksi,
-        status_Transaksi,
-        sampah_Transaksi,
         material,
+        // status_Transaksi,
+        // sampah_Transaksi,
       };
     });
   };
@@ -219,21 +315,38 @@ export class TransaksiUser {
         where: { id_user: id },
       });
 
-      const totalBeli = await tx.transaksi.count({
-        where: { id_user: id },
-      });
-
       const totalMaterial = await tx.material.count({
         where: {
           id_user: id,
         },
       });
 
+      const totalPenukaran = await tx.opsi_Penukaran.count({
+        where: {
+          Transaksi: {
+            id_user: id,
+          },
+        },
+      });
+
+      const totalPenyerahan = await tx.opsi_Penyerahan.count({
+        where: {
+          Transaksi: {
+            id_user: id,
+          },
+        },
+      });
+
       return {
         totalTransaksi,
-        totalBeli,
+        totalPenukaran,
         totalMaterial,
-      };
+        totalPenyerahan,
+      } as PropsProfile["point"];
     });
   };
+
+
+
+  
 }

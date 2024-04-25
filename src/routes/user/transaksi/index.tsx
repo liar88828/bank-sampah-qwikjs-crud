@@ -169,21 +169,21 @@ export const Heads = component$(() => {
       <Breadcrumbs
         data={
           getBreadcrumbTrail("Transaksi")
-        //   [
-        //   {
-        //     name: "Home",
-        //     link: "/",
-        //   },
-        //   {
-        //     name: "Profile",
-        //     link: "/user/profile/",
-        //   },
-        //   {
-        //     name: "Transaksi",
-        //     link: "/user/profile/transaksi",
-        //   },
-        // ]
-      }
+          //   [
+          //   {
+          //     name: "Home",
+          //     link: "/",
+          //   },
+          //   {
+          //     name: "Profile",
+          //     link: "/user/profile/",
+          //   },
+          //   {
+          //     name: "Transaksi",
+          //     link: "/user/profile/transaksi",
+          //   },
+          // ]
+        }
       />
     </>
   );

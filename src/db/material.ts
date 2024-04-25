@@ -69,8 +69,8 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
   createOne = async (data: TMaterial) => {
     const material = await prisma.material.create({
       data: {
-        berat: data.berat,
         nama: data.nama,
+        berat: data.berat,
         jenis: data.jenis,
       },
     });

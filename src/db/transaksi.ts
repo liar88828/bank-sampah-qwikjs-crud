@@ -1,8 +1,12 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
 import { prisma } from "../config/prisma";
-import { TTransaksi } from "~/type/transaksi.type";
 import { TransaksiUser } from "./join/TransaksiUser";
+import { Material, Transaksi as TransaksiType } from "@prisma/client";
+import { TTransaksi } from "~/type/transaksi.type";
 
+export type TransaksiMaterial = TransaksiType & {
+  Material: Material | null;
+};
 class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
   findAll = async (page = 0, limit = 1000) => {
     return prisma.transaksi.findMany({
@@ -13,6 +17,28 @@ class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
 
   findId = async (id: number) => {
     return prisma.transaksi.findUnique({ where: { id } });
+  };
+
+  find_Transaksi_Material = async (
+    id: number,
+  ): Promise<TransaksiMaterial[]> => {
+    const res = await prisma.transaksi.findMany({
+      where: { id_user: id },
+      // include: {
+      //   Material: true,
+      //   User: true,
+      // },
+      select: {
+        createdAt: true,
+        id: true,
+        id_material: true,
+        id_user: true,
+        tgl_transaksi: true,
+        updatedAt: true,
+        Material: true,
+      },
+    });
+    return res;
   };
 
   findDetail = async (id: number) => {
@@ -45,9 +71,9 @@ class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
     prisma.transaksi.create({
       data: {
         tgl_transaksi: data.tgl_transaksi,
+        id_user: data.id_user,
         // berat: data.berat,
         // harga: data.harga,
-        id_user: data.id_user,
         // id_material: data.id_material,
       },
     });
@@ -59,9 +85,9 @@ class Transaksi extends TransaksiUser implements IPrismaOperator<TTransaksi> {
       },
       data: {
         tgl_transaksi: data.tgl_transaksi,
+        id_user: data.id_user,
         // berat: data.berat,
         // harga: data.harga,
-        id_user: data.id_user,
         // id_material: data.id_material,
       },
     });

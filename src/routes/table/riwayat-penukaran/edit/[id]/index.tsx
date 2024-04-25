@@ -22,9 +22,9 @@ export const useUpdate = routeAction$(async (data, { redirect, params }) => {
   const id = Number(params["id"]);
 
   const material = await riwayatPenukaran.updateOne(id, {
-    tgl_tukar: new Date(data.tgl_tukar),
+    tgl_transaksi: new Date(data.tgl_tukar),
     id_user: Number(data.id_user),
-    id_opsi_penukaran: Number(data.id_opsi_penukaran),
+    id_material: Number(data.id_opsi_penukaran),
   });
   if (material) throw redirect(302, `/table/riwayat-penukaran/detail/${id}`);
 
@@ -41,7 +41,7 @@ export default component$(() => {
     <section class="card static bg-base-300 ">
       <Form class="card-body items-center text-center" action={updateAction}>
         <h1 class="card-title">
-          Update : {getDate(materialData.value?.tgl_tukar || new Date())}
+          Update : {getDate(materialData.value?.tgl_transaksi || new Date())}
         </h1>
 
         <label class="form-control">
@@ -51,7 +51,7 @@ export default component$(() => {
             class="input input-bordered"
             type="date"
             value={
-              new Date(materialData?.value?.tgl_tukar || 0).toISOString() ||
+              new Date(materialData?.value?.tgl_transaksi || 0).toISOString() ||
               updateAction.formData?.get("tgl_tukar")
             }
           />

@@ -4,10 +4,14 @@ import { UserActive } from "./components/UserActive";
 import { MaterialWarehouse } from "./components/MaterialWarehouse";
 import { BestSelling } from "./components/BestSelling";
 import { BarTopProduct } from "~/components/chart/bar/bar-topProduct";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 
 export default component$(() => {
   return (
     <div class=" container ">
+      <Breadcrumbs data={getBreadcrumbTrail("Dashboard")} />
+
       <Status />
 
       <div class="mt-5 grid  grid-cols-1 gap-5 sm:grid-cols-2">

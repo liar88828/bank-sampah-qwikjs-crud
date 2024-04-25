@@ -54,8 +54,6 @@ export const useActionMaterialBeli = routeAction$(
 );
 
 export default component$(() => {
-  const loadData = useLoadMaterialId();
-
   // console.log(params.id_material)
   return (
     <div class="container space-y-5">
@@ -73,12 +71,12 @@ export default component$(() => {
             link: "",
           },
           {
-            name: loadData.value?.nama as string,
+            name: "",
             link: ``,
           },
         ]}
       />
-      <DetailTransaksi loadData={loadData} />
+      <DetailTransaksi />
     </div>
   );
 });

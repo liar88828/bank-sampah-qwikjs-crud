@@ -9,11 +9,10 @@ import {
 } from "@builder.io/qwik-city";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
-import { LoaderTransaksi } from "~/type/transaksi.type";
 
 export const useGetTransaksi = routeLoader$(async () => {
   const res = await transaksi.findAll();
-  return res as LoaderTransaksi[];
+  return res;
 });
 
 export const useDeleteTransaksi = routeAction$(

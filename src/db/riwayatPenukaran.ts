@@ -56,7 +56,10 @@ class RiwayatPenukaran extends RiwayatPenukaranUser {
     });
   };
 
-  updateOne = async (id: number, data: Transaksi) => {
+  updateOne = async (
+    id: number,
+    data: { tgl_transaksi: Date; id_material: number; id_user: number },
+  ) => {
     return prisma.transaksi.update({
       where: {
         id: id,
