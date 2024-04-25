@@ -11,7 +11,7 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
 
   findMaterial = async () => {
     return prisma.material.groupBy({
-      by: ["jenis"],
+      by: ["kategori"],
       _sum: {
         berat: true,
       },
@@ -22,16 +22,6 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
       group: await this.findMaterial(),
       load: await this.findAllSearch(search),
     };
-
-    // console.log(search);
-    // const res = await prisma.material.groupBy({
-    //   by: "jenis",
-    //   _sum: {
-    //     berat: true,
-    //     id: true,
-    //     id_sampahTransaksi: true,
-    //   },
-    // });
   };
 
   findId = async (id: number) => {
@@ -44,7 +34,7 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
       where: { id },
       select: {
         berat: true,
-        jenis: true,
+        kategori: true,
         nama: true,
         id: true,
         id_user: true,
@@ -69,9 +59,14 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
   createOne = async (data: TMaterial) => {
     const material = await prisma.material.create({
       data: {
-        berat: data.berat,
+        id_user: data.id_user,
         nama: data.nama,
-        jenis: data.jenis,
+        berat: data.berat,
+        kategori: data.kategori,
+        harga: data.harga,
+        satuan: data.satuan,
+        deskripsi: data.deskripsi,
+        
       },
     });
 
@@ -86,7 +81,7 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
       data: {
         berat: data.berat,
         nama: data.nama,
-        jenis: data.jenis,
+        kategori: data.kategori,
       },
     });
     return material;

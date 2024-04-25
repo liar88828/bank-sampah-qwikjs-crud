@@ -8,11 +8,11 @@ export default {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem",
-        // sm: "",
-        // lg: "4rem",
-        // xl: "5rem",
-        // "2xl": "6rem",
+        DEFAULT: "2vw",
+        sm: "3vw",
+        md: "3vw",
+        lg: "3vw",
+        
       },
     },
 

@@ -7,7 +7,6 @@ import {
 } from "~/routes/plugin@auth";
 import { SideBar } from "./SideBar";
 
-
 export const Navbar = component$(() => {
   return (
     <div class="navbar bg-base-100">
@@ -78,4 +77,3 @@ export const ListMenu = component$(() => {
     </>
   );
 });
-

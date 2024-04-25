@@ -1,22 +1,15 @@
-import { component$ } from "@builder.io/qwik";
-import {
-  Form,
-  Link,
-  routeAction$,
-  routeLoader$,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
+import { $, Resource, component$, useId } from "@builder.io/qwik";
+import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
+import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { OptionsCard } from "~/components/basic/OptionsCard";
+import { DetailOnly } from "~/components/card/Material/DetailOnly";
 import { material } from "~/db/material";
+import { DataMaterial } from "~/type/material.type";
 
-export const useGetId = routeLoader$(async ({ params, status }) => {
-  const id = parseInt(params["id"], 10);
-  const res = material.findId(id);
-
-  if (!res) {
-    status(404);
-  }
-  return res;
+export const useGetId = routeLoader$(async ({ params }) => {
+  const res = await material.findId_Relations(Number(params.id));
+  return res as DataMaterial;
 });
 
 export const useDelete = routeAction$(
@@ -27,48 +20,44 @@ export const useDelete = routeAction$(
     }
     return res;
   },
-  zod$({ id: z.string() }),
+  zod$({ id: z.number() }),
 );
 
 export default component$(() => {
-  const { value: material } = useGetId();
-  const deleteMaterial = useDelete();
   return (
-    <section>
-      {material ? (
-        <>
-          <div class="card w-96 bg-base-300 shadow-xl">
-            <div class="card-body">
-              <h1 class="card-title">Material : {material.nama}</h1>
-
-              <p>Berat : {material.berat}</p>
-              <p>Jenis : {material.jenis}</p>
-
-              <div class="card-actions ">
-                <Link
-                  href={`/table/material/edit/${material.id}`}
-                  class="btn btn-info"
-                >
-                  Edit
-                </Link>
-
-                <Form action={deleteMaterial}>
-                  <input type="hidden" value={material.id} name={"id"} />
-
-                  <button class="btn btn-error" type="submit">
-                    Delete
-                  </button>
-                </Form>
-                <Link href={`/table/material/`} class="btn btn-primary">
-                  Back
-                </Link>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <p>Material not found</p>
-      )}
+    <section class="container space-y-2">
+      <Heads />
+      <Cards />
     </section>
   );
+});
+
+export const Cards = component$(() => {
+  const loadData = useGetId();
+  const deleteMaterial = useDelete();
+  const handlerDelete = $(() => {
+    deleteMaterial.submit({ id: loadData.value.id });
+  });
+  return (
+    <Resource
+      value={loadData}
+      onPending={() => <span class="loading loading-spinner"></span>}
+      onRejected={() => <span>Error</span>}
+      onResolved={(data) => {
+        console.log(data);
+        return (
+          <DetailOnly data={data}>
+            <OptionsCard
+              onDelete={handlerDelete}
+              onEdit={`/table/material/edit/${loadData.value.id}`}
+            />
+          </DetailOnly>
+        );
+      }}
+    />
+  );
+});
+
+export const Heads = component$(() => {
+  return <Breadcrumbs data={getBreadcrumbTrail("Material-Detail")} />;
 });

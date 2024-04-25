@@ -39,5 +39,6 @@ module.exports = {
     "@typescript-eslint/no-react-props": "warn",
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-unnecessary-condition": "warn",
+    // "@typescript-eslint/object-curly-spacing": "off",
   },
 };

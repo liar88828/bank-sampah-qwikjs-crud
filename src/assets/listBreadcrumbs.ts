@@ -1,46 +1,4 @@
 export const listBreadcrumbs = [
-
-  // {
-  //   name: "User",
-  //   link: "/user",
-  //   sub: [
-  //     {
-  //       name: "Profile",
-  //       link: "/profile",
-  //       sub: [],
-  //     },
-  //     {
-  //       name: "Edit",
-  //       link: "/edit",
-  //     },
-  //     {
-  //       name: "Info",
-  //       link: "/info",
-  //     },
-  //     {
-  //       name: "Transaksi",
-  //       link: "/transaksi",
-  //     },
-  //     {
-  //       name: "Sampah",
-  //       link: "/sampah",
-  //     },
-  //     {
-  //       name: "Penukaran",
-  //       link: "/penukaran",
-  //     },
-  //     {
-  //       name: "Penyerahan",
-  //       link: "/penyerahan",
-  //     },
-  //     {
-  //       name: "Print",
-  //       link: "/print",
-  //     },
-  //     { name: "Transaksi", link: "/transaksi" },
-  //   ],
-  // },
-
   {
     name: "Menu",
     link: "/menu",
@@ -57,6 +15,18 @@ export const listBreadcrumbs = [
       {
         name: "Page",
         link: "/page",
+        sub: [
+          {
+            name: "User-Material",
+            link: "",
+            sub: [],
+          },
+          {
+            name: "Material-Detail",
+            link: "",
+            sub: [],
+          },
+        ],
       },
 
       {
@@ -72,7 +42,23 @@ export const listBreadcrumbs = [
       {
         name: "Material",
         link: "/material",
-        sub: [],
+        sub: [
+          {
+            name: "Material-Create",
+            link: "",
+            sub: [],
+          },
+          {
+            name: "Material-Edit",
+            link: "",
+            sub: [],
+          },
+          {
+            name: "Material-Detail",
+            link: "",
+            sub: [],
+          },
+        ],
       },
       {
         name: "Opsi Penukaran",
@@ -97,43 +83,58 @@ export const listBreadcrumbs = [
     link: "/user",
     sub: [
       {
-        name: "Edit",
-        link: "/edit",
-        sub: [],
+        name: "Profile",
+        link: "/profile",
+        sub: [
+          {
+            name: "Edit",
+            link: "/edit",
+            sub: [],
+          },
+          {
+            name: "Print",
+            link: "/print",
+            sub: [],
+          },
+
+          {
+            name: "Info",
+            link: "/info",
+            sub: [],
+          },
+        ],
       },
       {
-        name: "Info",
-        link: "/info",
+        name: "Transaksi",
+        link: "/transaksi",
         sub: [],
       },
+
       {
         name: "Material",
         link: "/material",
         sub: [],
       },
+
+      // {
+      //   name: "Create Penyerahan",
+      //   link: "/penyerahan/create",
+      //   sub: [],
+      // },
       {
-        name: "Penukaran",
+        name: "Table-Penukaran",
         link: "/penukaran",
-        sub: [],
+        sub: [
+          {
+            name: "Create-Penukaran",
+            link: "/penukaran/create",
+            sub: [],
+          },
+        ],
       },
       {
-        name: "Penyerahan",
+        name: "Table Penyerahan",
         link: "/penyerahan",
-        sub: [],
-      },
-      {
-        name: "Print",
-        link: "/print",
-        sub: [],
-      },
-      {
-        name: "Profile",
-        link: "/profile",
-        sub: [],
-      },
-      {
-        name: "Transaksi",
-        link: "/transaksi",
         sub: [],
       },
     ],
@@ -166,3 +167,44 @@ export const listBreadcrumbs = [
     ],
   },
 ];
+
+// {
+//   name: "User",
+//   link: "/user",
+//   sub: [
+//     {
+//       name: "Profile",
+//       link: "/profile",
+//       sub: [],
+//     },
+//     {
+//       name: "Edit",
+//       link: "/edit",
+//     },
+//     {
+//       name: "Info",
+//       link: "/info",
+//     },
+//     {
+//       name: "Transaksi",
+//       link: "/transaksi",
+//     },
+//     {
+//       name: "Sampah",
+//       link: "/sampah",
+//     },
+//     {
+//       name: "Penukaran",
+//       link: "/penukaran",
+//     },
+//     {
+//       name: "Penyerahan",
+//       link: "/penyerahan",
+//     },
+//     {
+//       name: "Print",
+//       link: "/print",
+//     },
+//     { name: "Transaksi", link: "/transaksi" },
+//   ],
+// },

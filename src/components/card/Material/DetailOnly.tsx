@@ -1,12 +1,21 @@
-import { component$ } from "@builder.io/qwik";
+import { Session } from "@auth/core/types";
+import { Slot, component$ } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import { getDate } from "~/lib/date";
+import { useAuthSession } from "~/routes/plugin@auth";
 import { DataMaterial } from "~/type/material.type";
 
 export const DetailOnly = component$(({ data }: { data: DataMaterial }) => {
   const location = useLocation();
   const url = location.url;
   const pathName = url.pathname;
+
+  const { value } = useAuthSession();
+  if (!value) {
+  }
+  const user = value?.user as Session["user"];
+
+  console.log(user.id, data.id_user);
 
   return (
     <div class="card static w-full bg-base-100">
@@ -28,7 +37,9 @@ export const DetailOnly = component$(({ data }: { data: DataMaterial }) => {
               <p class="text-gray-500 dark:text-gray-400"># id : {data?.id}</p>
             </div>
           </div>
-          <div class="flex items-center "></div>
+          <div class="flex items-center ">
+            {Number(user.id) === data.id_user && <Slot />}
+          </div>
         </div>
         <div class="space-y-2 text-sm leading-loose md:text-base">
           <p>
@@ -38,8 +49,8 @@ export const DetailOnly = component$(({ data }: { data: DataMaterial }) => {
         </div>
         <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
           <div class="space-y-2">
-            <h2 class="text-lg font-semibold">Jenis</h2>
-            <p>{data?.jenis}</p>
+            <h2 class="text-lg font-semibold">Kategori</h2>
+            <p>{data?.kategori}</p>
           </div>
 
           <div class="space-y-2">

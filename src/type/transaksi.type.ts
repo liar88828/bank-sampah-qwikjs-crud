@@ -1,3 +1,5 @@
+import { Material, Opsi_Penukaran, Opsi_Penyerahan, Transaksi } from "@prisma/client";
+
 export type TTransaksi = {
   id?: number;
   tgl_transaksi: Date;
@@ -34,6 +36,16 @@ export type LoaderTransaksi_Detail = {
     total_harga: number;
   } | null;
 } | null;
+
+export type MaterialTransaction = Material & {
+  Transaksi: Transaksi[];
+};
+export type PenyerahanTransaksi = Opsi_Penyerahan & {
+  Transaksi: Transaksi;
+};
+export type PenukaranTransaksi = Opsi_Penukaran & {
+  Transaksi: Transaksi;
+};
 
 // const data={
 //     id: 1,

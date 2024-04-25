@@ -1,7 +1,6 @@
 import { Session } from "@auth/core/types";
 import { component$, Resource, useSignal } from "@builder.io/qwik";
 import {
-  Form,
   Link,
   routeAction$,
   routeLoader$,
@@ -12,24 +11,23 @@ import {
 import { LuSearch } from "@qwikest/icons/lucide";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { riwayatPenukaran } from "~/db/riwayatPenukaran";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
 
-export const useLoadUserPenukaran = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session | null = sharedMap.get("session") as Session;
-    const id = Number(session?.user?.id);
+export const useLoadPenyerahan = routeLoader$(async ({ sharedMap, query }) => {
+  const session: Session | null = sharedMap.get("session") as Session;
+  const id = Number(session?.user?.id);
 
-    let page = Number(query.get("page") ?? 0);
-    page = page <= 0 ? 0 : page;
+  let page = Number(query.get("page") ?? 0);
+  page = page <= 0 ? 0 : page;
 
-    const search: string | null = query.get("search") ?? "";
+  const search: string | null = query.get("search") ?? "";
 
-    return riwayatPenukaran.findAllUser(id, page, search);
-  },
-);
-export const useDeletePenukaran = routeAction$(
+  const res = await transaksi.findPenukaranTransaksi(id, page, search);
+  return res;
+});
+
+export const useDeleteTransaksi = routeAction$(
   async (data) => {
     return await transaksi.deleteOne(Number(data.id));
   },
@@ -37,50 +35,42 @@ export const useDeletePenukaran = routeAction$(
 );
 
 export default component$(() => {
-  // console.log(local)
-
   return (
     <section class="container space-y-3">
       <Heads />
-
       <Tables />
     </section>
   );
 });
 
 export const Heads = component$(() => {
-  return (
-    <>
-      {/* <Link class="btn btn-warning btn-xs" href="/user/profile">
-        Back
-      </Link> */}
-
-      <Breadcrumbs data={getBreadcrumbTrail("Penukaran")} />
-    </>
-  );
+  return <Breadcrumbs data={getBreadcrumbTrail("Table-Penukaran")} />;
 });
 
 export const Tables = component$(() => {
-  const dataLoad = useLoadUserPenukaran();
-  const dataDelete = useDeletePenukaran();
+  const loadData = useLoadPenyerahan();
   const search = useSignal("");
   const local = useLocation();
   const page = local.url.searchParams.get("page");
+
   return (
     <Resource
-      value={dataLoad}
+      value={loadData}
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
-      onResolved={(datas) => {
-        let buttonOff = datas.length === 0;
-        let buttonLess = datas.length > 0;
+      onResolved={(data) => {
+        let buttonOff = data.length === 0;
+        let buttonLess = data.length > 0;
         return (
           <div class="card static bg-base-100 ">
             <div class="card-body">
-              <div class=" flex items-center gap-2">
-                <h1>Penukaran's directory</h1>
+              <div class="mb-2 flex items-center gap-2">
+                <h1>Penukaran directory</h1>
 
-                <Link class="btn btn-info btn-xs" href="/user/profile/create">
+                <Link
+                  class="btn btn-info btn-xs"
+                  href="create"
+                >
                   Create
                 </Link>
               </div>
@@ -89,32 +79,27 @@ export const Tables = component$(() => {
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Tanggal Penukaran</th>
-                      <th>Id_User</th>
+                      <th>Kode</th>
+                      <th>Tanggal Transaksi</th>
+                      <th>Berat</th>
+                      <th>Harga</th>
+                      <th>Deskripsi</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {datas.map((d, i) => (
+                    {data.map((d,i) => (
                       <tr key={d.id}>
                         <th>{i + 1}</th>
-                        <td>{getDate(d.tgl_transaksi)}</td>
-                        <td>{d.id_user}</td>
-
+                        <th>{d.id}</th>
+                        <td>{getDate(d.createdAt)}</td>
+                        <td>{d.berat ?? "kosong"}</td>
+                        <td>{d.harga ?? "kosong"}</td>
+                        <td>{d.deskripsi || "kosong"}</td>
                         <td class="flex flex-nowrap gap-2">
-                          <Link
-                            href={`/user/profile/penukaran/detail/${d.id}`}
-                            class="btn btn-primary btn-xs"
-                          >
+                          <Link href={`detail/${d.id}`} class="btn btn-primary btn-xs">
                             Detail
                           </Link>
-
-                          <Form action={dataDelete}>
-                            <input type="hidden" name="id" value={d.id} />
-                            <button type="submit" class="btn btn-error btn-xs">
-                              Delete
-                            </button>
-                          </Form>
                         </td>
                       </tr>
                     ))}
@@ -124,7 +109,8 @@ export const Tables = component$(() => {
                       <th colSpan={2}>
                         <div class="join">
                           <Link
-                            href={`/user/profile/penukaran?page=${Number(page) - 1}`}
+                            // aria-disabled={buttonOff}
+                            href={`/user/transaksi/?page=${Number(page) - 1}`}
                             class={`btn join-item btn-sm ${buttonLess && "btn-disabled"}`}
                           >
                             «
@@ -134,7 +120,7 @@ export const Tables = component$(() => {
                           </button>
                           <Link
                             aria-disabled={buttonOff}
-                            href={`user/profile/penukaran?page=${Number(page) + 1}`}
+                            href={`/user/transaksi/?page=${Number(page) + 1}`}
                             class={`btn join-item btn-sm ${buttonOff && "btn-disabled"}`}
                           >
                             »
@@ -151,7 +137,7 @@ export const Tables = component$(() => {
                         <Link
                           type="button"
                           class="btn btn-square btn-primary btn-sm"
-                          href={`user/profile/penukaran?page=${Number(page)}&search=${search.value} `}
+                          href={`/user/transaksi/?page=${Number(page)}&search=${search.value} `}
                         >
                           <LuSearch />
                         </Link>
@@ -167,18 +153,3 @@ export const Tables = component$(() => {
     />
   );
 });
-
-//   [
-//   {
-//     name: "Home",
-//     link: "/",
-//   },
-//   {
-//     name: "Profile",
-//     link: "/user/profile/",
-//   },
-//   {
-//     name: "Penukaran",
-//     link: "/user/profile/penukaran",
-//   },
-// ]

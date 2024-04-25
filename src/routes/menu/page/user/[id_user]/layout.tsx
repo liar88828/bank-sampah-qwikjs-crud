@@ -1,6 +1,6 @@
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { material } from "~/db/material";
-import { user } from "~/db/users";
+import { users } from "~/db/users";
 import { UserProfile } from "~/type/user";
 
 export const useSelectMaterialUser = routeLoader$(async ({ params }) => {
@@ -23,7 +23,7 @@ export const useSearchMaterialUser = routeLoader$(
 export const useLoadUserId = routeLoader$(async ({ params, resolveValue }) => {
   const id = params.id_user;
 
-  return (await user.findId(Number(id))) as UserProfile;
+  return (await users.findId(Number(id))) as UserProfile;
 });
 
 export const useLoadMaterialUser = routeLoader$(async ({ resolveValue }) => {

@@ -11,21 +11,21 @@ import {
   TransaksiSampahProps,
 } from "~/type/penyerahan-sampah.type";
 
-export const useGetTransaksi = routeLoader$(async ({ sharedMap }) => {
-  const session = sharedMap.get("session") as Session;
-
-  const transaksi = await works
-    .transaksi()
-    .findUserId_Material_Status_Opsi(Number(session?.user?.id));
-  // const transaksi = await works.transaksi.(Number(session?.user?.id));
-  const totalTransaksiSampah = transaksi.map((d) => d.Opsi_Penukaran);
-  const totalMaterial = transaksi.flatMap((d) => d?.Material);
-  return {
-    transaksi,
-    totalTransaksiSampah,
-    totalMaterial,
-  };
-});
+export const useGetTransaksi = routeLoader$(
+  async ({ resolveValue, sharedMap }) => {
+    const session = sharedMap.get("session") as Session;
+    const transaksi = await works
+      .transaksi()
+      .findUserId_Material_Status_Opsi(Number(session?.user?.id));
+    const totalTransaksiSampah = transaksi.map((d) => d.opsi_Penukaran);
+    const totalMaterial = transaksi.flatMap((d) => d?.Material);
+    return {
+      transaksi,
+      totalTransaksiSampah,
+      totalMaterial,
+    };
+  },
+);
 
 export const useGetPenukaran = routeLoader$(async ({ sharedMap }) => {
   const session = sharedMap.get("session") as Session;
@@ -73,15 +73,7 @@ export const Tables = component$(() => {
   );
 });
 export const Heads = component$(() => {
-  return (
-    <>
-      {/* <Link class="btn btn-warning btn-xs" href="/user/profile">
-        Back
-      </Link> */}
-
-      <Breadcrumbs data={getBreadcrumbTrail("Info")} />
-    </>
-  );
+  return <Breadcrumbs data={getBreadcrumbTrail("Info")} />;
 });
 
 // [

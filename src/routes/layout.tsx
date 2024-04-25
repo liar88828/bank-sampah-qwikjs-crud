@@ -10,14 +10,13 @@ export const onRequest: RequestHandler = async ({
   url,
   cookie,
 }) => {
-  // if (!isLoggedIn()) {
-  //   throw redirect(308, '/login');
-  // }
   const session: Session | null = sharedMap.get("session");
   if (!session || new Date(session.expires) < new Date()) {
-    throw redirect(302, `/api/auth/signin?callbackUrl=${url.pathname}`);
+    throw redirect(302, `/api/auth/signin?callbackUrl=${
+      // url.pathname
+'/'
+    }`);
   }
-  // console.log('session:', session)
 
   if (!cookie.has("userProfile")) {
     const res = await prisma.user.findUnique({
@@ -47,7 +46,7 @@ export default component$(() => {
   return (
     <>
       <Navbar />
-      <div class=" bg-base-300 min-h-screen  py-5">
+      <div class=" min-h-screen bg-base-300  py-5">
         <Slot />
       </div>
     </>

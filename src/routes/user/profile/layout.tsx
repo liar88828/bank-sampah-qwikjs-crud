@@ -12,15 +12,19 @@ export const useLoaderData = routeLoader$(
   },
 );
 
-export const useProfileUser = routeLoader$(async ({ status, sharedMap }) => {
-  const session = sharedMap.get("session") as Session;
-  const id = Number(session.user.id);
-  const res = await users.findId(id);
-  if (!res) {
-    status(404);
-  }
-  return res as PropsProfile["user"];
-});
+export const useProfileUser = routeLoader$(
+  async ({ status, sharedMap, redirect }) => {
+    const session = sharedMap.get("session") as Session;
+    const id = Number(session.user.id);
+    const res = await users.findId(id);
+    if (!res) {
+      // status(404);
+      redirect(301, "/");
+    }
+
+    return res as PropsProfile["user"];
+  },
+);
 
 export const usePointUser = routeLoader$(async ({ status, sharedMap }) => {
   const session = sharedMap.get("session") as Session;

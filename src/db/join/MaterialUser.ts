@@ -55,7 +55,7 @@ export class MaterialUser {
     return prisma.material.findMany({
       where: {
         id_user: id,
-        jenis: { contains: jenis },
+        kategori: { contains: jenis },
         nama: { contains: search },
       },
       take: 100,
@@ -68,12 +68,12 @@ export class MaterialUser {
       where: {
         id_user: id,
       },
-      by: "jenis",
+      by: "kategori",
       _sum: {
         berat: true,
       },
       _count: {
-        jenis: true,
+        kategori: true,
       },
     });
   };
@@ -87,7 +87,7 @@ export class MaterialUser {
     }
 
     if (searchData.jenis) {
-      where.jenis = searchData.jenis;
+      where.kategori = searchData.jenis;
       // where.jenis = { contains: searchData.jenis };
     }
     // console.log(where);
@@ -98,7 +98,7 @@ export class MaterialUser {
   findSearchPage = async (jenis: string, search: string, page: number) => {
     return prisma.material.findMany({
       where: {
-        jenis: { contains: jenis },
+        kategori: { contains: jenis },
         nama: { contains: search },
       },
       take: 100,

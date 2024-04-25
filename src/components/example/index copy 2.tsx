@@ -22,12 +22,11 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { prisma } from "~/config/prisma";
-import { user } from "~/db/users";
+import { users } from "~/db/users";
 
 export const useLoadData = routeLoader$(async ({ query }) => {
   return {
-    user: await user.findAll(),
+    user: await users.findAll(),
     queryData: {
       id_user: query.get("id_user"),
       id_material: query.get("id_material"),

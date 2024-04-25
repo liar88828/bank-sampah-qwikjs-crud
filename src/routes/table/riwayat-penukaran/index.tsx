@@ -12,7 +12,7 @@ import { getDate } from "~/lib/date";
 
 export const useGetAll = routeLoader$(async () => {
   const res = await riwayatPenukaran.findAll();
-  console.log(res)
+  console.log(res);
   return res;
 });
 
@@ -28,7 +28,7 @@ export default component$(() => {
   const deleteData = useDeleteOnly();
 
   return (
-    <section class="container bg-base-100 p-5 rounded">
+    <section class="container rounded bg-base-100 p-5">
       <div class="mb-2 flex items-center gap-2">
         <h1>Riwayat Penukaran's directory</h1>
         <Link
@@ -54,16 +54,16 @@ export default component$(() => {
                   <th>Opsi Penukaran</th>
                 </tr>
               </thead>
-            <tbody>
+              <tbody>
                 {data.map((d, i) => (
                   <tr key={d.id}>
                     <th>{i + 1}</th>
-                    <td>{getDate(d.tgl_tukar)}</td>
+                    <td>{getDate(d.tgl_transaksi)}</td>
                     <td>
-                      {d.id_user_penukaran} {d.User?.nama}
+                      {d.User?.id} {d.User?.nama}
                     </td>
                     <td>
-                      {d.id_opsi_penukaran} {d.Opsi_Penukaran?.deskripsi}
+                      {d.opsi_Penukaran?.id} {d.opsi_Penukaran?.deskripsi}
                     </td>
                     <td class="flex flex-nowrap gap-2">
                       <Link

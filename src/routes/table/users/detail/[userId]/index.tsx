@@ -11,7 +11,7 @@ import { users } from "~/db/users";
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["userId"], 10);
-  const res = user.findId(id);
+  const res = users.findId(id);
   if (!res) {
     status(404);
   }
@@ -20,7 +20,7 @@ export const useGetUser = routeLoader$(async ({ params, status }) => {
 
 export const useDeleteUser = routeAction$(
   async (data, { redirect }) => {
-    const res = await user.deleteOne(Number(data.id));
+    const res = await users.deleteOne(Number(data.id));
     if (res) {
       throw redirect(302, "/table/users");
     }

@@ -39,15 +39,15 @@ export default component$(() => {
           <div class="card static w-96 bg-base-300 shadow-xl">
             <div class="card-body">
               <h1 class="card-title">
-                Opsi Penukaran : {getDate(value.tgl_tukar)}
+                Opsi Penukaran : {getDate(value.tgl_transaksi)}
               </h1>
 
               <p>
                 Nama : {value.User?.nama} :{value.User?.id}
               </p>
               <p>
-                Deskripsi : {value.Opsi_Penukaran?.deskripsi} :
-                {value.Opsi_Penukaran?.id}
+                Deskripsi : {value.opsi_Penukaran?.deskripsi} :
+                {value.opsi_Penukaran?.id}
               </p>
 
               <div class="card-actions ">

@@ -13,6 +13,8 @@ import { LuSearch } from "@qwikest/icons/lucide";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { material } from "~/db/material";
+import { transaksi } from "~/db/transaksi";
+import { getDate } from "~/lib/date";
 
 export const useLoadUserMaterial = routeLoader$(
   async ({ sharedMap, query }) => {
@@ -24,7 +26,7 @@ export const useLoadUserMaterial = routeLoader$(
 
     const search: string | null = query.get("search") ?? "";
 
-    return material.findAllUser(id, page, search);
+    return transaksi.findMaterialTransaksi(id, page, search);
   },
 );
 
@@ -75,8 +77,11 @@ export const Tables = component$(() => {
                   <thead>
                     <tr>
                       <th>No</th>
+                      <th>Kode</th>
                       <th>Nama</th>
-                      <th>Material</th>
+                      <th>Jenis</th>
+                      <th>Berat</th>
+                      <th>Create</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -84,8 +89,11 @@ export const Tables = component$(() => {
                     {datas.map((d, i) => (
                       <tr key={d.id}>
                         <th>{i + 1}</th>
+                        <td>{d.id}</td>
                         <td>{d.nama}</td>
+                        <td>{d.jenis}</td>
                         <td>{d.berat}</td>
+                        <td>{getDate(d.createdAt)}</td>
                         <td class="flex flex-nowrap gap-2">
                           <Link
                             href={`/table/material/detail/${d.id}`}

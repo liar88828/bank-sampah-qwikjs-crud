@@ -7,7 +7,7 @@ import { riwayatPenukaranUser } from "../join/RiwayatPenukaranUser";
 class MaterialWork {
   test = async (id: number) => {
     const test = await prisma.material.groupBy({
-      by: ["jenis"],
+      by: ["kategori"],
       _sum: {
         berat: true,
       },

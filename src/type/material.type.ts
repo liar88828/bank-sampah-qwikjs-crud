@@ -4,7 +4,17 @@ import { Signal } from "@builder.io/qwik";
 import { TTransaksi } from "./transaksi.type";
 import { Material, User } from "@prisma/client";
 
-export type TMaterial = Material;
+export type TMaterial = Pick<
+  Material,
+  | "berat"
+  | "kategori"
+  | "nama"
+  | "id_user"
+  | "deskripsi"
+  | "harga"
+  | "jumlah"
+  | "satuan"
+>;
 
 export type Material_Relational = {
   berat: number;
@@ -28,7 +38,7 @@ export type DataMaterial = {
   id: number;
   nama: string;
   berat: number;
-  jenis: string;
+  kategori: string;
   id_user: number | null;
   createdAt: Date;
   User: User;

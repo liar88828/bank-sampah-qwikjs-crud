@@ -3,18 +3,28 @@ import { LuSearch } from "@qwikest/icons/lucide";
 import { useLoadMaterialUser, useLoadUserId } from "./layout";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import { useActionMaterial } from "../../layout";
+import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
+import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 
 export default component$(() => {
-  const location = useLocation();
-  const callback = location.url.searchParams.get("callback") ?? "";
   return (
-    <section class="space-y-3">
-      <Link href={"/menu/page"} class="btn btn-warning">
-        Back
-      </Link>
+    <section class="container space-y-2">
+      <Heads />
+      <Cards />
+    </section>
+  );
+});
+
+export const Heads = component$(() => {
+  return <Breadcrumbs data={getBreadcrumbTrail("User-Material")} />;
+});
+
+export const Cards = component$(() => {
+  return (
+    <>
       <ProfileUser />
       <MaterialUser />
-    </section>
+    </>
   );
 });
 
@@ -27,8 +37,8 @@ export const ProfileUser = component$(() => {
       onRejected={() => <span>Error</span>}
       onResolved={(data) => {
         return (
-          <div class="card w-full  bg-base-100">
-            <div class="card-body space-y-6">
+          <div class="card static bg-base-100   shadow">
+            <div class="card-body ">
               <div class="flex items-center space-x-6">
                 <div class="relative mr-2 h-12 w-12 overflow-hidden rounded-full">
                   <img
@@ -89,138 +99,140 @@ export const MaterialUser = component$(() => {
         const lengthData = data.material.length === 0;
 
         return (
-          <div class="rounded-lg bg-base-100 p-5 shadow">
-            <div class="flex items-center justify-between gap-5">
-              <h1 class="text-md font-bold sm:text-xl ">Sampah Material</h1>
-              <div class="flex items-center ">
-                <input
-                  type="text"
-                  class="input input-xs input-bordered sm:input-sm md:input-md"
-                  value={storeData.search}
-                  placeholder="Cari Nama : Alex...."
-                  onInput$={(_, el) => (storeData.search = el.value)}
-                />
+          <div class="card   static bg-base-100  shadow">
+            <div class="card-body ">
+              <div class=" flex items-center justify-between gap-5">
+                <h1 class="card-title">Sampah Material</h1>
+                <div class="flex items-center ">
+                  <input
+                    type="text"
+                    class="input input-xs input-bordered sm:input-sm md:input-md"
+                    value={storeData.search}
+                    placeholder="Cari Nama : Alex...."
+                    onInput$={(_, el) => (storeData.search = el.value)}
+                  />
 
-                <button
-                  class="btn btn-info btn-xs sm:btn-sm md:btn-md"
-                  onClick$={() => {
-                    storeData.jenis = "";
-                    storeData.page = 0;
-                    actionMaterial.submit({
-                      search: storeData.search,
-                      jenis: storeData.jenis,
-                      page: storeData.page,
-                    });
-                  }}
-                >
-                  <LuSearch />
-                </button>
+                  <button
+                    class="btn btn-info btn-xs sm:btn-sm md:btn-md"
+                    onClick$={() => {
+                      storeData.jenis = "";
+                      storeData.page = 0;
+                      actionMaterial.submit({
+                        search: storeData.search,
+                        jenis: storeData.jenis,
+                        page: storeData.page,
+                      });
+                    }}
+                  >
+                    <LuSearch />
+                  </button>
+                </div>
               </div>
-            </div>
-            {/* ------ */}
-            <div class="overflow-x-auto">
-              <table class="table table-xs static sm:table-sm md:table-md ">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>id</th>
-                    <th>Nama</th>
-                    <th>Berat</th>
-                    <th>Jenis</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
+              {/* ------ */}
+              <div class="overflow-x-auto">
+                <table class="table table-xs static sm:table-sm md:table-md ">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>id</th>
+                      <th>Nama</th>
+                      <th>Berat</th>
+                      <th>Jenis</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {data.material.map((d, i) => (
-                    <tr key={d.id}>
-                      <td>{i + 1}</td>
-                      <td>{d.id}</td>
-                      <td>{d.nama}</td>
-                      <td>{d.jenis}</td>
-                      <td>{d.berat}Kg</td>
-                      <th>
-                        <Link
-                          href={`/menu/page/material/${d.id}?callback=${pathName}`}
-                          class="btn btn-info btn-xs"
+                  <tbody>
+                    {data.material.map((d, i) => (
+                      <tr key={d.id}>
+                        <td>{i + 1}</td>
+                        <td>{d.id}</td>
+                        <td>{d.nama}</td>
+                        <td>{d.jenis}</td>
+                        <td>{d.berat}Kg</td>
+                        <th>
+                          <Link
+                            href={`/menu/page/material/${d.id}?callback=${pathName}`}
+                            class="btn btn-info btn-xs"
+                          >
+                            Detail
+                          </Link>
+                        </th>
+                      </tr>
+                    ))}
+                  </tbody>
+
+                  <tfoot>
+                    <tr>
+                      <th colSpan={3}>
+                        <div class="join">
+                          <button
+                            class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
+                            onClick$={() => {
+                              // cannot be less than 0
+                              if (storeData.page > 0) {
+                                storeData.page--;
+                                actionMaterial.submit({
+                                  search: storeData.search,
+                                  jenis: storeData.jenis,
+                                  page: storeData.page,
+                                });
+                              }
+                            }}
+                          >
+                            «
+                          </button>
+                          <button class="btn join-item btn-sm">
+                            Page {storeData.page}
+                          </button>
+                          <button
+                            class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
+                            onClick$={() => {
+                              // when data search leng is 0
+                              if (!lengthData) {
+                                storeData.page++;
+                                actionMaterial.submit({
+                                  search: storeData.search,
+                                  jenis: storeData.jenis,
+                                  page: storeData.page,
+                                });
+                              }
+                            }}
+                          >
+                            »
+                          </button>
+                        </div>
+                      </th>
+                      <th colSpan={3}>
+                        <select
+                          class="select select-bordered select-sm w-full max-w-xs"
+                          onChange$={(_, el) => {
+                            storeData.jenis = el.value;
+                            actionMaterial.submit({
+                              search: storeData.search,
+                              jenis: el.value,
+                              page: storeData.page,
+                            });
+                          }}
                         >
-                          Detail
-                        </Link>
+                          <option disabled selected>
+                            Select Material
+                          </option>
+                          <option value={""}>All</option>
+                          {data.select.map((d) => (
+                            // @ts-ignore
+                            <option key={d.jenis} value={d.jenis}>
+                              {d.jenis} {String(d._count.jenis)}
+                            </option>
+                          ))}
+                        </select>
                       </th>
                     </tr>
-                  ))}
-                </tbody>
-
-                <tfoot>
-                  <tr>
-                    <th colSpan={3}>
-                      <div class="join">
-                        <button
-                          class={`btn join-item btn-sm ${storeData.page <= 0 && "btn-disabled"}`}
-                          onClick$={() => {
-                            // cannot be less than 0
-                            if (storeData.page > 0) {
-                              storeData.page--;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                jenis: storeData.jenis,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
-                        >
-                          «
-                        </button>
-                        <button class="btn join-item btn-sm">
-                          Page {storeData.page}
-                        </button>
-                        <button
-                          class={`btn join-item btn-sm ${lengthData && "btn-disabled"}`}
-                          onClick$={() => {
-                            // when data search leng is 0
-                            if (!lengthData) {
-                              storeData.page++;
-                              actionMaterial.submit({
-                                search: storeData.search,
-                                jenis: storeData.jenis,
-                                page: storeData.page,
-                              });
-                            }
-                          }}
-                        >
-                          »
-                        </button>
-                      </div>
-                    </th>
-                    <th colSpan={3}>
-                      <select
-                        class="select select-bordered select-sm w-full max-w-xs"
-                        onChange$={(_, el) => {
-                          storeData.jenis = el.value;
-                          actionMaterial.submit({
-                            search: storeData.search,
-                            jenis: el.value,
-                            page: storeData.page,
-                          });
-                        }}
-                      >
-                        <option disabled selected>
-                          Select Material
-                        </option>
-                        <option value={""}>All</option>
-                        {data.select.map((d) => (
-                          // @ts-ignore
-                          <option key={d.jenis} value={d.jenis}>
-                            {d.jenis} {String(d._count.jenis)}
-                          </option>
-                        ))}
-                      </select>
-                    </th>
-                  </tr>
-                </tfoot>
-                {/*  */}
-              </table>
+                  </tfoot>
+                  {/*  */}
+                </table>
+              </div>
             </div>
           </div>
         );
