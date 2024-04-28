@@ -67,10 +67,7 @@ export const Tables = component$(() => {
               <div class="mb-2 flex items-center gap-2">
                 <h1>Penukaran directory</h1>
 
-                <Link
-                  class="btn btn-info btn-xs"
-                  href="create"
-                >
+                <Link class="btn btn-info btn-xs" href="create">
                   Create
                 </Link>
               </div>
@@ -88,7 +85,7 @@ export const Tables = component$(() => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((d,i) => (
+                    {data.map((d, i) => (
                       <tr key={d.id}>
                         <th>{i + 1}</th>
                         <th>{d.id}</th>
@@ -97,7 +94,10 @@ export const Tables = component$(() => {
                         <td>{d.harga ?? "kosong"}</td>
                         <td>{d.deskripsi || "kosong"}</td>
                         <td class="flex flex-nowrap gap-2">
-                          <Link href={`detail/${d.id}`} class="btn btn-primary btn-xs">
+                          <Link
+                            href={`detail/${d.id}`}
+                            class="btn btn-primary btn-xs"
+                          >
                             Detail
                           </Link>
                         </td>

@@ -19,10 +19,7 @@ export const useLoadData = routeLoader$(async ({ query, sharedMap }) => {
   };
 });
 
-
-export const  penyerahanController = () => {
-  
-}
+export const penyerahanController = () => {};
 export const useCreatePenyerahan = routeAction$(
   async (data, { redirect, fail, sharedMap }) => {
     const session = sharedMap.get("session") as Session;
@@ -31,7 +28,6 @@ export const useCreatePenyerahan = routeAction$(
       ...data,
       id_user: Number(session.user.id),
       status: "SIMPAN",
-      
     };
     console.log("send data", newData);
     const res = await works.transaksi().penyerahanSampah(newData);
@@ -215,18 +211,3 @@ export type FormDataList = {
   jenis_sampah: string | null;
   berat_sampah: string | null;
 };
-
-// [
-//   {
-//     name: "Home",
-//     link: "/",
-//   },
-//   {
-//     name: "Profile",
-//     link: "/user/profile/",
-//   },
-//   {
-//     name: "Penyerahan",
-//     link: "/user/profile/penyerahan",
-//   },
-// ]

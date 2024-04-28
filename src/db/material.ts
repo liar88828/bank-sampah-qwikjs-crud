@@ -66,7 +66,6 @@ class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
         harga: data.harga,
         satuan: data.satuan,
         deskripsi: data.deskripsi,
-        
       },
     });
 

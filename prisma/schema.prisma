@@ -36,7 +36,8 @@ model Transaksi {
 
   status_Transaksi Status_Transaksi?
   opsi_Penukaran   Opsi_Penukaran?
-  opsi_Penyerahan  Opsi_Penyerahan?
+
+  opsi_Penyerahan Opsi_Penyerahan?
 }
 
 model Status_Transaksi {
@@ -82,7 +83,7 @@ model Material {
   jumlah    Int         @default(1)
   satuan    String
   berat     Int // total semua benda yang di simpan dalam gudang
-  kategori String // total semua benda yang di simpan dalam gudang
+  kategori  String // total semua benda yang di simpan dalam gudang
   harga     Int         @default(0)
   id_user   Int?
   User      User?       @relation(fields: [id_user], references: [id])
@@ -112,52 +113,3 @@ model Cases {
   Opsi_Penukaran    Opsi_Penukaran?  @relation(fields: [opsi_PenukaranId], references: [id])
   Opsi_Penyerahan   Opsi_Penyerahan? @relation(fields: [opsi_PenyerahanId], references: [id])
 }
-
-// model Riwayat_Penukaran {
-//   id           Int       @id @default(autoincrement())
-//   tgl_tukar    DateTime
-//   id_transaksi Int       @unique
-//   Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
-//   createdAt    DateTime  @default(now())
-// }
-
-// model Status_Penukaran {
-//   id        Int         @id @default(autoincrement())
-//   type      String //['SIMPAN','PROCESS','SELESAI']
-//   Transaksi Transaksi[]
-// }
-
-// model Riwayat_Transaksi {
-//   id           Int        @id @default(autoincrement())
-//   tgl_tukar    DateTime
-//   id_transaksi Int?       @unique
-//   Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
-// }
-
-//
-// model Sampah_Transaksi {
-//   id           Int @id @default(autoincrement())
-//   // nama         String
-//   total_berat  Int // bukan jumlah per satuan / berat yang akan di beli
-//   total_harga  Int
-//   // id_transaksi Int?
-//   // Sampah    Sampah?    @relation(fields: [id_Sampah], references: [id])
-//   // Transaksi    Transaksi? @relation(fields: [id_transaksi], references: [id])
-//   id_Transaksi Int @unique
-//
-//   Transaksi Transaksi @relation(fields: [id_Transaksi], references: [id])
-// }
-
-// model Sampah {
-//   id               Int                @id @default(autoincrement())
-//   nama             String
-//   Sampah_Transaksi Sampah_Transaksi[]
-// }
-
-//
-
-// enum StatusTransaksi {
-//   SIMPAN
-//   PROSES
-//   SELESAI
-// }

@@ -1,8 +1,10 @@
 import { prisma } from "~/config/prisma";
-import { PenukaranTransaksi } from "~/type/transaksi.type";
-import { PenyerahanTransaksi } from "~/type/transaksi.type";
+import {
+  MaterialTransaction,
+  PenukaranTransaksi,
+  PenyerahanTransaksi,
+} from "~/type/transaksi.type";
 import { TPenyerahanSampah } from "~/type/penyerahan-sampah.type";
-import { MaterialTransaction } from "~/type/transaksi.type";
 import { PropsProfile } from "~/type/user";
 
 export class ProfilePage {
@@ -249,6 +251,8 @@ export class TransaksiUser extends ProfilePage {
         user,
         transaksi,
         material,
+        // status_Transaksi,
+        // sampah_Transaksi,
       };
     });
   };
