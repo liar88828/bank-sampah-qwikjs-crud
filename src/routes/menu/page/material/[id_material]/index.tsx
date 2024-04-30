@@ -3,7 +3,7 @@ import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { DetailTransaksi } from "~/components/card/Material/DetailTransaksi";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { findMaterial_User } from "../../prisma/userSearch";
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {

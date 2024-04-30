@@ -1,5 +1,5 @@
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { users } from "~/db/users";
 import { UserProfile } from "~/type/user";
 

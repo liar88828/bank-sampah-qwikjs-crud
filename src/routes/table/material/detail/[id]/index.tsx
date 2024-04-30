@@ -4,7 +4,7 @@ import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { OptionsCard } from "~/components/basic/OptionsCard";
 import { DetailOnly } from "~/components/card/Material/DetailOnly";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { DataMaterial } from "~/type/material.type";
 
 export const useGetId = routeLoader$(async ({ params }) => {

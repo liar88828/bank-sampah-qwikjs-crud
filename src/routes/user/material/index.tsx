@@ -12,7 +12,7 @@ import {
 import { LuSearch } from "@qwikest/icons/lucide";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
 

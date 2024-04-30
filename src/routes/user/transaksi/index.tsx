@@ -11,7 +11,7 @@ import {
 import { LuSearch } from "@qwikest/icons/lucide";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { transaksi } from "~/db/transaksi";
 import { getDate } from "~/lib/date";
 
@@ -26,7 +26,7 @@ export const useLoadUserTransaksi = routeLoader$(
     const search: string | null = query.get("search") ?? "";
 
     const res = await material.findAllUser(id, page, search);
-    return res; // as LoaderTransaksi[];
+    return { data: res, user: session.user }; // as LoaderTransaksi[];
   },
 );
 
@@ -58,7 +58,7 @@ export const Tables = component$(() => {
       value={loadData}
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
-      onResolved={(data) => {
+      onResolved={({ data, user }) => {
         // console.log(data[0].Material);
         let buttonOff = data.length === 0;
         let buttonLess = data.length > 0;
@@ -81,6 +81,7 @@ export const Tables = component$(() => {
                   <thead>
                     <tr>
                       <th>No</th>
+                      <th>ID</th>
                       <th>Tanggal Transaksi</th>
                       <th>Id_User</th>
                       <th>Material</th>
@@ -91,19 +92,20 @@ export const Tables = component$(() => {
                     {data.map((t, i) => (
                       <tr key={t.id}>
                         <th>{i + 1}</th>
+                        <td>{t.id}</td>
                         <td>{getDate(t.tgl_transaksi)}</td>
                         <td>{t.id_user}</td>
                         <td>{t.Material?.nama || "kosong"}</td>
 
                         <td class="flex flex-nowrap gap-2">
-                          {t.Material?.nama && (
+                          {/* {t.id_user == Number(user.id) && (
                             <Link
                               href={`${t.Material?.id}`}
                               class="btn btn-primary btn-xs"
                             >
                               Detail
                             </Link>
-                          )}
+                          )} */}
 
                           {/* <Form action={transaksiDelete}>
                         <input type="hidden" name="id" value={t.id} />

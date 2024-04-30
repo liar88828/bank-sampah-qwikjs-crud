@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma";
 import { users } from "../users";
-import { material } from "../material";
+import { material } from "../material/material";
 import { transaksi } from "../transaksi";
 import { riwayatPenukaranUser } from "../join/RiwayatPenukaranUser";
 

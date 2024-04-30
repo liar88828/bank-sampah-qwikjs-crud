@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import { Form, routeAction$ } from "@builder.io/qwik-city";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { zodMaterial } from "~/lib/Zod";
 import { Instruction } from "../../../../components/basic/Instruction";
 import { Session } from "@auth/core/types";

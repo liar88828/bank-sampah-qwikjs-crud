@@ -1,7 +1,7 @@
 import { IPrismaOperator } from "~/type/IPrismaOperator";
-import { prisma } from "../config/prisma";
+import { prisma } from "../../config/prisma";
 import { TMaterial, TSearchData } from "~/type/material.type";
-import { MaterialUser } from "./join/MaterialUser";
+import { MaterialUser } from "../join/MaterialUser";
 
 class Material extends MaterialUser implements IPrismaOperator<TMaterial> {
   findAll = async () => {

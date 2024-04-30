@@ -16,8 +16,6 @@ import { kiloGram } from "~/lib/formatWeight";
 import { Spinner } from "~/components/loading/spinner";
 
 export default component$(() => {
-  // console.log(local)
-
   return (
     <section class="container space-y-3">
       <Heads />
@@ -192,25 +190,33 @@ export const Cart = component$(() => {
   const loadCart = useFindCart();
   const dataDelete = useDeleteCart();
   const dataCheckOut = useCheckOutPenukaran();
-
+  const signal = useSignal("");
   const handlerDelete = $(async (id: number) => {
     dataDelete.submit({ id_cartList: id });
   });
 
-  const handlerCheckOut = $(async (id: number, totalBerat: number) => {
-    dataCheckOut.submit({
-      id_trolly: id,
-      berat: totalBerat,
-      deskripsi: "Simpan",
-    });
-  });
+  const handlerCheckOut = $(
+    async (
+      id: number,
+      totalBerat: number,
+      totalHarga: number,
+      deskripsi: string,
+    ) => {
+      dataCheckOut.submit({
+        id_trolly: id,
+        berat: totalBerat,
+        harga: totalHarga,
+        deskripsi,
+      });
+    },
+  );
 
   return (
     <Resource
       value={loadCart}
       onPending={() => <span class="loading loading-spinner"></span>}
       onRejected={() => <span>Error</span>}
-      onResolved={({ res: data, totalBerat, totalCart }) => {
+      onResolved={({ res: data, totalBerat, totalCart, totalHarga }) => {
         if (!data) return <h1>Kosong</h1>;
 
         const loading = dataDelete.isRunning;
@@ -257,10 +263,15 @@ export const Cart = component$(() => {
               <div class="flex items-center justify-between">
                 <div class="font-medium">Total</div>
                 <div class="font-medium">{kiloGram(totalBerat)}</div>
+                <div class="font-medium">{totalHarga}</div>
+
+                <textarea value={signal.value} bind:value={signal}></textarea>
               </div>
 
               <button
-                onClick$={() => handlerCheckOut(data.id, totalBerat)}
+                onClick$={() =>
+                  handlerCheckOut(data.id, totalBerat, totalHarga, signal.value)
+                }
                 class={`btn btn-info ${loading && "btn-disabled"}`}
               >
                 Checkout

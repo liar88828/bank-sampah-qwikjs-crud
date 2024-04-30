@@ -1,16 +1,35 @@
 import { component$ } from "@builder.io/qwik";
 
-export const TimeLine = component$(() => {
+export type PropsStatus = "SIMPAN" | "PROCESS" | "SELESAi";
+
+type StatusObject = {
+  terima: boolean;
+  process: boolean;
+  selesai: boolean;
+};
+
+export function getStatusObject(status: PropsStatus): StatusObject {
+  const statusOrder: PropsStatus[] = ["SIMPAN", "PROCESS", "SELESAi"];
+  const statusIndex = statusOrder.indexOf(status);
+
+  return {
+    terima: true,
+    process: statusIndex >= 1,
+    selesai: statusIndex >= 2,
+  };
+}
+
+export const TimeLine = component$(({ status }: { status: StatusObject }) => {
   return (
-    <ul class="static timeline timeline-horizontal ">
-      <li class='static'>
+    <ul class="timeline timeline-horizontal static ">
+      <li class="static">
         <div class="timeline-start timeline-box">Terima</div>
         <div class="timeline-middle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="h-5 w-5 text-primary"
+            class={`h-5 w-5  ${status.terima && "text-primary"}`}
           >
             <path
               fill-rule="evenodd"
@@ -19,18 +38,18 @@ export const TimeLine = component$(() => {
             />
           </svg>
         </div>
-        <hr class="bg-primary" />
+        <hr class={`${status.process && "bg-primary"} `} />
       </li>
 
-      <li class='static'>
-        <hr class="bg-primary" />
+      <li class="static">
+        <hr class={`${status.process && "bg-primary"} `} />
         <div class="timeline-start timeline-box">Process</div>
         <div class="timeline-middle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="h-5 w-5 text-primary"
+            class={`h-5 w-5  ${status.process && "text-primary"}`}
           >
             <path
               fill-rule="evenodd"
@@ -39,18 +58,18 @@ export const TimeLine = component$(() => {
             />
           </svg>
         </div>
-        <hr class="bg-primary" />
+        <hr class={`${status.selesai && "bg-primary"} `} />
       </li>
 
-      <li class='static'>
-        <hr class="bg-primary" />
-        <div class="timeline-start timeline-box">Seleasi</div>
+      <li class="static">
+        <hr class={`${status.selesai && "bg-primary"} `} />
+        <div class="timeline-start timeline-box">Selesai</div>
         <div class="timeline-middle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="h-5 w-5 text-primary"
+            class={`h-5 w-5  ${status.selesai && "text-primary"}`}
           >
             <path
               fill-rule="evenodd"

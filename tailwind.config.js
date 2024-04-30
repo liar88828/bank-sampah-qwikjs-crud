@@ -2,7 +2,7 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   daisyui: {
-    themes: ["cupcake"],
+    themes: ["dracula"],
   },
   theme: {
     container: {

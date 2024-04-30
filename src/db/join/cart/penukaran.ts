@@ -1,8 +1,7 @@
 import { prisma } from "~/config/prisma";
-import status from "~/routes/menu/status";
 import { MaterialTransaction } from "~/type/transaksi.type";
 
-class CartPenukaran {
+export abstract class CartPenukaran {
   //------add
   async addCart(id_user: number, id_material: number) {
     // console.log(id_material, id_user);
@@ -107,7 +106,16 @@ class CartPenukaran {
         }
         return a + Material?.berat;
       }, 0) ?? 0;
-    return { res, totalCart, totalBerat };
+
+    const totalHarga =
+      res?.Cases.reduce((a, { Material }) => {
+        if (!Material?.harga) {
+          return a;
+        }
+        return a + Material?.harga;
+      }, 0) ?? 0;
+
+    return { res, totalCart, totalBerat, totalHarga };
   }
 
   // ------------table
@@ -141,7 +149,7 @@ class CartPenukaran {
             OR: [
               { status: "TROLLY" },
               { status: "OPSI_PENUKARAN" },
-              { id_trolly: cart?.id, },
+              { id_trolly: cart?.id },
             ],
           },
         },
@@ -182,6 +190,7 @@ class CartPenukaran {
     data: {
       id_trolly: number;
       berat: number;
+      harga: number;
       deskripsi: string;
     },
   ) {
@@ -218,17 +227,21 @@ class CartPenukaran {
       const opsi_Penukaran = await prisma.opsi_Penukaran.create({
         data: {
           berat: data.berat,
+          harga: data.harga,
           deskripsi: data.deskripsi,
-          harga: 0,
           id_transaksi: transaksi.id,
         },
       });
       console.log(opsi_Penukaran);
 
       // will create cases update
+      /**
+       * ini akan di buat jamak karena case merupakan perkumpulan material
+       * atau case many to one trolly one to material
+       */
       const cases = await prisma.cases.updateMany({
         where: {
-          id_trolly: data.id_trolly,
+          id_trolly: data.id_trolly, //
         },
         data: {
           status: "OPSI_PENUKARAN",
@@ -257,44 +270,52 @@ class CartPenukaran {
       // },
     });
   }
+
+  async findPenukaran(id: number) {
+    return prisma.opsi_Penukaran.findUnique({
+      where: { id },
+      select: {
+        Cases: {
+          include: {
+            Material: true,
+          },
+        },
+        Transaksi: {
+          include: {
+            status_Transaksi: true,
+          },
+        },
+      },
+    });
+  }
+
+  async findMaterialTransaction(id: number) {
+    return prisma.material.findUnique({
+      where: { id },
+      select: {
+        berat: true,
+        kategori: true,
+        nama: true,
+        id: true,
+        id_user: true,
+        createdAt: true,
+        User: true,
+        Cart_List: true,
+        Transaksi: {
+          select: {
+            opsi_Penukaran: true,
+            status_Transaksi: true,
+            id: true,
+            tgl_transaksi: true,
+            id_user: true,
+            User: {
+              select: {
+                nama: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }
-
-export const cartPenukaran = new CartPenukaran();
-
-// // will create trolly penukaran
-// const trollyPenukaran = await prisma.trolly.update({
-//   where: {
-//     id: data.id_trolly,
-//     id_user: id_user,
-//   },
-//   data: {
-//     Opsi_Penyerahan: {
-//       create: {
-//         id: opsi_Penukaran.id,
-//       },
-//     },
-//     // id_opsiPenukaran: opsi_Penukaran.id,
-//   },
-// });
-
-// if found will wave in table opsi_penukaran
-// await tx.opsi_Penukaran.create({
-//   data: {
-//     berat: data.berat,
-//     // materials._sum.berat
-//     // berat: 0,
-//     deskripsi: data.deskripsi,
-//     harga: 0,
-//     Transaksi: {
-//       create: {
-//         tgl_transaksi: new Date(),
-//         status_Transaksi: {
-//           create: {
-//             type: "Penukaran",
-//           },
-//         },
-//       },
-//     },
-//   },
-// });
-// await tx.cartList.deleteMany({ where: { id_cart: cart.id } });

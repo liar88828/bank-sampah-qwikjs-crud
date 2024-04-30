@@ -1,15 +1,14 @@
 import { Resource, component$ } from "@builder.io/qwik";
-import { routeLoader$, useLocation } from "@builder.io/qwik-city";
+import { routeLoader$, } from "@builder.io/qwik-city";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { TimeLine } from "~/components/basic/TimeLine";
+import { TimeLine, getStatusObject } from "~/components/basic/TimeLine";
 import { DetailOnly } from "~/components/card/Material/DetailOnly";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { DataMaterial } from "~/type/material.type";
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {
   const res = await material.findId_Relations(Number(params.id_material));
-  // console.log(res);
   return res as DataMaterial;
 });
 
@@ -22,7 +21,7 @@ export default component$(() => {
         <div class="card-body">
           <h1 class="card-title">Process Transaksi</h1>
           <div class="flex justify-center">
-            <TimeLine />
+          <TimeLine status={getStatusObject("terima")} />
           </div>
         </div>
       </div>
@@ -34,18 +33,7 @@ export default component$(() => {
 });
 
 export const Heads = component$(() => {
-  const location = useLocation();
-  const params = location.params.id_material;
-
-  return (
-    <>
-      {/* <Link class="btn btn-warning " href="/user/profile">
-        Back
-      </Link> */}
-
-      <Breadcrumbs data={getBreadcrumbTrail("Transaksi")} />
-    </>
-  );
+  return <Breadcrumbs data={getBreadcrumbTrail("Transaksi")} />;
 });
 
 export const DetailOnlyComponent = component$(() => {

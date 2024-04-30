@@ -1,7 +1,7 @@
 export const listBreadcrumbs = [
   // --------Menu
   {
-    name: "",
+    name: "Menu",
     link: "/menu",
     sub: [
       {

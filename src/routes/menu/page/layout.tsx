@@ -1,5 +1,5 @@
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { TSearchData } from "~/type/material.type";
 
 import { ZSearchComponent } from "./zod/ZSearchComponent";

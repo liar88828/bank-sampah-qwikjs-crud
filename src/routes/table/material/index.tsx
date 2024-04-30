@@ -9,7 +9,7 @@ import {
 } from "@builder.io/qwik-city";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 
 export const useGetAll = routeLoader$(async () => {
   return material.findAll();

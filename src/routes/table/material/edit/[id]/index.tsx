@@ -3,7 +3,7 @@ import { Form, Link, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
 import { Instruction } from "~/components/basic/Instruction";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { zodMaterial } from "~/lib/Zod";
 
 export const useGet = routeLoader$(async ({ params, status }) => {

@@ -1,9 +1,9 @@
 import { Resource, component$ } from "@builder.io/qwik";
 import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { TimeLine } from "~/components/basic/TimeLine";
+import { TimeLine, getStatusObject } from "~/components/basic/TimeLine";
 import { DetailOnly } from "~/components/card/Material/DetailOnly";
-import { material } from "~/db/material";
+import { material } from "~/db/material/material";
 import { DataMaterial } from "~/type/material.type";
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {
@@ -15,12 +15,12 @@ export const useLoadMaterialId = routeLoader$(async ({ params }) => {
 export default component$(() => {
   return (
     <div class="container space-y-2 ">
-      <Heads/>
-      <div class=" card-compact card static bg-base-100">
+      <Heads />
+      <div class=" card card-compact static bg-base-100">
         <div class="card-body">
           <h1 class="card-title">Process Transaksi</h1>
           <div class="flex justify-center">
-            <TimeLine />
+            <TimeLine status={getStatusObject("SIMPAN")} />
           </div>
         </div>
       </div>
@@ -47,7 +47,6 @@ export const CardMaterialDetail = component$(() => {
     />
   );
 });
-
 
 export const Heads = component$(() => {
   return (

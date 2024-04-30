@@ -105,7 +105,7 @@ export const MaterialSampah = component$(() => {
                       <td>{i + 1}</td>
                       <td>{d.id}</td>
                       <td>{d.nama}</td>
-                      <td>{d.jenis}</td>
+                      <td>{d.kategori}</td>
                       <td>{d.berat}Kg</td>
                       <th>
                         <Link
@@ -151,7 +151,7 @@ export const MaterialSampah = component$(() => {
                         {data.selectMaterial.map((d) => (
                           // @ts-ignore
                           <option key={d.jenis} value={d.jenis}>
-                            {d.jenis} {String(d._count.jenis)}
+                            {d.kategori} {String(d._count.kategori)}
                           </option>
                         ))}
                       </select>

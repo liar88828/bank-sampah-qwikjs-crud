@@ -25,19 +25,15 @@ model User {
 }
 
 model Transaksi {
-  id            Int       @id @default(autoincrement())
-  tgl_transaksi DateTime
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  id_user       Int?
-  id_material   Int?
-  User          User?     @relation(fields: [id_user], references: [id])
-  Material      Material? @relation(fields: [id_material], references: [id])
-
+  id               Int               @id @default(autoincrement())
+  tgl_transaksi    DateTime
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  id_user          Int?
+  User             User?             @relation(fields: [id_user], references: [id])
   status_Transaksi Status_Transaksi?
   opsi_Penukaran   Opsi_Penukaran?
-
-  opsi_Penyerahan Opsi_Penyerahan?
+  opsi_Penyerahan  Opsi_Penyerahan?
 }
 
 model Status_Transaksi {
@@ -77,17 +73,16 @@ model Opsi_Penyerahan {
 }
 
 model Material {
-  id        Int         @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   nama      String
   deskripsi String
-  jumlah    Int         @default(1)
+  jumlah    Int     @default(1)
   satuan    String
   berat     Int // total semua benda yang di simpan dalam gudang
   kategori  String // total semua benda yang di simpan dalam gudang
-  harga     Int         @default(0)
+  harga     Int     @default(0)
   id_user   Int?
-  User      User?       @relation(fields: [id_user], references: [id])
-  Transaksi Transaksi[]
+  User      User?   @relation(fields: [id_user], references: [id])
   Cart_List Cases[]
 
   createdAt DateTime @default(now())
