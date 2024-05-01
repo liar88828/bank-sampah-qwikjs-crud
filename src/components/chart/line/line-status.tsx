@@ -1,5 +1,5 @@
 import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import { Chart, ChartConfiguration } from "chart.js/auto";
+import { Chart } from "chart.js/auto";
 
 const data = [
   { day: "Senin", count: 10 },
@@ -12,7 +12,7 @@ const data = [
 ];
 
 export const LineStatus = component$(() => {
-  const time = useSignal("paused");
+  // const time = useSignal("paused");
   const outputRef = useSignal<Element>();
 
   // eslint-disable-next-line qwik/no-use-visible-task
@@ -28,13 +28,13 @@ export const LineStatus = component$(() => {
               label: "Acquisitions by Day",
               data: data.map((row) => row.count),
               backgroundColor: ({ chart }) => {
-                const ctxs = chart.ctx;
+                // const ctxs = chart.ctx;
                 if (!chart.chartArea) {
                   return;
                 }
                 const {
                   ctx,
-                  data,
+                  // data,
                   chartArea: { top, bottom },
                 } = chart;
 
@@ -71,7 +71,7 @@ export const LineStatus = component$(() => {
             },
             // title: { display: false },
           },
-          
+
           scales: {
             x: {
               grid: { display: false },
@@ -92,7 +92,7 @@ export const LineStatus = component$(() => {
 
   return (
     <>
-      <canvas ref={outputRef} class="h-auto w-full sm:w-20"></canvas>
+      <canvas ref={outputRef} class="h-auto w-full sm:w-[20vw]"></canvas>
     </>
   );
 });

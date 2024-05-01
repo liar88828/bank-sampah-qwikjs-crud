@@ -7,8 +7,7 @@ import { Speak } from "./speak";
 import { Designed } from "./designed";
 import { Questions } from "./questions";
 import { Trial } from "./trial";
-import { Footer } from "./footer";
-import { Hero } from "./hero";
+import { Footer } from "./footer"
 
 export const Home = component$(() => {
   return (

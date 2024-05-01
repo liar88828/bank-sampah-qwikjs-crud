@@ -11,17 +11,37 @@ datasource db {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
-  nama   String?
-  alamat String
-  no_hp  String
+  id            String    @id @default(cuid())
+  nama          String
+  alamat        String
+  nama_belakang String?   @default("kosong")
+  no_hp         String?   @default("kosong")
+  kelamin       String?   @default("kosong")
+  tempat_lahir  String?   @default("kosong")
+  tanggal_lahir DateTime?
 
   email     String      @unique
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
-  Transaksi Transaksi[]
+  // 
+  userBuy   Transaksi[] @relation("userBuys")
+  // userSell  Transaksi[] @relation("userSells")
   Material  Material[]
-  Trolly    Trolly?
+
+  Trolly        Trolly?
+  // 
+  id_UserOption String?      @unique
+  User_Option   User_Option? @relation(fields: [id_UserOption], references: [id])
+  // 
+}
+
+model User_Option {
+  id     String @id @default(cuid())
+  bahasa String @default("Indonesia")
+  active String @default("Offline")
+  theme  String @default("Light")
+  role   String @default("User")
+  User   User?
 }
 
 model Transaksi {
@@ -29,48 +49,48 @@ model Transaksi {
   tgl_transaksi    DateTime
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  id_user          Int?
-  User             User?             @relation(fields: [id_user], references: [id])
-  status_Transaksi Status_Transaksi?
-  opsi_Penukaran   Opsi_Penukaran?
-  opsi_Penyerahan  Opsi_Penyerahan?
+  // 
+  userBuyId        String?
+  // userSellId       String?
+  userBuy          User?             @relation("userBuys", fields: [userBuyId], references: [id])
+  // userSell         User?             @relation("userSells", fields: [userSellId], references: [id])
+  // 
+  // opsi_Penukaran   Opsi_Penukaran?
+  Opsi             Opsi?
+  // 
+  Status_Transaksi Status_Transaksi? @relation(fields: [id_status], references: [id])
+  id_status        String?
 }
 
-model Status_Transaksi {
-  id           Int       @id @default(autoincrement())
-  type         String
-  id_transaksi Int       @unique
-  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+model Opsi {
+  id        Int    @id @default(autoincrement())
+  harga     Int    @default(0)
+  berat     Int    @default(0)
+  deskripsi String @default("")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Opsi_Penukaran {
-  id           Int       @id @default(autoincrement())
-  harga        Int?
-  berat        Int
-  deskripsi    String
   id_transaksi Int       @unique
   Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
   Cases        Cases[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Opsi_Penyerahan {
-  id           Int       @id @default(autoincrement())
-  harga        Int?
-  berat        Int
-  deskripsi    String
-  id_transaksi Int       @unique
-  Cases        Cases[]
-  Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+  TypeOpsi   TypeOpsi? @relation(fields: [typeOpsiId], references: [id])
+  typeOpsiId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// model Opsi_Penyerahan {
+//   id           Int       @id @default(autoincrement())
+//   harga        Int?
+//   berat        Int
+//   deskripsi    String
+//   id_transaksi Int       @unique
+//   Cases        Cases[]
+//   Transaksi    Transaksi @relation(fields: [id_transaksi], references: [id])
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Material {
   id        Int     @id @default(autoincrement())
@@ -81,9 +101,14 @@ model Material {
   berat     Int // total semua benda yang di simpan dalam gudang
   kategori  String // total semua benda yang di simpan dalam gudang
   harga     Int     @default(0)
-  id_user   Int?
+  // 
+  id_user   String?
   User      User?   @relation(fields: [id_user], references: [id])
+  // 
   Cart_List Cases[]
+
+  Katergory   Katergory? @relation(fields: [katergoryId], references: [id])
+  katergoryId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,20 +116,36 @@ model Material {
 
 model Trolly {
   id      Int     @id @default(autoincrement())
-  id_user Int     @unique
+  id_user String  @unique
   User    User    @relation(fields: [id_user], references: [id])
   Cases   Cases[]
 }
 
 model Cases {
-  id                Int              @id @default(autoincrement())
-  id_trolly         Int?
-  id_material       Int?
-  status            String
-  opsi_PenyerahanId Int?
-  opsi_PenukaranId  Int?
-  Trolly            Trolly?          @relation(fields: [id_trolly], references: [id])
-  Material          Material?        @relation(fields: [id_material], references: [id])
-  Opsi_Penukaran    Opsi_Penukaran?  @relation(fields: [opsi_PenukaranId], references: [id])
-  Opsi_Penyerahan   Opsi_Penyerahan? @relation(fields: [opsi_PenyerahanId], references: [id])
+  id          Int       @id @default(autoincrement())
+  status      String
+  berat       Int
+  id_trolly   Int?
+  id_material Int?
+  id_opsi     Int?
+  // opsi_PenukaranId  Int?
+  Trolly      Trolly?   @relation(fields: [id_trolly], references: [id])
+  Material    Material? @relation(fields: [id_material], references: [id])
+  // Opsi_Penukaran    Opsi_Penukaran?  @relation(fields: [opsi_PenukaranId], references: [id])
+  Opsi        Opsi?     @relation(fields: [id_opsi], references: [id])
+}
+
+model Katergory {
+  id       String     @id
+  Material Material[]
+}
+
+model TypeOpsi {
+  id   String @id
+  Opsi Opsi[]
+}
+
+model Status_Transaksi {
+  id        String      @id
+  Transaksi Transaksi[]
 }

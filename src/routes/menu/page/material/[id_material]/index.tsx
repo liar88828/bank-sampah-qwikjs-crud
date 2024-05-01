@@ -1,31 +1,29 @@
-import { component$ } from "@builder.io/qwik";
-import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
-import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
-import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { DetailTransaksi } from "~/components/card/Material/DetailTransaksi";
-import { material } from "~/db/material/material";
-import { findMaterial_User } from "../../prisma/userSearch";
+import { component$ } from "@builder.io/qwik"
+import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city"
+import { Heads } from "~/components/basic/head/Heads"
+import { DetailTransaksi } from "~/components/card/Material/DetailTransaksi"
+import { menu } from "~/db/menu/menu"
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {
-  return material.findId_Relations(Number(params.id_material));
-});
+  return menu.findId_Relations(Number(params.id_material))
+})
 
 export const useActionMaterialBeli = routeAction$(
-  async (_data, { sharedMap, params }) => {
-    const id = Number(params.id_material);
-    const jumlah = Number(_data.jumlah);
-    return findMaterial_User(id, jumlah);
+  async (_data, { params }) => {
+    const id = Number(params.id_material)
+    const jumlah = Number(_data.jumlah)
+    return menu.findMaterialUpdate(id, jumlah)
   },
   zod$({
     jumlah: z.string(),
   }),
-);
+)
 
 export default component$(() => {
   return (
     <div class="container space-y-5">
-      <Breadcrumbs data={getBreadcrumbTrail("Material-Detail")} />
+      <Heads />
       <DetailTransaksi />
     </div>
-  );
-});
+  )
+})

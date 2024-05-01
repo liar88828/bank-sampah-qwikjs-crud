@@ -7,7 +7,7 @@ import {
   z,
   zod$,
 } from "@builder.io/qwik-city";
-import { opsiPenukaran } from "~/db/opsiPenukaran";
+import { opsiPenukaran } from "~/db/table/opsiPenukaran";
 
 export const useGetId = routeLoader$(async ({ params, status }) => {
   const id = parseInt(params["id"], 10);

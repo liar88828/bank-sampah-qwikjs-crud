@@ -1,296 +1,120 @@
-import { prisma } from "~/config/prisma";
-import {
-  MaterialTransaction,
-  PenukaranTransaksi,
-  PenyerahanTransaksi,
-} from "~/type/transaksi.type";
-import { TPenyerahanSampah } from "~/type/penyerahan-sampah.type";
-import { PropsProfile } from "~/type/user";
+import { prisma } from "~/config/prisma"
+import { type PaginationType } from "~/type/controller/PaginationType"
+import { type Constructor } from "~/type/global/global.type"
+import type {
+  UserFindMaterialReturn,
+  TPenyerahanSampah,
+} from "~/type/db/join.type"
 
-export class ProfilePage {
-  findPenyerahanTransaksi = async (
-    id: number,
-    page = 0,
-    search = "",
-  ): Promise<PenyerahanTransaksi[]> => {
-    let limit = 100;
-
-    const res = await prisma.opsi_Penyerahan.findMany({
-      where: {
-        Transaksi: {
-          id_user: id,
+export function TransaksiUser<T extends Constructor<{}>>(SuperClass: T) {
+  return class extends SuperClass {
+    // export class TransaksiUser {
+    // extends OpsiPenukaran
+    transaksiFindIdUser = async (id_user: string) => {
+      return prisma.transaksi.findMany({
+        where: { userBuyId: id_user },
+        select: {
+          id: true,
+          userBuyId: true,
+          tgl_transaksi: true,
+          id_status: true,
+          Opsi: true,
         },
-      },
-      select: {
-        berat: true,
-        createdAt: true,
-        deskripsi: true,
-        harga: true,
-        id: true,
-        id_transaksi: true,
-        updatedAt: true,
-        Transaksi: true,
-      },
-      take: 100,
-      skip: page * limit,
-    });
-    return res;
-  };
-
-  findPenukaranTransaksi = async (
-    id: number,
-    page = 0,
-    search = "",
-  ): Promise<PenukaranTransaksi[]> => {
-    let limit = 100;
-
-    return prisma.opsi_Penukaran.findMany({
-      where: {
-        Transaksi: {
-          id_user: id,
-        },
-      },
-      select: {
-        berat: true,
-        createdAt: true,
-        deskripsi: true,
-        harga: true,
-        id: true,
-        id_transaksi: true,
-        updatedAt: true,
-        Transaksi: true,
-      },
-      take: 100,
-      skip: page * limit,
-    });
-  };
-
-  findMaterialTransaksi = async (
-    id: number,
-    page = 0,
-    search = "",
-  ): Promise<MaterialTransaction[]> => {
-    let limit = 100;
-
-    return prisma.material.findMany({
-      where: {
-        id_user: id,
-      },
-      select: {
-        id: true,
-        nama: true,
-        berat: true,
-        kategori: true,
-        id_user: true,
-        createdAt: true,
-        updatedAt: true,
-        harga: true,
-        deskripsi: true,
-        jumlah: true,
-        satuan: true,
-
-        Transaksi: true,
-      },
-
-      take: 100,
-      skip: page * limit,
-    });
-  };
-}
-
-export class TransaksiUser extends ProfilePage {
-  // extends OpsiPenukaran
-  transaksiFindIdUser = async (id_user: number) => {
-    return prisma.transaksi.findMany({
-      where: { id_user },
-      select: {
-        id: true,
-        id_user: true,
-        tgl_transaksi: true,
-        status_Transaksi: true,
-        opsi_Penukaran: true,
-      },
-    });
-  };
-
-  findUserId_Material_Status_Opsi = async (
-    id: number,
-    page = 0,
-    search = "",
-  ) => {
-    let limit = 100;
-    return prisma.transaksi.findMany({
-      where: {
-        id_user: id,
-      },
-      select: {
-        id_user: true,
-        id: true,
-        tgl_transaksi: true,
-        status_Transaksi: true,
-        opsi_Penukaran: true,
-        Material: true,
-      },
-      take: 100,
-      skip: page * limit,
-    });
-  };
-
-  findAllTransaksiMaterialUser = async (id: number) => {
-    return prisma.material.findMany({
-      where: {
-        id_user: id,
-      },
-      select: {
-        berat: true,
-        id: true,
-        id_user: true,
-        kategori: true,
-
-        nama: true,
-        User: {
-          select: {
-            nama: true,
-          },
-        },
-      },
-    });
-  };
-
-  // single transaction
-  transaction_penyerahanSampah = async (data: TPenyerahanSampah) => {
-    const user = await prisma.user.findUnique({
-      where: { id: Number(data.id_user) },
-    });
-
-    if (!user) {
-      throw "User Not Found";
+      })
     }
 
-    return prisma.transaksi.create({
-      data: {
-        tgl_transaksi: new Date(),
-        id_user: user.id,
-        // status transaksi-one
-        status_Transaksi: {
-          create: {
-            type: data.status,
-          },
+    findAllTransaksiMaterialUser = async (id_user: string) => {
+      return prisma.material.findMany({
+        where: {
+          id_user,
         },
-        // sampah transaksi-one
-        opsi_Penukaran: {
-          create: {
-            harga: 0,
-            berat: 0,
-            deskripsi: "",
-            // material -many
-            // Material: {
-            //   createMany: {
-            //     data: data.sampah.map((d) => {
-            //       return {
-            //         berat: Number(d.berat),
-            //         jenis: d.jenis,
-            //         nama: d.nama,
-            //         id_sampahTransaksi: user.id,
-            //       };
-            //     }),
-            //   },
-            // },
-          },
-        },
-      },
-    });
-  };
+        select: {
+          berat: true,
+          id: true,
+          id_user: true,
+          kategori: true,
 
-  // multi
-  penyerahanSampah = async (data: TPenyerahanSampah) => {
-    return prisma.$transaction(async (tx) => {
-      const user = await tx.user.findUnique({
-        where: { id: Number(data.id_user) },
-      });
-      console.log("user found");
-
-      if (!user) {
-        console.log("user not found");
-        return {
-          success: false,
-          error: "User Not Found",
-        };
-      }
-
-      const transaksi = await tx.transaksi.create({
-        data: {
-          tgl_transaksi: new Date(),
-          id_user: user.id,
-          status_Transaksi: {
-            create: {
-              type: data.status,
+          nama: true,
+          User: {
+            select: {
+              nama: true,
             },
           },
         },
-      });
-      console.log("success create transaksi");
+      })
+    }
 
-      const material = await tx.material.createMany({
-        data: data.sampah.map((d) => {
-          return {
-            berat: Number(d.berat),
-            kategori: d.kategori,
-            nama: d.nama,
-            id_user: user.id,
-            satuan: d.satuan,
-            deskripsi: d.deskripsi,
-
-            // id_sampahTransaksi: opsi_Penukaran.id,
-          };
-        }),
-      });
-      console.log("success create material");
-
-      return {
-        user,
-        transaksi,
-        material,
-        // status_Transaksi,
-        // sampah_Transaksi,
-      };
-    });
-  };
-
-  totalPoint = async (id: number) => {
-    return prisma.$transaction(async (tx) => {
-      const totalTransaksi = await tx.transaksi.count({
-        where: { id_user: id },
-      });
-
-      const totalMaterial = await tx.material.count({
+    async findUser_Material({
+      id,
+      page = 0,
+    }: PaginationType<string>): Promise<UserFindMaterialReturn> {
+      const limit = 100
+      return prisma.transaksi.findMany({
         where: {
-          id_user: id,
+          userBuyId: id,
         },
-      });
+        include: {
+          Opsi: {
+            include: {
+              Cases: {
+                include: {
+                  Material: true,
+                },
+              },
+            },
+          },
 
-      const totalPenukaran = await tx.opsi_Penukaran.count({
-        where: {
-          Transaksi: {
-            id_user: id,
+          // userSell: {
+          //   select: {
+          //     Material: true,
+          //   },
+          // },
+        },
+        take: 100,
+        skip: page * limit,
+      })
+    }
+
+    // single transaction
+    transaction_penyerahanSampah = async (data: TPenyerahanSampah) => {
+      const user = await prisma.user.findUnique({
+        where: { id: data.id_user },
+      })
+
+      if (!user) {
+        return false
+      }
+
+      return prisma.transaksi.create({
+        data: {
+          tgl_transaksi: new Date(),
+          userBuyId: user.id,
+          // status transaksi-one
+          id_status: data.status,
+
+          // sampah transaksi-one
+          Opsi: {
+            create: {
+              harga: 0,
+              berat: 0,
+              deskripsi: "",
+              // material -many
+              // Material: {
+              //   createMany: {
+              //     data: data.sampah.map((d) => {
+              //       return {
+              //         berat: Number(d.berat),
+              //         jenis: d.jenis,
+              //         nama: d.nama,
+              //         id_sampahTransaksi: user.id,
+              //       };
+              //     }),
+              //   },
+              // },
+            },
           },
         },
-      });
-
-      const totalPenyerahan = await tx.opsi_Penyerahan.count({
-        where: {
-          Transaksi: {
-            id_user: id,
-          },
-        },
-      });
-
-      return {
-        totalTransaksi,
-        totalPenukaran,
-        totalMaterial,
-        totalPenyerahan,
-      } as PropsProfile["point"];
-    });
-  };
+      })
+    }
+  }
 }

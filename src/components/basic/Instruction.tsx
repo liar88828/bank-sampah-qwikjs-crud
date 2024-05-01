@@ -9,7 +9,7 @@ export const Instruction = component$(
       <div class="card sm:card-compact static">
         <div class="card-body">
           <h1 class="text-lg font-bold">{instructionList[title].h1}</h1>
-          {instructionList.material.list.map((d) => (
+          {instructionList[title].list.map((d) => (
             <div key={d.title} class="mt-2">
               <h2 class="font-semibold">{d.title}</h2>
               <ul>

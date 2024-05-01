@@ -1,7 +1,11 @@
-import { serverAuth$ } from "@builder.io/qwik-auth";
-import GitHub from "@auth/core/providers/github";
-import type { Provider } from "@auth/core/providers";
-import { prisma } from "~/config/prisma";
+import GitHub from "@auth/core/providers/github"
+import Google from "@auth/core/providers/google"
+import CredentialsProvider from "@auth/core/providers/credentials"
+import { serverAuth$ } from "@builder.io/qwik-auth"
+import { auth } from "~/controller/auth"
+import type { Provider } from "@auth/core/providers"
+import { bcrypt } from "~/lib/bcrypt/bcrypt"
+import { prisma } from "~/config/prisma"
 
 export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
   serverAuth$(({ env }) => ({
@@ -11,36 +15,24 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
     //   strategy: "jwt",
     // },
     callbacks: {
-      signIn: async ({ user, account, profile }) => {
-        // console.log({ user, account, profile });
-        // find user
-        const res = await prisma.user.findUnique({
-          where: {
-            // id: Number(profile?.id as number),
-            email: profile?.email as string,
-          },
-        });
-        // console.log(res, "res");
-        // // if user not exist will create
+      signIn: async ({ profile, account }) => {
+        console.log("signIn")
+        console.log({ profile, account })
 
-        const location = profile?.location as string;
-        const phone = profile?.phone_number as string;
-        const data = {
-          email: profile?.email || "",
-          alamat: location || "",
-          nama: profile?.name || "",
-          id: Number(profile?.id),
-          no_hp: phone || "",
-        };
-        if (!res) {
-          await prisma.user.create({
-            data: data,
-          });
+        if (account?.provider === "credentials") {
+          return true
         }
-
-        return true;
+        if (!profile || !account) {
+          return false
+        } else {
+          const res = await auth.execute(profile, account)
+          if (!res) {
+            return false
+          }
+        }
+        return true
       },
-      jwt: async ({ token, account, user, profile, session }) => {
+      jwt: async ({ token }) => {
         // console.log({ token, user, account, session, profile });
         // console.log("called jwt");
         // console.log(profile,'profile');
@@ -60,13 +52,13 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
         //   });
         //   user.alamat
         // }
-        return token;
+        return token
       },
-      session: async ({ session, token, user, trigger, newSession }) => {
+      session: async ({ session, token }) => {
         // console.log({  token,  });
         //@ts-ignore
-        session.loggedUser = token.loggedUser;
-        session.user.id = token.sub as string;
+        session.loggedUser = token.loggedUser
+        session.user.id = token.sub as string
         // console.log(newSession, "newSession");
         // console.log(user, "user");
         // console.log(token, "token");
@@ -78,7 +70,7 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
         //     id: token.id as string,
         //   },
         // };
-        return session;
+        return session
       },
     },
     // events:{
@@ -91,9 +83,57 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
     //   }
     // },
     providers: [
+      CredentialsProvider({
+        credentials: {
+          email: {},
+          password: {},
+        },
+
+        authorize: async (credentials) => {
+          let user = null
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const pwHash = bcrypt.hash(credentials.password as string)
+
+          // logic to verify if user exists
+          user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email as string,
+            },
+            // data: {
+            //   email: credentials.email as string,
+            //   // password: pwHash,
+            //   alamat: "",
+            //   nama: "",
+
+            // },
+          })
+
+          if (!user) {
+            // No user found, so this is their first attempt to login
+            // meaning this is also the place you could do registration
+            throw new Error("User not found.")
+          }
+
+          // return user object with the their profile data
+          return user
+        },
+      }),
+
       GitHub({
         clientId: env.get("GITHUB_ID")!,
         clientSecret: env.get("GITHUB_SECRET")!,
       }),
+      Google({
+        clientId: env.get("GOOGLE_ID")!,
+        clientSecret: env.get("GOOGLE_SECRET")!,
+        // authorization: {
+        //   params: {
+        //     prompt: "consent",
+        //     access_type: "offline",
+        //     response_type: "code",
+        //   },
+        // },
+      }),
     ] as Provider[],
-  }));
+  }))

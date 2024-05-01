@@ -1,10 +1,10 @@
-import { $, QRL, useSignal } from "@builder.io/qwik";
+import { $, type QRL, useSignal } from "@builder.io/qwik"
 
-export const useDebouncer = (fn: QRL<(args: any) => void>, delay: number) => {
-    const timeoutId = useSignal<number>();
+export const useDebounce = (fn: QRL<(args: any) => void>, delay: number) => {
+  const timeoutId = useSignal<number>()
 
-    return $((args: any) => {
-        clearTimeout(timeoutId.value);
-        timeoutId.value = Number(setTimeout(() => fn(args), delay));
-    });
-};
+  return $((args: any) => {
+    clearTimeout(timeoutId.value)
+    timeoutId.value = Number(setTimeout(() => fn(args), delay))
+  })
+}

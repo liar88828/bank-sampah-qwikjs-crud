@@ -33,6 +33,9 @@
   },
   "files": [
     "./.eslintrc.cjs",
+    "src/components/page/material/form/form-edit-material.tsx",
+    "src/components/page/penukaran/detail/StatusLine.tsx",
+    "src/components/page/penukaran/detail/detail-penukaran.tsx",
   ],
   "include": [
     "src",

@@ -1,18 +1,16 @@
-import { component$ } from "@builder.io/qwik";
-import { routeAction$ } from "@builder.io/qwik-city";
-import { FormUserCreate } from "~/components/form/user-create";
-import { users } from "~/db/users";
-import { zodUser } from "~/lib/Zod";
-
-export const useCreateUser = routeAction$(async (data, { redirect }) => {
-  const res = await users.createOne(data);
-  if (res) {
-    throw redirect(302, "/table/users");
-  }
-  return res;
-}, zodUser);
+import { component$ } from "@builder.io/qwik"
+import { Instruction } from "~/components/basic/Instruction"
+import { Heads } from "~/components/basic/head/Heads"
+import { FormCreateUser } from "~/components/page/user/form-create-user"
 
 export default component$(() => {
-  const createUserAction = useCreateUser();
-  return <FormUserCreate createUserAction={createUserAction} />;
-});
+  return (
+    <section class="container space-y-3">
+      <Heads />
+      <div class="grid rounded-2xl bg-base-200 sm:grid-cols-2">
+        <Instruction title={"profile"} />
+        <FormCreateUser />
+      </div>
+    </section>
+  )
+})

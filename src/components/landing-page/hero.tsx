@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik"
 
 export const Hero = component$(() => {
   return (
@@ -7,6 +7,8 @@ export const Hero = component$(() => {
         <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4">
           <a href="#" class="flex items-center">
             <img
+              width={200}
+              height={300}
               src="https://picsum.photos/200/300?random=11231"
               class="mr-3 h-6 sm:h-9"
               alt="Landwind Logo"
@@ -128,5 +130,5 @@ export const Hero = component$(() => {
         </div>
       </nav>
     </header>
-  );
-});
+  )
+})

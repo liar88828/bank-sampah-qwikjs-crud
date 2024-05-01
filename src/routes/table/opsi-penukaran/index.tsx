@@ -1,7 +1,7 @@
 import { component$, Resource, } from "@builder.io/qwik";
 import { Form, Link, routeAction$, routeLoader$, z, zod$, } from "@builder.io/qwik-city";
-import { opsiPenukaran } from "~/db/opsiPenukaran";
-import { loaderOpsi_Penukaran } from "~/type/opsiPenukaran.type";
+import { opsiPenukaran } from "~/db/table/opsiPenukaran";
+import { type loaderOpsi_Penukaran } from "~/type/db/table.type"
 
 export const useGetAll = routeLoader$(async () => {
   const res = await opsiPenukaran.findAll()

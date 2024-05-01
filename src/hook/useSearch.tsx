@@ -1,13 +1,13 @@
 import { $, useStore } from "@builder.io/qwik";
-import { Search } from "../type/global.type";
+import { type Search } from "~/type/hook/Search"
 
 export const useSearch = () => {
   return useStore<Search>({
-    search: '',
-    valueSearch: '',
+    search: "",
+    valueSearch: "",
     goSearch: $(function (this: Search) {
-      console.log(this.goSearch);
-      this.valueSearch = this.search || '';
-    })
-  });
-};
+      console.log(this.goSearch)
+      this.valueSearch = this.search ?? ""
+    }),
+  })
+}

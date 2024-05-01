@@ -1,42 +1,22 @@
 import { component$ } from "@builder.io/qwik";
-import {
-  Form,
-  Link,
-  routeAction$,
-  routeLoader$,
-  z,
-  zod$,
-} from "@builder.io/qwik-city";
-import { users } from "~/db/users";
+import { Form, Link, routeLoader$ } from "@builder.io/qwik-city"
+import { useDeleteUsers } from "~/action/user.action"
+import { db } from "~/db/db"
 
 export const useGetUser = routeLoader$(async ({ params, status }) => {
-  const id = parseInt(params["userId"], 10);
-  const res = users.findId(id);
+  const id = params["userId"]
+  const res = db.users.findId(id)
   if (!res) {
-    status(404);
+    status(404)
   }
-  return res;
-});
-
-export const useDeleteUser = routeAction$(
-  async (data, { redirect }) => {
-    const res = await users.deleteOne(Number(data.id));
-    if (res) {
-      throw redirect(302, "/table/users");
-    }
-    return res;
-  },
-  zod$({ id: z.string() }),
-);
+  return res
+})
 
 export default component$(() => {
-  const { value: user } = useGetUser();
-  const deleteUser = useDeleteUser();
+  const { value: user } = useGetUser()
+  const deleteUser = useDeleteUsers()
   return (
     <section>
-
-
-      
       {user ? (
         <div class="card w-96 bg-base-300 shadow-xl">
           <div class="card-body">
@@ -75,5 +55,5 @@ export default component$(() => {
         <p>User not found</p>
       )}
     </section>
-  );
-});
+  )
+})

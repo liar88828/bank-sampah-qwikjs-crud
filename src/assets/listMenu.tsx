@@ -1,5 +1,4 @@
 import {
-  LuAppWindow,
   LuHome,
   LuPieChart,
   LuStickyNote,

@@ -1,8 +1,8 @@
-import { component$ } from "@builder.io/qwik";
-import { ProfileProps } from "../../type/penyerahan-sampah.type";
-import { Link } from "@builder.io/qwik-city";
+import { component$ } from "@builder.io/qwik"
+import { Link } from "@builder.io/qwik-city"
+import { type User } from "@prisma/client"
 
-export const Profile = component$(({ data }: { data: ProfileProps }) => {
+export const Profile = component$(({ data }: { data: User }) => {
   return (
     <div class="rounded-lg bg-base-100 p-5 shadow">
       <div class="flex flex-col items-center">
@@ -29,5 +29,5 @@ export const Profile = component$(({ data }: { data: ProfileProps }) => {
         </ul>
       </div>
     </div>
-  );
-});
+  )
+})

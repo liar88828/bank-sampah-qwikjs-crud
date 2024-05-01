@@ -1,5 +1,5 @@
-import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import { Chart, ChartConfiguration } from "chart.js/auto";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik"
+import { Chart, type ChartConfiguration } from "chart.js/auto"
 
 // interface GraphProps {
 //   height: string;
@@ -30,31 +30,30 @@ import { Chart, ChartConfiguration } from "chart.js/auto";
 //   },
 // } as ChartConfiguration,
 
-type PropsChart = { width: number; height: number; option: ChartConfiguration };
+type PropsChart = { width: number; height: number; option: ChartConfiguration }
 export const Charts = component$(({ option, width, height }: PropsChart) =>
   // props: GraphProps
   {
-    const time = useSignal("paused");
-    const outputRef = useSignal<Element>();
+    // const time = useSignal("paused")
+    const outputRef = useSignal<Element>()
     // console.log("test");
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(
-      ({ cleanup, track }) => {
-        track(() => outputRef.value);
-        new Chart(outputRef.value as any, option
-          );
+      ({ track }) => {
+        track(() => outputRef.value)
+        new Chart(outputRef.value as any, option)
 
         // const update = () => (time.value = new Date().toLocaleTimeString());
         // const id = setInterval(update, 1000);
         // cleanup(() => clearInterval(id));
       },
       { strategy: "document-ready" },
-    );
+    )
 
     return (
       <>
         <canvas ref={outputRef} width={width} height={height}></canvas>
       </>
-    );
+    )
   },
-);
+)

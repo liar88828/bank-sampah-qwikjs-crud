@@ -1,7 +1,7 @@
-import { component$ } from "@builder.io/qwik";
-import { Form, Link, routeAction$ } from "@builder.io/qwik-city";
-import { zodOpsiPenukaran } from "~/lib/Zod";
-import { opsiPenukaran } from "~/db/opsiPenukaran";
+import { component$ } from "@builder.io/qwik"
+import { Form, Link, routeAction$ } from "@builder.io/qwik-city"
+import { zodOpsiPenukaran } from "~/lib/zod/Zod"
+import { opsiPenukaran } from "~/db/table/opsiPenukaran"
 
 export const useCreateOpsiPenukaran = routeAction$(
   async (data, { redirect }) => {
@@ -9,20 +9,21 @@ export const useCreateOpsiPenukaran = routeAction$(
       deskripsi: data.deskripsi,
       harga: Number(data.harga),
       berat: Number(data.berat),
-    });
+      id: 0,
+    })
 
     if (json) {
-      throw redirect(302, "/table/opsi-penukaran");
+      throw redirect(302, "/table/opsi-penukaran")
     }
 
-    return json;
+    return json
   },
   zodOpsiPenukaran,
-);
+)
 
 export default component$(() => {
-  const createAction = useCreateOpsiPenukaran();
-  const zodError = createAction?.value?.fieldErrors || null;
+  const createAction = useCreateOpsiPenukaran()
+  const zodError = createAction?.value?.fieldErrors || null
   return (
     <section class="card static bg-base-300">
       <Form class="card-body items-center text-center" action={createAction}>
@@ -69,5 +70,5 @@ export default component$(() => {
         </>
       )}
     </section>
-  );
-});
+  )
+})

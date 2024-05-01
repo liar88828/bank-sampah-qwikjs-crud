@@ -1,78 +1,51 @@
-import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
-import { material } from "~/db/material/material";
-import { TSearchData } from "~/type/material.type";
-
-import { ZSearchComponent } from "./zod/ZSearchComponent";
-import { userSearch } from "./prisma/userSearch";
-import { materialGroup } from "./prisma/userSearch";
-import { ZSearchNasabah } from "./zod/ZSearchComponent";
+import { routeLoader$ } from "@builder.io/qwik-city"
+import { control } from "~/controller/controller"
+import { menu } from "~/db/menu/menu"
+import type {
+  TSearchData,
+  MaterialLoader,
+  NasabahLoader,
+} from "~/type/db/menu.type"
 
 // ------------- Material
 export const useLoadMaterial = routeLoader$(async ({ resolveValue }) => {
-  const selectMaterial = await resolveValue(useSelectMaterial);
-  const searchMaterial = await resolveValue(useSearchMaterial);
-
   return {
-    searchMaterial: searchMaterial,
-    selectMaterial: selectMaterial,
-  };
-});
-
-export const useActionMaterial = routeAction$(async (_data, { sharedMap }) => {
-  const search = _data.search ?? "";
-  const jenis = _data.jenis ?? "";
-  const page = _data.page ?? 0;
-
-  sharedMap.set("search", search || "");
-  sharedMap.set("jenis", jenis || "");
-  sharedMap.set("page", page);
-
-  // console.log({ search, jenis, page });
-  return { search, jenis, page };
-}, ZSearchComponent);
+    searchMaterial: await resolveValue(useSearchMaterial),
+    selectMaterial: await menu.KategoriMaterial(),
+  } as MaterialLoader
+})
 
 export const useSearchMaterial = routeLoader$(async ({ sharedMap }) => {
-  const search = sharedMap.get("search") || "";
-  const jenis = sharedMap.get("jenis") || "";
-  const page = sharedMap.get("page") || 0;
-  return material.findSearchPage(jenis, search, Number(page));
-});
+  return menu.findSearchPage(
+    control.table.pagination(
+      sharedMap.get("jenis") || "",
+      sharedMap.get("page") || 0,
+      sharedMap.get("search") || "",
+    ),
+  )
+})
 
-export const useGroupMaterial = routeLoader$(
-  async ({ query, resolveValue }) => {
-    const search: TSearchData = {
-      jenis: query.get("jenis") || "",
-      nama: query.get("nama") || "",
-    };
+export const useGroupMaterial = routeLoader$(async ({ query }) => {
+  return menu.findGroup({
+    jenis: query.get("jenis") ?? "",
+    nama: query.get("nama") ?? "",
+  } as TSearchData)
+})
 
-    return material.findGroup(search);
-  },
-);
 // ------------- nasabah
 
 export const useLoadNasabah = routeLoader$(async ({ resolveValue }) => {
-  const searchNasabah = await resolveValue(useSearchNasabah);
+  const searchNasabah = await resolveValue(useSearchNasabah)
 
-  return { searchNasabah };
-});
-
-export const useActionNasabah = routeAction$(async (_data, { sharedMap }) => {
-  const search = _data.search ?? "";
-  const page = _data.page ?? 0;
-
-  sharedMap.set("search_nasabah", search || "");
-  sharedMap.set("page_nasabah", page);
-
-  return { search, page };
-}, ZSearchNasabah);
-
-export const useSelectMaterial = routeLoader$(async () => {
-  return materialGroup()
-});
+  return { searchNasabah } as NasabahLoader
+})
 
 export const useSearchNasabah = routeLoader$(async ({ sharedMap }) => {
-  const search = sharedMap.get("search_nasabah") || "";
-  const page = sharedMap.get("page_nasabah") || 0;
-
-  return userSearch(search, page);
-});
+  return menu.userSearch(
+    control.table.pagination(
+      "",
+      sharedMap.get("page_nasabah") || 0,
+      sharedMap.get("search_nasabah") || "",
+    ),
+  )
+})

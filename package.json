@@ -57,6 +57,7 @@
   "dependencies": {
     "@modular-forms/qwik": "^0.23.1",
     "@qwikest/icons": "^0.0.13",
+    "bcrypt-ts": "^5.0.2",
     "chart.js": "^4.4.2",
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.363.0"

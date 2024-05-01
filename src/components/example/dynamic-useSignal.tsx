@@ -1,34 +1,34 @@
-import { $, component$, useSignal, useStore } from "@builder.io/qwik";
+import { $, component$, useSignal } from "@builder.io/qwik"
 
 interface PhoneNumber {
-  id: number;
-  number: string;
+  id: number
+  number: string
 }
 
 export default component$(() => {
-  const phoneNumbers = useSignal<PhoneNumber[]>([{ id: 1, number: "" }]);
+  const phoneNumbers = useSignal<PhoneNumber[]>([{ id: 1, number: "" }])
 
   const addPhoneNumber = $(() => {
     const newPhoneNumbers = [
       ...phoneNumbers.value,
       { id: phoneNumbers.value.length + 1, number: "" },
-    ];
-    phoneNumbers.value = newPhoneNumbers;
-  });
+    ]
+    phoneNumbers.value = newPhoneNumbers
+  })
 
   const removePhoneNumber = $((id: number) => {
     const newPhoneNumbers = phoneNumbers.value.filter(
       (phone) => phone.id !== id,
-    );
-    phoneNumbers.value = newPhoneNumbers;
-  });
+    )
+    phoneNumbers.value = newPhoneNumbers
+  })
 
   const handleChange = $((id: number, value: string) => {
     const newPhoneNumbers = phoneNumbers.value.map((phone) =>
       phone.id === id ? { ...phone, number: value } : phone,
-    );
-    phoneNumbers.value = newPhoneNumbers;
-  });
+    )
+    phoneNumbers.value = newPhoneNumbers
+  })
 
   return (
     <div>
@@ -44,5 +44,5 @@ export default component$(() => {
       ))}
       <button onClick$={addPhoneNumber}>Add Phone Number</button>
     </div>
-  );
-});
+  )
+})

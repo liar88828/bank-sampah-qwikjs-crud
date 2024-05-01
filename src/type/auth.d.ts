@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { User, JWT, Session, Auth } from "@auth/core";
 
 declare module "@auth/core/types" {

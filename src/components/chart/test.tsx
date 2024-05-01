@@ -1,11 +1,11 @@
-import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import { Chart, ChartConfiguration } from "chart.js/auto";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik"
+import { Chart, type ChartItem, type ChartConfiguration } from "chart.js/auto"
 
-interface GraphProps {
-  height: string;
-  width: string;
-  chartData: object;
-}
+// interface GraphProps {
+//   height: string;
+//   width: string;
+//   chartData: object;
+// }
 
 const data = [
   { year: 2010, count: 10 },
@@ -15,20 +15,19 @@ const data = [
   { year: 2014, count: 22 },
   { year: 2015, count: 30 },
   { year: 2016, count: 28 },
-];
+]
 
 export const Test = component$(() =>
   // props: GraphProps
   {
-    const time = useSignal("paused");
-    const outputRef = useSignal<Element>();
+    const outputRef = useSignal<Element>()
     // console.log("test");
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(
-      ({ cleanup, track }) => {
-        track(() => outputRef.value);
+      ({ track }) => {
+        track(() => outputRef.value)
         new Chart(
-          outputRef.value as any,
+          outputRef.value as ChartItem,
           {
             type: "bar",
             data: {
@@ -41,19 +40,19 @@ export const Test = component$(() =>
               ],
             },
           } as ChartConfiguration,
-        );
+        )
 
         // const update = () => (time.value = new Date().toLocaleTimeString());
         // const id = setInterval(update, 1000);
         // cleanup(() => clearInterval(id));
       },
       { strategy: "document-ready" },
-    );
+    )
 
     return (
       <>
         <canvas ref={outputRef} width={800} height={200}></canvas>
       </>
-    );
+    )
   },
-);
+)

@@ -9,6 +9,8 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:qwik/recommended",
+    // "plugin:prettier/recommended",
+    // "plugin:react/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -33,12 +35,15 @@ module.exports = {
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "prefer-spread": "off",
+    // "prefer-const": "off",
+    // "prefer-const": "error"
+    "prefer-const": ["error", { destructuring: "all" }],
     "no-case-declarations": "off",
     "no-console": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
-    "@typescript-eslint/no-react-props": "warn",
+    // "@typescript-eslint/no-react-props": "warn",
     "@typescript-eslint/consistent-type-imports": "warn",
-    "@typescript-eslint/no-unnecessary-condition": "warn",
+    // "@typescript-eslint/no-unnecessary-condition": "warn",
     // "@typescript-eslint/object-curly-spacing": "off",
   },
-};
+}

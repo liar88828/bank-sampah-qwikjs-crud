@@ -1,4 +1,23 @@
-export const listBreadcrumbs = [
+import { type ListBreadcrumbs } from "~/type/tag/Breadcrumb.type"
+
+const subTable = [
+  {
+    name: "Create",
+    link: "/create",
+    sub: [],
+  },
+  {
+    name: "Edit",
+    link: "/edit",
+    sub: [],
+  },
+  {
+    name: "Detail",
+    link: "/detail",
+    sub: [],
+  },
+]
+export const listBreadcrumbs: ListBreadcrumbs = [
   // --------Menu
   {
     name: "Menu",
@@ -12,6 +31,7 @@ export const listBreadcrumbs = [
       {
         name: "Status",
         link: "/status",
+        sub: [],
       },
       {
         name: "Page",
@@ -22,17 +42,13 @@ export const listBreadcrumbs = [
             link: "",
             sub: [],
           },
-          {
-            name: "Material-Detail",
-            link: "",
-            sub: [],
-          },
         ],
       },
 
       {
         name: "Landing Page",
         link: "/landing-page",
+        sub: [],
       },
     ],
   },
@@ -45,39 +61,33 @@ export const listBreadcrumbs = [
       {
         name: "Material",
         link: "/material",
-        sub: [
-          {
-            name: "Material-Create",
-            link: "",
-            sub: [],
-          },
-          {
-            name: "Material-Edit",
-            link: "",
-            sub: [],
-          },
-          {
-            name: "Material-Detail",
-            link: "",
-            sub: [],
-          },
-        ],
+        sub: subTable,
       },
-      {
-        name: "Opsi Penukaran",
-        link: "/opsi-penukaran",
-      },
-      {
-        name: "Riwayat Penukaran",
-        link: "/riwayat-penukaran",
-      },
+
       {
         name: "Transaksi",
         link: "/transaksi",
+        sub: [],
+      },
+      {
+        name: "Penukaran",
+        link: "/penukaran",
+        sub: subTable,
+      },
+      {
+        name: "Penyerahan",
+        link: "/penyerahan",
+        sub: subTable,
       },
       {
         name: "Users",
         link: "/users",
+        sub: subTable,
+      },
+      {
+        name: "Trolly",
+        link: "/trolly",
+        sub: subTable,
       },
     ],
   },
@@ -89,26 +99,30 @@ export const listBreadcrumbs = [
       {
         name: "Profile",
         link: "/profile",
-        sub: [
-          {
-            name: "Edit",
-            link: "/edit",
-            sub: [],
-          },
-          {
-            name: "Print",
-            link: "/print",
-            sub: [],
-          },
-
-          {
-            name: "Info",
-            link: "/info",
-            sub: [],
-          },
-        ],
+        sub: [],
       },
 
+      {
+        name: "Edit",
+        link: "/edit",
+        sub: [],
+      },
+      {
+        name: "Print",
+        link: "/print",
+        sub: [],
+      },
+
+      {
+        name: "Info",
+        link: "/info",
+        sub: [],
+      },
+      {
+        name: "Dashboard",
+        link: "/dashboard",
+        sub: [],
+      },
       {
         name: "Transaksi",
         link: "/transaksi",
@@ -116,36 +130,9 @@ export const listBreadcrumbs = [
       },
 
       {
-        name: "Material",
-        link: "/material",
+        name: "Trolly",
+        link: "/trolly",
         sub: [],
-      },
-
-      {
-        name: "Penukaran",
-        link: "/penukaran",
-        sub: [],
-      },
-      {
-        name: "Table Penyerahan",
-        link: "/penyerahan",
-        sub: [],
-      },
-      {
-        name: "Table-Penyerahan",
-        link: "/penyerahan/create",
-        sub: [
-          {
-            name: "Create-Penyerahan",
-            link: "/penyerahan/create",
-            sub: [],
-          },
-          {
-            name: "Detail-Penyerahan",
-            link: "",
-            sub: [],
-          },
-        ],
       },
     ],
   },
@@ -168,13 +155,26 @@ export const listBreadcrumbs = [
       {
         name: "Pendaftaran-anggota",
         link: "/pendaftaran-anggota",
+        sub: [],
       },
       {
         name: "Penyerahan-sampah",
         link: "/penyerahan-sampah",
+        sub: [],
       },
-      { name: "Stor-barang", link: "/stor-barang" },
-      { name: "Laporan", link: "/laporan" },
+      { name: "Stor-barang", link: "/stor-barang", sub: [] },
+      { name: "Laporan", link: "/laporan", sub: [] },
     ],
   },
-];
+  {
+    name: "Tutorial",
+    link: "/tutorial",
+    sub: [
+      {
+        name: "Tutorial",
+        link: "/",
+        sub: [],
+      },
+    ],
+  },
+]

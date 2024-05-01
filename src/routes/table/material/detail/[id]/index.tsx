@@ -1,63 +1,40 @@
-import { $, Resource, component$, useId } from "@builder.io/qwik";
-import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city";
-import { getBreadcrumbTrail } from "~/assets/getBreadcrumbTrail";
-import { Breadcrumbs } from "~/components/basic/Breadcrumbs";
-import { OptionsCard } from "~/components/basic/OptionsCard";
-import { DetailOnly } from "~/components/card/Material/DetailOnly";
-import { material } from "~/db/material/material";
-import { DataMaterial } from "~/type/material.type";
+import { $, component$ } from "@builder.io/qwik"
+import { routeLoader$ } from "@builder.io/qwik-city"
+import { useDelete } from "~/action/material.action"
+import { OptionsCard } from "~/components/basic/body/OptionsCard"
+import { DetailOnly } from "~/components/card/Material/DetailOnly"
+import { db } from "~/db/db"
+import { type Session } from "@auth/core/types"
 
-export const useGetId = routeLoader$(async ({ params }) => {
-  const res = await material.findId_Relations(Number(params.id));
-  return res as DataMaterial;
-});
-
-export const useDelete = routeAction$(
-  async (data, { redirect }) => {
-    const res = await material.deleteOne(Number(data.id));
-    if (res) {
-      throw redirect(302, "/table/material");
+export const useGetId = routeLoader$(
+  async ({ params, redirect, url, sharedMap }) => {
+    const session: Session = sharedMap.get("session")
+    const res = await db.material.findId_Relations(Number(params.id))
+    if (!res) {
+      throw redirect(303, `404.html?callback=?${url.pathname}`)
     }
-    return res;
+
+    return { data: res, user: session.user }
   },
-  zod$({ id: z.number() }),
-);
+)
 
 export default component$(() => {
-  return (
-    <section class="container space-y-2">
-      <Heads />
-      <Cards />
-    </section>
-  );
-});
+  const {
+    value: { data, user },
+  } = useGetId()
 
-export const Cards = component$(() => {
-  const loadData = useGetId();
-  const deleteMaterial = useDelete();
+  const deleteMaterial = useDelete()
+
   const handlerDelete = $(() => {
-    deleteMaterial.submit({ id: loadData.value.id });
-  });
-  return (
-    <Resource
-      value={loadData}
-      onPending={() => <span class="loading loading-spinner"></span>}
-      onRejected={() => <span>Error</span>}
-      onResolved={(data) => {
-        console.log(data);
-        return (
-          <DetailOnly data={data}>
-            <OptionsCard
-              onDelete={handlerDelete}
-              onEdit={`/table/material/edit/${loadData.value.id}`}
-            />
-          </DetailOnly>
-        );
-      }}
-    />
-  );
-});
+    deleteMaterial.submit({ id: Number(data.id) })
+  })
 
-export const Heads = component$(() => {
-  return <Breadcrumbs data={getBreadcrumbTrail("Material-Detail")} />;
-});
+  return (
+    <DetailOnly data={data} user={user}>
+      <OptionsCard
+        onDelete={handlerDelete}
+        onEdit={`/table/material/edit/${data?.id ?? ""}`}
+      />
+    </DetailOnly>
+  )
+})

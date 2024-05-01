@@ -1,4 +1,4 @@
-import { LuCheck, LuCheckCircle, LuCircle } from "@qwikest/icons/lucide";
+import { LuCheckCircle } from "@qwikest/icons/lucide"
 
 export const GridComponent = () => {
   return (
@@ -112,5 +112,5 @@ export const GridComponent = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

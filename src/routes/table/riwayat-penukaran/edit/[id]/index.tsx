@@ -1,9 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import { Form, Link, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { join } from "~/db/join/join";
-import { riwayatPenukaran } from "~/db/riwayatPenukaran";
-import { zodRiwayatPenukaran } from "~/lib/Zod";
-import { getDate } from "~/lib/date";
+import { riwayatPenukaran } from "~/db/table/riwayatPenukaran";
+import { zodRiwayatPenukaran } from "~/lib/zod/Zod";
+import { getDate } from "~/lib/utils/date"
 
 export const useSelectData = routeLoader$(async () => {
   return join.user_opsiPenukaran();
@@ -23,7 +23,7 @@ export const useUpdate = routeAction$(async (data, { redirect, params }) => {
 
   const material = await riwayatPenukaran.updateOne(id, {
     tgl_transaksi: new Date(data.tgl_tukar),
-    id_user: Number(data.id_user),
+    id_user: data.id_user,
     id_material: Number(data.id_opsi_penukaran),
   });
   if (material) throw redirect(302, `/table/riwayat-penukaran/detail/${id}`);

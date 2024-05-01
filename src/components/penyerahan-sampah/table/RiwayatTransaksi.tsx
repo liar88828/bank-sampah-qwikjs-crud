@@ -1,7 +1,7 @@
-import { component$, Resource, Signal } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { Pagination } from "~/components/basic/pagination";
-import { getDate } from "~/lib/date";
-import { PropsSignal } from "~/type/props.type";
+import { getDate } from "~/lib/utils/date"
+import { Loader_RiwayatTransaksi } from "~/type/zz/loader.type"
 
 // export const RiwayatTransaksi = component$(
 //   ({ dataLoad }: { dataLoad: Signal<Loader_RiwayatTransaksi[]> }) => {

@@ -42,6 +42,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
           }
         : undefined,
     server: {
+      // origin: 'http://192.168.1.7:8080',
       headers: {
         // Don't cache the server response in dev mode
         "Cache-Control": "public, max-age=0",
