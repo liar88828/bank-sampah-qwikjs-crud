@@ -12,12 +12,12 @@ export const Dashboard = component$(({ data }: { data: DashboardProps }) => {
       <Status data={data.status} />
 
       <div class="mt-5 grid  grid-cols-1 gap-5 sm:grid-cols-2">
-        <UserActive />
-        <MaterialWarehouse />
+        <UserActive data={data.table.userActive} />
+        <MaterialWarehouse data={data.table.totalMaterial} />
       </div>
 
       <div class="mt-5 bg-base-100">
-        <BestSelling />
+        <BestSelling data={data.bestTransaction} />
       </div>
 
       <div class="mt-5 bg-base-100">

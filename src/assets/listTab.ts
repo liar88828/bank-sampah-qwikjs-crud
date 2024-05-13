@@ -13,8 +13,8 @@ export const listTab = {
     { title: "keluar-sampah", href: "/work/keluar-sampah" },
     { title: "pendaftaran-anggota", href: "/work/pendaftaran-anggota" },
     { title: "penyerahan-sampah", href: "/work/penyerahan-sampah" },
-    // { title: "stor-sampah", href: "/work/stor-sampah" },
-    // { title: "transaksi", href: "/work/transaksi" },
+    { title: "stor-sampah", href: "/work/stor-sampah" },
+    { title: "transaksi", href: "/work/transaksi" },
   ],
 
   table: [

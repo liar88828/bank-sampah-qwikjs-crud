@@ -14,3 +14,5 @@ export type Status = "SIMPAN" | "PROCESS" | "SELESAI"
 
 export type Constructor<T> = new (...args: any[]) => T
 export type UserId = Session["user"]["id"]
+
+export type SetType<T> = Omit<T, "id" | "createdAt" | "updatedAt">

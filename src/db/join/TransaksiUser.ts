@@ -5,7 +5,11 @@ import type {
   UserFindMaterialReturn,
   TPenyerahanSampah,
 } from "~/type/db/join.type"
+import type { Material, User } from "@prisma/client"
 
+type FindAllMaterialProps = (Material & {
+  User: User | null
+})[]
 export function TransaksiUser<T extends Constructor<{}>>(SuperClass: T) {
   return class extends SuperClass {
     // export class TransaksiUser {
@@ -23,23 +27,15 @@ export function TransaksiUser<T extends Constructor<{}>>(SuperClass: T) {
       })
     }
 
-    findAllTransaksiMaterialUser = async (id_user: string) => {
+    async findAllTransaksiMaterialUser(
+      id_user: string,
+    ): Promise<FindAllMaterialProps> {
       return prisma.material.findMany({
         where: {
           id_user,
         },
-        select: {
-          berat: true,
-          id: true,
-          id_user: true,
-          kategori: true,
-
-          nama: true,
-          User: {
-            select: {
-              nama: true,
-            },
-          },
+        include: {
+          User: true,
         },
       })
     }
@@ -90,7 +86,7 @@ export function TransaksiUser<T extends Constructor<{}>>(SuperClass: T) {
           tgl_transaksi: new Date(),
           userBuyId: user.id,
           // status transaksi-one
-          id_status: data.status,
+          id_status: data.transaksi.id_status,
 
           // sampah transaksi-one
           Opsi: {

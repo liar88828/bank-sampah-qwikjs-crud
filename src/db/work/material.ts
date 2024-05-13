@@ -14,11 +14,11 @@ export class MaterialWork extends MaterialJoin(Object) {
       where: {
         id_user: id,
         User: {
-          // userSell: {
-          //   every: {
-          //     id_status: "PROCESS",
-          //   },
-          // },
+          userBuy: {
+            every: {
+              id_status: "PROCESS",
+            },
+          },
         },
       },
 

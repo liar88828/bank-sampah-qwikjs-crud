@@ -96,19 +96,17 @@ model Material {
   id        Int     @id @default(autoincrement())
   nama      String
   deskripsi String
-  jumlah    Int     @default(1)
   satuan    String
   berat     Int // total semua benda yang di simpan dalam gudang
   kategori  String // total semua benda yang di simpan dalam gudang
+  jumlah    Int     @default(1)
   harga     Int     @default(0)
-  // 
   id_user   String?
   User      User?   @relation(fields: [id_user], references: [id])
-  // 
   Cart_List Cases[]
 
-  Katergory   Katergory? @relation(fields: [katergoryId], references: [id])
-  katergoryId String?
+  Kategori   kategori? @relation(fields: [KategoriId], references: [id])
+  KategoriId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -135,7 +133,7 @@ model Cases {
   Opsi        Opsi?     @relation(fields: [id_opsi], references: [id])
 }
 
-model Katergory {
+model kategori {
   id       String     @id
   Material Material[]
 }

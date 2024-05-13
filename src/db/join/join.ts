@@ -34,3 +34,4 @@ class Join extends OpsiPenukaran {
 }
 
 export const join = new Join()
+

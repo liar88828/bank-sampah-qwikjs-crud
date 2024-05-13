@@ -1,7 +1,16 @@
 import type { Account, Profile } from "@auth/core/types"
+import { type Session } from "@auth/core/types"
+import { type RequestEventAction } from "@builder.io/qwik-city"
 import { prisma } from "~/config/prisma"
 
-class AuthController {
+export class AuthController {
+  getSession({ sharedMap }: RequestEventAction) {
+    return sharedMap.get("session") as Session
+  }
+  userId(request: RequestEventAction) {
+    return this.getSession(request).user.id
+  }
+
   async sanitize(data: {
     email: string
     alamat: string
@@ -83,5 +92,4 @@ class AuthController {
     return true
   }
 }
-
 export const auth = new AuthController()

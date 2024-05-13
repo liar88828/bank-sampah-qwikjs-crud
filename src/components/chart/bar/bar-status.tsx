@@ -1,6 +1,6 @@
 import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik"
 import { Chart, type ChartItem } from "chart.js/auto"
-import type { TotalOrder } from "~/db/join/dashboard"
+import type { TotalOrder } from "~/type/db/dashboard.type"
 
 // const data = [
 //   { day: "Senin", count: 10 },

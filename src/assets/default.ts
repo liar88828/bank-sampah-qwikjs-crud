@@ -9,11 +9,12 @@ export const materialKosong = {
   jumlah: 0,
   id_user: "dev_kosong",
   nama: "dev_kosong",
-  katergoryId: "dev_kosong",
   satuan: "dev_kosong",
   updatedAt: new Date(),
   kategori: "dev_kosong",
+  KategoriId: "dev_kosong",
 } as Material
+
 export const OpsiKosong = {
   berat: 0,
   harga: 0,

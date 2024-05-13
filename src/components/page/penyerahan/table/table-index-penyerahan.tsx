@@ -1,11 +1,10 @@
 import { component$ } from "@builder.io/qwik"
 import { Link } from "@builder.io/qwik-city"
-import { CardHead } from "~/components/basic/body/card/card-head"
-import { CardBody } from "~/components/basic/body/card/card-body"
 import { OptionTableFoot } from "~/components/table/OptionTableFoot"
 import { OptionTableHead } from "~/components/table/OptionTableHead"
 import { getDate } from "~/lib/utils/date"
 import type { Opsi } from "@prisma/client"
+import { CardLayout } from "~/components/basic/body/card/card-layout"
 
 export const TableIndexPenyerahan = component$(
   ({
@@ -18,8 +17,7 @@ export const TableIndexPenyerahan = component$(
     }
   }) => {
     return (
-      <CardBody>
-        <CardHead href="create" title="Penyerahan's directory" />
+      <CardLayout href="create" title="Penyerahan's directory">
         <div class="overflow-x-auto ">
           <table class="table table-zebra table-xs static  rounded  bg-base-100">
             <OptionTableHead
@@ -64,7 +62,7 @@ export const TableIndexPenyerahan = component$(
             />
           </table>
         </div>
-      </CardBody>
+      </CardLayout>
     )
   },
 )

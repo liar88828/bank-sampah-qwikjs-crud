@@ -2,7 +2,12 @@ import { prisma } from "~/config/prisma"
 import { type Constructor } from "~/type/global/global.type"
 import { type PaginationType } from "~/type/controller/PaginationType"
 import { type TransaksiUser } from "~/type/db/join.type"
+import type { Opsi, Transaksi, User } from "@prisma/client"
 
+export type RiwayatPenukaranProps = Transaksi & {
+  Opsi: Opsi | null
+  userBuy: User | null
+}
 export function RiwayatPenukaranJoin<T extends Constructor<{}>>(SuperClass: T) {
   return class extends SuperClass {
     findAllUser = async ({
@@ -35,7 +40,7 @@ export function RiwayatPenukaranJoin<T extends Constructor<{}>>(SuperClass: T) {
       })
     }
 
-    riwayatPenukaran = async (id: number) => {
+    async riwayatPenukaran(id: number): Promise<RiwayatPenukaranProps[]> {
       return prisma.transaksi.findMany({
         where: {
           id: id,

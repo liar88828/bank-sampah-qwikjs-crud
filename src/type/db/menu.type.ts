@@ -1,4 +1,4 @@
-import type { User, Material, Katergory } from "@prisma/client"
+import type { User, Material, kategori } from "@prisma/client"
 
 export type TSearchData = { nama: string; jenis: string }
 export type MaterialGroupBy = {
@@ -11,7 +11,7 @@ export type MaterialGroupBy = {
 }[]
 export type MaterialLoader = {
   searchMaterial: Material[]
-  selectMaterial: Katergory[]
+  selectMaterial: kategori[]
 }
 export type NasabahLoader = {
   searchNasabah: User[]

@@ -1,15 +1,11 @@
 import { component$ } from "@builder.io/qwik"
 import { Table } from "./Table"
+import { CardLayout } from "~/components/basic/body/card/card-layout"
 
 export default component$(() => {
   return (
-    <div class=" card static bg-base-100">
-      <div class="card-body">
-        <h1 class="card-title">Lihat Transaksi</h1>
-        <Table />
-      </div>
-    </div>
+    <CardLayout href="" title="Lihat Transaksi">
+      <Table />
+    </CardLayout>
   )
 })
-
-

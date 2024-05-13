@@ -13,6 +13,7 @@ export class TableController {
     const pageNumber = Number(page ?? 0)
     const sanitizedPage = pageNumber <= 0 ? 0 : pageNumber
     const sanitizedSearch = search ?? ""
+
     return { id, page: sanitizedPage, search: sanitizedSearch }
   }
 

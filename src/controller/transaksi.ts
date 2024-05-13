@@ -1,4 +1,3 @@
-import { work } from "~/db/work/work"
 import { getTotal } from "~/lib/utils/getTotal"
 import type { TotalTransaksiReturn } from "~/type/controller/transaksi.type."
 import type {
@@ -8,6 +7,7 @@ import type {
 } from "~/type/db/join.type"
 import type { Session } from "@auth/core/types"
 import { OpsiKosong, caseKosong, materialKosong } from "~/assets/default"
+import { db } from "~/db/db"
 
 export class TransaksiController {
   opsiPenukaran(data: UserFindMaterialReturn): OpsiCase[] {
@@ -48,7 +48,7 @@ export class TransaksiController {
   ): Promise<{ user: Session["user"]; data: DataMaterial }> {
     return {
       user: session.user,
-      data: await work.findId_Relations(id),
+      data: await db.work.findId_Relations(id),
     }
   }
 }

@@ -23,7 +23,7 @@ export class MaterialController {
       kategori: data.kategori,
       deskripsi: data.deskripsi,
       satuan: data.satuan,
-      katergoryId: "",
+      KategoriId: "",
       id: 0,
     }
   }

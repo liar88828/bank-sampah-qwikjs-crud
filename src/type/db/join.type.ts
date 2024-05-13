@@ -1,12 +1,5 @@
-import type {
-  Cases,
-  Material,
-  Opsi,
-  Transaksi,
-  User,
-  User_Option,
-} from "@prisma/client"
-import type { TMaterial } from "./table.type"
+import type { Cases, Material, Opsi, Transaksi, User } from "@prisma/client"
+import type { SetType } from "../global/global.type"
 
 export type DataMaterial = {
   id: number
@@ -37,17 +30,13 @@ export type TransaksiUser = Transaksi & {
 }
 export type TPenyerahanSampah = {
   id_user: string
-  status: string
-  sampah: Omit<TMaterial, "id">[]
+  transaksi: SetType<Transaksi>
+  material: SetType<Material>[]
 }
 export type UserFindMaterialReturn = Omit<
   TransaksiUser,
   "opsi_Penyerahan" | "userBuy"
 >[]
-
-export type UserActiveDashboard = (User & {
-  User_Option: User_Option | null
-})[]
 
 export type MaterialGroup = {
   _sum: {
@@ -58,12 +47,7 @@ export type MaterialGroup = {
   }
 }[]
 
-export type MaterialTotal = {
-  user: {
-    id: string
-    nama: string
-    nama_belakang: string
-    alamat: string
-  }[]
+export type BestSellingProps = {
+  user: Pick<User, "alamat" | "nama_belakang" | "nama" | "id">[]
   material: MaterialGroup
 }

@@ -30,7 +30,7 @@ class Menu extends MaterialMenu {
   }
 
   async KategoriMaterial() {
-    return prisma.katergory.findMany()
+    return prisma.kategori.findMany()
   }
 }
 
