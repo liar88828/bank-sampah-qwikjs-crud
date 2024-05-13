@@ -81,7 +81,7 @@ export class Users extends UsersMutation {
   findAllAdmin = async ({
     page = 0,
     search = "",
-  }: PaginationType<number>): Promise<User[]> => {
+  }: PaginationType<number, Object>): Promise<User[]> => {
     const limit = 100
 
     return prisma.user.findMany({

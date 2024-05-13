@@ -18,30 +18,13 @@ export const useDataUser = routeLoader$(async ({ sharedMap }) => {
   return control.user.point(session)
 })
 
-export const useLoadUserMaterial = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session | null = sharedMap.get("session") as Session
-
-    return db.profile.findMaterialTransaksi(
-      control.table.pagination(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadUserMaterial = routeLoader$(async (req) => {
+  return db.profile.findMaterialTransaksi(control.table.pagination(req))
+})
 
 // ------------penyerangan sampah
-export const useLoadPenyerahan = routeLoader$(async ({ sharedMap, query }) => {
-  const session = sharedMap.get("session") as Session
-  return db.cartPenyerahan.findTransaksi(
-    control.table.pagination<string>(
-      session?.user?.id,
-      query.get("page"),
-      query.get("search"),
-    ),
-  )
+export const useLoadPenyerahan = routeLoader$(async (req) => {
+  return db.cartPenyerahan.findTransaksi(control.table.pagination<string>(req))
 })
 
 // ----------------
@@ -58,19 +41,9 @@ export const Foot = component$(() => {
 
 // -------create Penyerahan
 
-export const useLoadCartPenyerahan = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session = sharedMap.get("session") as Session
-
-    return db.cartPenyerahan.findCartTable(
-      control.table.pagination<string>(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadCartPenyerahan = routeLoader$(async (req) => {
+  return db.cartPenyerahan.findCartTable(control.table.pagination(req))
+})
 export const useFindCartPenyerahan = routeLoader$(async ({ sharedMap }) => {
   const session = sharedMap.get("session") as Session
   return db.cartPenyerahan.findCartTrolly(session.user.id)

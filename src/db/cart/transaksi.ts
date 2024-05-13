@@ -4,7 +4,7 @@ import { type Constructor } from "~/type/global/global.type"
 
 export function CartTransaksi<T extends Constructor<{}>>(SuperClass: T) {
   return class extends SuperClass {
-    findAllUsers = async ({ id, page = 0 }: PaginationType<string>) => {
+    findAllUsers = async ({ id, page = 0 }: PaginationType<string, Object>) => {
       const limit = 100
 
       return prisma.transaksi.findMany({

@@ -8,7 +8,7 @@ export class TrollyCart {
     id,
     page = 0,
     search = "TROLLY",
-  }: PaginationType<string>): Promise<PropsTrollyCard[]> => {
+  }: PaginationType<string, Object>): Promise<PropsTrollyCard[]> => {
     const limit = 100
 
     return prisma.cases.findMany({

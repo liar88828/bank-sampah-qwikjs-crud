@@ -11,19 +11,9 @@ export const useLoaderData = routeLoader$(({ query }) => {
   return control.table.tutorial(query, listTutorial["material"])
 })
 
-export const useLoadUserMaterial = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session | null = sharedMap.get("session") as Session
-
-    return db.profile.findMaterialTransaksi(
-      control.table.pagination(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadUserMaterial = routeLoader$(async (req) => {
+  return db.profile.findMaterialTransaksi(control.table.pagination(req))
+})
 
 export const useDataUser = routeLoader$(async ({ sharedMap }) => {
   const session = sharedMap.get("session") as Session

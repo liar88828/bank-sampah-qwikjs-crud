@@ -1,13 +1,13 @@
 import { prisma } from "~/config/prisma"
 import { MaterialMenu } from "./material"
-import type { ControlPaginationReturn } from "~/type/controller/PaginationType"
+import type { PaginationType } from "~/type/controller/PaginationType"
 import type { User } from "@prisma/client"
 
-class Menu extends MaterialMenu {
+export class Menu extends MaterialMenu {
   userSearch = async ({
     search,
     page,
-  }: ControlPaginationReturn<unknown>): Promise<User[]> => {
+  }: PaginationType<unknown, Object>): Promise<User[]> => {
     return prisma.user.findMany({
       where: {
         nama: { contains: search },
@@ -33,5 +33,3 @@ class Menu extends MaterialMenu {
     return prisma.kategori.findMany()
   }
 }
-
-export const menu = new Menu()

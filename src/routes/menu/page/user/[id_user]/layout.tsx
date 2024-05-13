@@ -1,23 +1,24 @@
 import { routeLoader$ } from "@builder.io/qwik-city"
+import { control } from "~/controller/controller"
 import { db } from "~/db/db"
-import { menu } from "~/db/menu/menu"
+import { type MaterialSearchOther } from "~/db/menu/material"
 
 export const useSelectMaterialUser = routeLoader$(async ({ params }) => {
   const id = params.id_user
-  return menu.findMaterialUser(id)
+  return db.menu.findMaterialUser(id)
 })
 
-export const useSearchMaterialUser = routeLoader$(
-  async ({ sharedMap, params }) => {
-    const search = sharedMap.get("search") || ""
-    const jenis = sharedMap.get("jenis") || ""
-    const page = sharedMap.get("page") || 0
+export const useSearchMaterialUser = routeLoader$(async (req) => {
+  // const search = sharedMap.get("search") || ""
+  // const page = sharedMap.get("page") || 0
 
-    const id = params.id_user
-
-    return menu.findSearchPageUser(id, jenis, search, Number(page))
-  },
-)
+  return db.menu.findSearchPageUser(
+    control.table.pagination<MaterialSearchOther>(req, {
+      jenis: req.sharedMap.get("jenis") || "",
+      id_user: req.params.id_user,
+    }),
+  )
+})
 
 export const useLoadUserId = routeLoader$(async ({ params }) => {
   return db.users.findId(params["id_user"])

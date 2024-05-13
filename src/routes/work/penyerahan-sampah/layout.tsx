@@ -8,6 +8,7 @@ export const useGetTransaksi = routeLoader$(async ({ sharedMap }) => {
     id: session?.user?.id,
     page: 0,
     search: "",
+    other: {},
   })
 
   // const transaksi = await works.transaksi.(Number(session?.user?.id));

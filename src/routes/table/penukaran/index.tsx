@@ -10,18 +10,9 @@ export const useFindCart = routeLoader$(async ({ sharedMap }) => {
   return db.cartPenukaran.findCartTrolly(session?.user?.id)
 })
 
-export const useLoadPenukaranTable = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session = sharedMap.get("session") as Session
-    return db.cartPenukaran.findTransaksi(
-      control.table.pagination<string>(
-        session.user.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadPenukaranTable = routeLoader$(async (req) => {
+  return db.cartPenukaran.findTransaksi(control.table.pagination(req))
+})
 
 export default component$(() => {
   const data = useLoadPenukaranTable()

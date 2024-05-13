@@ -1,14 +1,8 @@
+export type NameOrId<T> = T extends T ? T : Object
 
-export type PaginationType <T>= {
-  id: T;
-  page: number;
-  search: string;
-};
-export type ControlPaginationReturn<T> = {
+export type PaginationType<T, O> = {
   id: T
   page: number
   search: string
+  other: O
 }
-
-
-

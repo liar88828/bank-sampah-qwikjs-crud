@@ -3,31 +3,23 @@ import { routeLoader$ } from "@builder.io/qwik-city"
 import { TransaksiSampah } from "~/components/page/info/TransaksiSampah"
 import { db } from "~/db/db"
 import { control } from "~/controller/controller"
-import type { Session } from "@auth/core/types"
 
-export const useGetTransaksi = routeLoader$(
-  async ({ sharedMap, query, fail }) => {
-    const session = sharedMap.get("session") as Session
-    const transaksi = await db.profile.findUser_Material(
-      control.table.pagination(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-    if (transaksi.length === 0) {
-      throw fail(404, { message: "data not found" })
-    }
-    const totalTransaksi = control.transaksi.totalTransaksi(transaksi)
-    if (!totalTransaksi) {
-      throw fail(404, { message: "data not found" })
-    }
-    return {
-      transaksi,
-      totalTransaksi,
-    }
-  },
-)
+export const useGetTransaksi = routeLoader$(async (req) => {
+  const transaksi = await db.profile.findUser_Material(
+    control.table.pagination(req),
+  )
+  if (transaksi.length === 0) {
+    throw req.fail(404, { message: "data not found" })
+  }
+  const totalTransaksi = control.transaksi.totalTransaksi(transaksi)
+  if (!totalTransaksi) {
+    throw req.fail(404, { message: "data not found" })
+  }
+  return {
+    transaksi,
+    totalTransaksi,
+  }
+})
 
 // export const useGetPenukaran = routeLoader$(async ({ sharedMap }) => {
 //   const session = sharedMap.get("session") as Session

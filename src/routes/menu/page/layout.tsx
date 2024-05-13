@@ -1,6 +1,6 @@
 import { routeLoader$ } from "@builder.io/qwik-city"
 import { control } from "~/controller/controller"
-import { menu } from "~/db/menu/menu"
+import { db } from "~/db/db"
 import type {
   TSearchData,
   MaterialLoader,
@@ -11,22 +11,16 @@ import type {
 export const useLoadMaterial = routeLoader$(async ({ resolveValue }) => {
   return {
     searchMaterial: await resolveValue(useSearchMaterial),
-    selectMaterial: await menu.KategoriMaterial(),
+    selectMaterial: await db.menu.KategoriMaterial(),
   } as MaterialLoader
 })
 
-export const useSearchMaterial = routeLoader$(async ({ sharedMap }) => {
-  return menu.findSearchPage(
-    control.table.pagination(
-      sharedMap.get("jenis") || "",
-      sharedMap.get("page") || 0,
-      sharedMap.get("search") || "",
-    ),
-  )
+export const useSearchMaterial = routeLoader$(async (req) => {
+  return db.menu.findSearchPage(control.table.pagination(req))
 })
 
 export const useGroupMaterial = routeLoader$(async ({ query }) => {
-  return menu.findGroup({
+  return db.menu.findGroup({
     jenis: query.get("jenis") ?? "",
     nama: query.get("nama") ?? "",
   } as TSearchData)
@@ -40,12 +34,13 @@ export const useLoadNasabah = routeLoader$(async ({ resolveValue }) => {
   return { searchNasabah } as NasabahLoader
 })
 
-export const useSearchNasabah = routeLoader$(async ({ sharedMap }) => {
-  return menu.userSearch(
+export const useSearchNasabah = routeLoader$(async (req) => {
+  return db.menu.userSearch(
     control.table.pagination(
-      "",
-      sharedMap.get("page_nasabah") || 0,
-      sharedMap.get("search_nasabah") || "",
+      // "",
+      // sharedMap.get("page_nasabah") || 0,
+      // sharedMap.get("search_nasabah") || "",
+      req,
     ),
   )
 })

@@ -43,7 +43,7 @@ export function TransaksiUser<T extends Constructor<{}>>(SuperClass: T) {
     async findUser_Material({
       id,
       page = 0,
-    }: PaginationType<string>): Promise<UserFindMaterialReturn> {
+    }: PaginationType<string, Object>): Promise<UserFindMaterialReturn> {
       const limit = 100
       return prisma.transaksi.findMany({
         where: {

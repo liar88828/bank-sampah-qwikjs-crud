@@ -42,10 +42,7 @@ abstract class MaterialMutation extends MaterialJoin(Object) {
   }
 }
 
-export class MaterialDB
-  extends MaterialMutation
-  implements IPrismaOperator<Material>
-{
+export class MaterialDB extends MaterialMutation implements IPrismaOperator<Material> {
   findAll = async () => {
     const materials = await prisma.material.findMany()
     return materials
@@ -55,7 +52,7 @@ export class MaterialDB
     id,
     page = 0,
     search = "",
-  }: PaginationType<string>) => {
+  }: PaginationType<string, Object>) => {
     const limit = 100
 
     return prisma.transaksi.findMany({

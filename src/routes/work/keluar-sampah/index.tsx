@@ -14,19 +14,9 @@ import { control } from "~/controller/controller"
 import { db } from "~/db/db"
 import { getDate } from "~/lib/utils/date"
 
-export const useLoadUserMaterial = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session = sharedMap.get("session") as Session
-
-    return db.work.findMaterialKeluar(
-      control.table.pagination<string>(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadUserMaterial = routeLoader$(async (req) => {
+  return db.work.findMaterialKeluar(control.table.pagination(req))
+})
 
 export const useDeleteUserMaterial = routeAction$(
   async (data) => {

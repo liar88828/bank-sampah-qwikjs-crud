@@ -2,17 +2,17 @@ import { component$ } from "@builder.io/qwik"
 import { routeAction$, routeLoader$, z, zod$ } from "@builder.io/qwik-city"
 import { Heads } from "~/components/basic/head/Heads"
 import { DetailTransaksi } from "~/components/card/Material/DetailTransaksi"
-import { menu } from "~/db/menu/menu"
+import { db } from "~/db/db"
 
 export const useLoadMaterialId = routeLoader$(async ({ params }) => {
-  return menu.findId_Relations(Number(params.id_material))
+  return db.menu.findId_Relations(Number(params.id_material))
 })
 
 export const useActionMaterialBeli = routeAction$(
   async (_data, { params }) => {
     const id = Number(params.id_material)
     const jumlah = Number(_data.jumlah)
-    return menu.findMaterialUpdate(id, jumlah)
+    return db.menu.findMaterialUpdate(id, jumlah)
   },
   zod$({
     jumlah: z.string(),

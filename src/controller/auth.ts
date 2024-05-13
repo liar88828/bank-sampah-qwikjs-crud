@@ -1,14 +1,16 @@
-import type { Account, Profile } from "@auth/core/types"
-import { type Session } from "@auth/core/types"
-import { type RequestEventAction } from "@builder.io/qwik-city"
+import type { Account, Profile, Session } from "@auth/core/types"
+import type {
+  RequestEventLoader,
+  RequestEventAction,
+} from "@builder.io/qwik-city"
 import { prisma } from "~/config/prisma"
 
 export class AuthController {
-  getSession({ sharedMap }: RequestEventAction) {
+  getSession(sharedMap: RequestEventAction["sharedMap"]) {
     return sharedMap.get("session") as Session
   }
-  userId(request: RequestEventAction) {
-    return this.getSession(request).user.id
+  userId({ sharedMap }: RequestEventAction | RequestEventLoader) {
+    return this.getSession(sharedMap).user.id
   }
 
   async sanitize(data: {

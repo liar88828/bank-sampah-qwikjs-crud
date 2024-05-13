@@ -8,7 +8,7 @@ export class MaterialCart extends MaterialJoin(RiwayatPenukaranCart) {
   findMaterialTransaksi = async ({
     id,
     page = 0,
-  }: PaginationType<string>): Promise<MaterialCartReturn[]> => {
+  }: PaginationType<string, unknown>): Promise<MaterialCartReturn[]> => {
     const limit = 100
 
     return prisma.material.findMany({

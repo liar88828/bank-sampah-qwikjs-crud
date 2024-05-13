@@ -19,19 +19,9 @@ export const useDataUser = routeLoader$(async ({ sharedMap }) => {
   return control.user.point(session)
 })
 
-export const useLoadUserMaterial = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session | null = sharedMap.get("session") as Session
-
-    return db.profile.findMaterialTransaksi(
-      control.table.pagination(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadUserMaterial = routeLoader$(async (req) => {
+  return db.profile.findMaterialTransaksi(control.table.pagination(req))
+})
 
 // ----------------
 
@@ -45,33 +35,17 @@ export const Foot = component$(() => {
   return <FootStep data={loadData.value} />
 })
 
-export const useLoadCartPenukaran = routeLoader$(
-  async ({ sharedMap, query }) => {
-    const session: Session = sharedMap.get("session") as Session
-    return db.cartPenukaran.findCartTable(
-      control.table.pagination(
-        session?.user?.id,
-        query.get("page"),
-        query.get("search"),
-      ),
-    )
-  },
-)
+export const useLoadCartPenukaran = routeLoader$(async (req) => {
+  return db.cartPenukaran.findCartTable(control.table.pagination(req))
+})
 
 export const useFindCartPenukaran = routeLoader$(async ({ sharedMap }) => {
   const session: Session = sharedMap.get("session") as Session
   return db.cartPenukaran.findCartTrolly(session.user.id)
 })
 
-export const useLoadPenukaran = routeLoader$(async ({ sharedMap, query }) => {
-  const session = sharedMap.get("session") as Session
-  return db.cartPenukaran.findTransaksi(
-    control.table.pagination<string>(
-      session.user.id,
-      query.get("page"),
-      query.get("search"),
-    ),
-  )
+export const useLoadPenukaran = routeLoader$(async (req) => {
+  return db.cartPenukaran.findTransaksi(control.table.pagination(req))
 })
 
 export default component$(() => {

@@ -7,7 +7,7 @@ export class MaterialWork extends MaterialJoin(Object) {
   findMaterialKeluar = async ({
     id,
     page = 0,
-  }: PaginationType<string>): Promise<Material[]> => {
+  }: PaginationType<string, unknown>): Promise<Material[]> => {
     const limit = 100
 
     return prisma.material.findMany({

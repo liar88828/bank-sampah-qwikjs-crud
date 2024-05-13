@@ -158,7 +158,7 @@ export class CartDB extends CartMutation {
   findTransaksi = async ({
     id,
     page = 0,
-  }: PaginationType<string>): Promise<Opsi[]> => {
+  }: PaginationType<string, Object>): Promise<Opsi[]> => {
     const limit = 100
 
     return prisma.opsi.findMany({
@@ -212,7 +212,7 @@ export class CartDB extends CartMutation {
     id,
     page = 0,
     search = "",
-  }: PaginationType<string>): Promise<Material[]> {
+  }: PaginationType<string, Object>): Promise<Material[]> {
     const limit = 100
 
     const cart = await prisma.trolly.findUnique({

@@ -2,7 +2,11 @@ import { prisma } from "~/config/prisma"
 import { MaterialJoin } from "../join/material"
 import { type TSearchData } from "~/type/db/menu.type"
 import { type Material } from "@prisma/client"
-import type { ControlPaginationReturn } from "~/type/controller/PaginationType"
+import type { PaginationType } from "~/type/controller/PaginationType"
+export type MaterialSearchOther = {
+  id_user: string
+  jenis: string
+}
 
 abstract class MaterialMenuMutation extends MaterialJoin(Object) {
   findMaterialUpdate = async (id: number, jumlah: number) => {
@@ -51,10 +55,10 @@ export abstract class MaterialMenu extends MaterialMenuMutation {
     })
   }
   findSearchPage = async ({
-    id: jenis,
     search,
     page,
-  }: ControlPaginationReturn<string>): Promise<Material[]> => {
+    other: jenis,
+  }: PaginationType<string, any>): Promise<Material[]> => {
     return prisma.material.findMany({
       where: {
         kategori: { contains: jenis },
@@ -98,16 +102,16 @@ export abstract class MaterialMenu extends MaterialMenuMutation {
     }
   }
 
-  findSearchPageUser = async (
-    id_user: string,
-    jenis: string,
-    search: string,
-    page: number,
-  ) => {
+  async findSearchPageUser({
+    search,
+    page,
+    other: { id_user, jenis },
+  }: PaginationType<string, MaterialSearchOther>) {
     // console.table({ id, jenis, search, page });
+
     return prisma.material.findMany({
       where: {
-        id_user,
+        id_user: id_user,
         kategori: { contains: jenis },
         nama: { contains: search },
       },

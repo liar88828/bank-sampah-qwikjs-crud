@@ -13,7 +13,7 @@ export function RiwayatPenukaranJoin<T extends Constructor<{}>>(SuperClass: T) {
     findAllUser = async ({
       id,
       page = 0,
-    }: PaginationType<string>): Promise<TransaksiUser[]> => {
+    }: PaginationType<string, unknown>): Promise<TransaksiUser[]> => {
       const limit = 100
       // console.log(id)
       return prisma.transaksi.findMany({
